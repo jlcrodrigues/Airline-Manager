@@ -19,11 +19,11 @@ int Flight::getOccupation() const
    return occupation;
 }
 
-bool Flight::buyTicket()
+bool Flight::buyTicket(const int& amount)
 {
-   if (occupation > 0)
+   if (0 <= occupation - amount)
    {
-      occupation--;
+      occupation -= amount;
       return true;
    }
    return false;

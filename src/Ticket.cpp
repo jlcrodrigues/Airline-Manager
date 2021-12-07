@@ -2,7 +2,12 @@
 
 using namespace std;
 
-Ticket::Ticket(const Flight& flight): flight(flight)
+Ticket::Ticket(const Flight& flight, const bool& baggage): flight(flight)
 {
-   
+   this->baggage = baggage;
+}
+
+bool Ticket::getBaggage()
+{
+   return baggage;
 }

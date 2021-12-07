@@ -29,7 +29,7 @@ class Flight
 
          @return - True if the ticket was bought, false otherwise.
       */
-      bool buyTicket();
+      bool buyTicket(const int& amount = 1);
 
    private:
       
