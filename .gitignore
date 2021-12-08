@@ -39,4 +39,9 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
+!.vscode/extensions.jsoncmake-build-debug/
+
+
+CMakeLists.txt
+cmake-build-debug
+.idea/

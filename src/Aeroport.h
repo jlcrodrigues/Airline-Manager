@@ -1,5 +1,5 @@
-#ifndef AEROPORT.H
-#define AEROPORT.H
+#ifndef AEROPORT_H
+#define AEROPORT_H
 
 #include <string>
 
@@ -14,7 +14,7 @@ struct Transport {
 class Aeroport 
 {
    public:
-
+    Aeroport();
    private:
 };
 

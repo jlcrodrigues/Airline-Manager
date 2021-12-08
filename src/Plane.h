@@ -2,6 +2,8 @@
 #define PLANE_H
 
 #include <string>
+#include <queue>
+#include "Service.h"
 
 using namespace std;
 
@@ -9,28 +11,51 @@ class Plane
 {
    public:
 
-      /*Plane's default constructor.*/
+      /**Plane's default constructor.**/
       Plane();
 
-      /*
-         Constructor for plane.
+      /**
+         *Constructor for plane.
 
-         @param id - The license number.
-         @param capacity - Plane's capacity.
-      */
+         *@param id - The license number.
+         *@param capacity - Plane's capacity.
+      **/
       Plane (const string& id, const int&capacity);
 
-      /*
-         Getter for capacity.
+      /**
+         *Getter for capacity.
 
-         @return - Returns the plane's capacity.
-      */
+         *@return - Returns the plane's capacity.
+      **/
       int getCapacity() const;
 
-   private:
+    /**
+     * Method to add service to queue of services
+     * @param service - Service to add
+     */
 
+
+
+    void addService(const Service& service);
+
+    /**
+     * Getter for next service in order
+     * @return - Returns the oldest service of the queue
+     */
+
+    Service getNextService();
+
+    /**
+       * Method to add flight to list of flights
+       * @param flight - Flight to add
+       */
+    //void addFlight(const Flight& flight);
+
+private:
       const string id;
       const int capacity;
+      queue<Service> services;
+      // list<Flight> flights;
 };
 
 #endif
