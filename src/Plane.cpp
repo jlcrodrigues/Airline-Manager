@@ -26,7 +26,6 @@ Service Plane::getNextService() {
     return services.front();
 }
 
-/*
 void Plane::addFlight(const Flight &flight) {
     flights.push_back(flight);
-}*/
+}

@@ -12,7 +12,10 @@ int main()
     Aeroport aeroport2;
    Plane plane = Plane("A310", 310);
    Flight flight = Flight(3, "9/12/2021", "3h24", aeroport1, aeroport2, 100);
-
+    struct Employee emp = {"Rui", 2};
+    Service service("cleaning", "8/12/2021", emp);
+    plane.addService(service);
+    plane.addFlight(flight);
    Passenger pa = Passenger("Carlos");
    Passenger pa1 = Passenger("Manuel");
    Passenger pa2 = Passenger("Maria");

@@ -53,7 +53,7 @@ class Plane
        * Method to add flight to list of flights
        * @param flight - Flight to add
        */
-    //void addFlight(const Flight& flight);
+       void addFlight(const Flight& flight);
 
 private:
       const string id;
