@@ -1,9 +1,13 @@
 #ifndef PLANE_H
 #define PLANE_H
 
+#include "Service.h"
+#include "Plane.h"
+#include "Flight.h"
+
 #include <string>
 #include <queue>
-#include "Service.h"
+#include <list>
 
 using namespace std;
 
@@ -55,7 +59,7 @@ private:
       const string id;
       const int capacity;
       queue<Service> services;
-      // list<Flight> flights;
+      list<Flight> flights;
 };
 
 #endif

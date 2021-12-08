@@ -1,7 +1,6 @@
 #ifndef FLIGHT_H
 #define FLIGHT_H
 
-#include "Plane.h"
 #include "Aeroport.h"
 
 class Flight
@@ -9,14 +8,14 @@ class Flight
    public:
 
       /**Flight's default constructor.**/
-      Flight();
+      Flight(): capacity(0) {};
 
       /**
          *Constructor for Ticket.
 
          *@param capacity - The capacity for this flight.
       **/
-      Flight(const Plane &Plane, const int &number, const string &departure, const string &duration, const Aeroport &origin, const Aeroport &destination);
+      Flight(const int &number, const string &departure, const string &duration, const Aeroport &origin, const Aeroport &destination, const int& capacity);
 
       /**
          *Getter for occupation.
@@ -33,9 +32,7 @@ class Flight
       bool buyTicket(const int& amount = 1);
 
    private:
-      
-      const Plane plane;
-      int capacity;
+      const int capacity;
       int occupation;
       int number;
       string departure;
