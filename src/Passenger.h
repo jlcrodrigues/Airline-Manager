@@ -12,6 +12,7 @@ using namespace std;
 class Passenger
 {
    public:
+      Passenger() {};
 
       /**
          *Constructor for Passanger.
