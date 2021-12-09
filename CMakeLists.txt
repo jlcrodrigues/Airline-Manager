@@ -19,8 +19,10 @@ set(SOURCE_FILES
 	src/Passenger.h
 	src/Plane.h
 	src/Service.h
-	src/Ticket.h
-	main.cpp)
+	src/Ticket.h)
+
+set(TEST_FILES
+		tests/PassengerTest.cpp)
 
 include_directories(src)
 
@@ -28,7 +30,7 @@ add_subdirectory(tests/googletest)
 include_directories(tests/googletest/googletest/include)
 include_directories(tests/googletest/googlemock/include)
 
-add_executable(${CMAKE_PROJECT_NAME}_run main.cpp tests/PassengerTest.cpp)
+add_executable(${CMAKE_PROJECT_NAME}_run main.cpp ${TEST_FILES} ${SOURCE_FILES})
 
 target_link_libraries(${CMAKE_PROJECT_NAME}_run gtest gtest_main)
 

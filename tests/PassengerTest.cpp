@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "Airline.h"
+#include "../src/Airline.h"
 
 using testing::Eq;
 
