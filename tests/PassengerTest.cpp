@@ -1,4 +1,4 @@
-/*#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../src/Airline.h"
 
@@ -21,4 +21,3 @@ TEST(passenger, buyTicket)
    EXPECT_EQ(flight.getOccupation(), 96);
 
 }
- */
