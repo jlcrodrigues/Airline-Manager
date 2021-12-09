@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Flight::Flight(const int &number, const string &departure, const string &duration, const Aeroport &origin, const Aeroport &destination, const int& capacity): capacity(capacity)
+Flight::Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity): capacity(capacity)
 {
    this->occupation = capacity;
    this->number = number;

@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+/*#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../src/Airline.h"
 
@@ -6,10 +6,10 @@ using testing::Eq;
 
 TEST(passenger, buyTicket)
 {
-   Aeroport aeroport1;
-   Aeroport aeroport2;
+   Airport airport1;
+   Airport airport2;
    Plane plane = Plane("A310", 310);
-   Flight flight = Flight(3, "9/12/2021", "3h24", aeroport1, aeroport2, 100);
+   Flight flight = Flight(3, "9/12/2021", "3h24", airport1, airport2, 100);
    Passenger pa = Passenger("Carlos");
    Passenger pa1 = Passenger("Manuel");
    Passenger pa2 = Passenger("Maria");
@@ -21,3 +21,4 @@ TEST(passenger, buyTicket)
    EXPECT_EQ(flight.getOccupation(), 96);
 
 }
+ */

@@ -4,7 +4,7 @@ project(feup-aed)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
-	src/Aeroport.cpp
+		src/Airport.cpp
 	src/Baggage.cpp
 	src/Cart.cpp
 	src/Flight.cpp
@@ -12,7 +12,7 @@ set(SOURCE_FILES
 	src/Plane.cpp
 	src/Service.cpp
 	src/Ticket.cpp
-	src/Aeroport.h
+        src/Airport.h
 	src/Baggage.h
 	src/Cart.h
 	src/Flight.h

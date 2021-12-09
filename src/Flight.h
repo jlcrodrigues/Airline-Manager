@@ -1,7 +1,7 @@
 #ifndef FLIGHT_H
 #define FLIGHT_H
 
-#include "Aeroport.h"
+#include "Airport.h"
 
 class Flight
 {
@@ -15,7 +15,7 @@ class Flight
 
          *@param capacity - The capacity for this flight.
       **/
-      Flight(const int &number, const string &departure, const string &duration, const Aeroport &origin, const Aeroport &destination, const int& capacity);
+      Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity);
 
       /**
          *Getter for occupation.
@@ -37,8 +37,8 @@ class Flight
       int number;
       string departure;
       string duration;
-      Aeroport origin;
-      Aeroport destination;
+      Airport origin;
+      Airport destination;
 };
 
 #endif
