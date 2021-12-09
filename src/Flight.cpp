@@ -12,6 +12,11 @@ Flight::Flight(const int &number, const string &departure, const string &duratio
    this->destination = destination;
 }
 
+int Flight::getNumber() const
+{
+   return number;
+}
+
 int Flight::getOccupation() const
 {
    return occupation;

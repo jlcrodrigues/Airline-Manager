@@ -18,6 +18,13 @@ class Flight
       Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity);
 
       /**
+       * Getter for number.
+
+       * @return Returns the member number.
+       */
+      int getNumber() const;
+
+      /**
          *Getter for occupation.
 
          *@return - The flight's current occupation.

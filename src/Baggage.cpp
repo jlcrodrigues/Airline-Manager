@@ -1,6 +1,6 @@
 #include "Baggage.h"
 
-Baggage::Baggage(const Passenger& owner, const double& weight): owner(owner)
+Baggage::Baggage(const double& weight)
 {
    this->weight = weight;
 }

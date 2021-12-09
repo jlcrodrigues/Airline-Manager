@@ -6,6 +6,7 @@
 class Ticket 
 {
    public:
+      Ticket(): flight(Flight()) {}
 
       /**
          *Constructor for Ticket.
@@ -16,13 +17,20 @@ class Ticket
       Ticket(const Flight& flight, const bool& baggage = false);
 
       /**
+       * Getter for flight.
+
+       * @return Returns member flight.
+       */
+      Flight getFlight() const;
+
+      /**
          *Getter for baggage.
 
          *@return - Returns baggage boolean.
       **/
       bool getBaggage();
    private:
-      const Flight& flight;
+      const Flight flight;
       bool baggage;
 
 };
