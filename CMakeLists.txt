@@ -22,7 +22,8 @@ set(SOURCE_FILES
 	src/Ticket.h)
 
 set(TEST_FILES
-		tests/PassengerTest.cpp)
+		tests/PassengerTest.cpp
+		tests/CartTest.cpp)
 
 include_directories(src)
 
