@@ -13,7 +13,7 @@ using namespace std;
 class Passenger
 {
    public:
-      Passenger() {};
+      Passenger() = default;
 
       /**
          *Constructor for Passanger.
@@ -47,6 +47,13 @@ class Passenger
       int g() {return tickets.size();};
 
       /**
+       * Checks a passenger into a flight without baggage.
+       * @param flight - The flight you want to check in.
+       * @return - Returns true if the check-in was successful, false otherwise.
+       */
+      bool checkIn(Flight& flight);
+
+      /**
        * Checks a bag into a flight.
 
        * @param flight - The flight you want to check in.
@@ -54,7 +61,7 @@ class Passenger
 
        * @return - Returns true if the check-in was successful, false otherwise.
        */
-      bool checkIn(const Flight& flight, const double& weight);
+      bool checkIn(Flight& flight, const double& weight);
 
    private:
       /**

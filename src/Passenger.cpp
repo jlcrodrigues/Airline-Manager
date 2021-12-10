@@ -37,16 +37,30 @@ bool Passenger::buyTicket(Flight& flight, vector<struct GroupMember>& members)
    return false;
 }
 
-bool Passenger::checkIn(const Flight& flight, const double& weight)
+bool Passenger::checkIn(Flight& flight)
+{
+   if (!ticketOwned(flight)) return false;
+   size_t i = findTicket(flight);
+   if (tickets[i].getBaggage())
+   {
+      throw invalid_argument("You should check in with baggage.");
+      return false;
+   }
+   tickets.erase(tickets.begin() + i);
+   return true;
+}
+
+bool Passenger::checkIn(Flight& flight, const double& weight)
 {
    if (!ticketOwned(flight)) return false;
    size_t i = findTicket(flight);
    if (tickets[i].getBaggage())
    {
       tickets.erase(tickets.begin() + i);
-      //TODO
-      //add the bag to flight
+      flight.insertBaggage(Baggage(weight));
+      return true;
    }
+   return false;
 }
 
 bool Passenger::ticketOwned(const Flight& flight) const

@@ -5,21 +5,21 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
 		src/Airport.cpp
-	src/Baggage.cpp
-	src/Cart.cpp
-	src/Flight.cpp
-	src/Passenger.cpp
-	src/Plane.cpp
-	src/Service.cpp
-	src/Ticket.cpp
-        src/Airport.h
-	src/Baggage.h
-	src/Cart.h
-	src/Flight.h
-	src/Passenger.h
-	src/Plane.h
-	src/Service.h
-	src/Ticket.h)
+		src/Baggage.cpp
+		src/Cart.cpp
+		src/Flight.cpp
+		src/Passenger.cpp
+		src/Plane.cpp
+		src/Service.cpp
+		src/Ticket.cpp
+		src/Airport.h
+		src/Baggage.h
+		src/Cart.h
+		src/Flight.h
+		src/Passenger.h
+		src/Plane.h
+		src/Service.h
+		src/Ticket.h)
 
 set(TEST_FILES
 		tests/PassengerTest.cpp

@@ -1,7 +1,6 @@
 #ifndef CART_H
 #define CART_H
 
-
 #include "Baggage.h"
 
 #include <vector>
@@ -13,7 +12,7 @@ class Cart
 {
 public:
    /**Cart's default constructor.**/
-   Cart();
+   Cart() = default;
 
    /**
       *Constructor for Cart.
@@ -34,7 +33,7 @@ public:
    bool insert(const Baggage& bag);
 
    /**
-      *Checks if the Carts's at it's maximum capacity.
+      *Checks if the Carts is at it's maximum capacity.
 
       *@return - True if the cart is full, false otherwise.
    **/

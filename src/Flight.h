@@ -2,13 +2,15 @@
 #define FLIGHT_H
 
 #include "Airport.h"
+#include "Cart.h"
+
+#include <queue>
 
 class Flight
 {
    public:
 
       /**Flight's default constructor.**/
-      //Flight(): capacity(0) {};
       Flight() = default;
 
       /**
@@ -39,6 +41,23 @@ class Flight
       **/
       bool buyTicket(const int& amount = 1);
 
+      /**
+       * Adds a new baggage cart to the flight.
+
+       * @param cart - The cart you want to add.
+
+       * @return Returns true if the cart was added, false otherwise.
+       */
+      bool addCart(const Cart& cart);
+
+      /**
+       * Inserts a new bag to the cart.
+
+       * @param bag The bag to be inserted.
+       * @return Returns true if the bag was properly inserted.
+       */
+      bool insertBaggage(const Baggage& bag);
+
    private:
       int capacity;
       int occupation;
@@ -47,6 +66,7 @@ class Flight
       string duration;
       Airport origin;
       Airport destination;
+      queue<Cart> carts;
 };
 
 #endif

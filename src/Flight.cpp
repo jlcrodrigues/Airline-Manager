@@ -32,3 +32,18 @@ bool Flight::buyTicket(const int& amount)
    return false;
 
 }
+
+bool Flight::addCart(const Cart& cart)
+{
+   if (carts.empty() || carts.front().isFull())
+   {
+      carts.push(cart);
+      return true;
+   }
+   return false;
+}
+
+bool Flight::insertBaggage(const Baggage& bag)
+{
+   return carts.front().insert(bag);
+}

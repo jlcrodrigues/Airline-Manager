@@ -1,10 +1,5 @@
 #include "Cart.h"
 
-Cart::Cart()
-{
-   n_stacks = 0; bags_per_stack = 0;
-}
-
 Cart::Cart(const int& carriages, const int& piles , const int& bags)
 {
    n_stacks = carriages * piles;

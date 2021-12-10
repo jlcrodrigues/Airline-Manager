@@ -1,23 +1,23 @@
 #ifndef BAGGAGE_H
 #define BAGGAGE_H
 
-#include "Passenger.h"
+using namespace std;
 
 class Baggage
 {
    public:
       /**Baggage's default constructor.**/
-      Baggage() {};
+      Baggage() = default;
 
       /**
        * Constructor for cart.
 
-       * @param owner - The passenger who the bag belongs to.
+       * @param weight - The baggage's weight.
        */
-      Baggage(const double& weight);
+       Baggage(const double& weight);
 
    private:
-   double weight;
+      double weight;
 };
 
 #endif
