@@ -6,7 +6,7 @@
 class Ticket 
 {
    public:
-      Ticket(): flight(Flight()) {}
+      Ticket() = default;
 
       /**
          *Constructor for Ticket.
@@ -30,7 +30,7 @@ class Ticket
       **/
       bool getBaggage();
    private:
-      const Flight flight;
+      Flight flight;
       bool baggage;
 
 };

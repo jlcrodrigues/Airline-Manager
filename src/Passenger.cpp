@@ -43,7 +43,7 @@ bool Passenger::checkIn(const Flight& flight, const double& weight)
    size_t i = findTicket(flight);
    if (tickets[i].getBaggage())
    {
-      //tickets.erase(tickets.begin() + i);
+      tickets.erase(tickets.begin() + i);
       //TODO
       //add the bag to flight
    }

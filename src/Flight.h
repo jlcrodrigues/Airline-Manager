@@ -8,7 +8,8 @@ class Flight
    public:
 
       /**Flight's default constructor.**/
-      Flight(): capacity(0) {};
+      //Flight(): capacity(0) {};
+      Flight() = default;
 
       /**
          *Constructor for Ticket.
@@ -39,7 +40,7 @@ class Flight
       bool buyTicket(const int& amount = 1);
 
    private:
-      const int capacity;
+      int capacity;
       int occupation;
       int number;
       string departure;
