@@ -59,3 +59,8 @@ bool Flight::insertBaggage(const Baggage& bag)
 {
    return carts.front().insert(bag);
 }
+
+bool Flight::operator<(const Flight &p1) const
+{
+   return number < p1.getNumber();
+}

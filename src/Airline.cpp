@@ -7,11 +7,13 @@ Airline::Airline()
    planes_file = "../data/planes.csv";
 }
 
-Airline::Airline(const string &flights, const string &passengers, const string &planes)
+Airline::Airline(const string& airports, const string &flights, const string &passengers, const string &planes)
 {
+   airports_file = airports;
    flights_file = flights;
    passengers_file = passengers;
    planes_file = planes;
+   loadAirports(airports_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
@@ -108,6 +110,69 @@ bool Airline::loadPlanes(const string &file_name)
    return true;
 }
 
+bool Airline::addAirport(const Airport &airport)
+{
+   if (isIn(airports, airport)) return false;
+   airports.push_back(airport);
+   insertionSort(airports);
+   saveFile(airports, airports_file);
+   return true;
+}
+
+bool Airline::addFlight(const Flight& flight)
+{
+   if (isIn(flights, flight)) return false;
+   flights.push_back(flight);
+   insertionSort(flights);
+   saveFile(flights, flights_file);
+   return true;
+}
+
+bool Airline::addPassenger(const Passenger &passenger)
+{
+   if (isIn(passengers, passenger)) return false;
+   passengers.push_back(passenger);
+   insertionSort(passengers);
+   saveFile(passengers, passengers_file);
+   return true;
+}
+
+bool Airline::addPlane(const Plane &plane)
+{
+   if (isIn(planes, plane)) return false;
+   planes.push_back(plane);
+   insertionSort(planes);
+   saveFile(planes, planes_file);
+   return true;
+}
+
+template<typename T>
+void Airline::insertionSort(vector<T>& v)
+{
+   for (int i = 1; i < v.size(); i++)
+   {
+      T tmp = v[i];
+      int j;
+      for (j = i; j > 0 && tmp < v[j - 1]; j--)
+         v[j] = v[j - 1];
+      v[j] = tmp;
+   }
+}
+
+template<typename T>
+bool Airline::isIn(const vector<T>& v, const T& t)
+{
+   int left = 0, right = v.size() - 1;
+   while (left <= right)
+   {
+      int mid = (left + right) / 2;
+      if (v[mid] < t) left = mid + 1;
+      else if (t < v[mid]) right = mid - 1;
+      else return true;
+   }
+   return false;
+}
+
 vector<string> Airline::readLine(const string& line) const
 {
    string col;
@@ -122,12 +187,12 @@ vector<string> Airline::readLine(const string& line) const
 }
 
 template<typename T>
-void Airline::saveFile(vector<T> values, const string& file_name) const
+void Airline::saveFile(const vector<T>& values, const string& file_name) const
 {
    ofstream file(file_name);
    for (auto & row: values)
    {
-      row.writeCsv();
+      file << row.getCsv();
    }
    file.close();
 }

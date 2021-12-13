@@ -64,8 +64,15 @@ class Flight
        */
       bool insertBaggage(const Baggage& bag);
 
-   private:
-      int capacity;
+      /**
+       * Flight's < operator.
+       * @param f1 - A flight object.
+       * @return - Returns true if the flight's number is lower.
+       */
+      bool operator < (const Flight& p1) const;
+
+private:
+   int capacity;
       int occupation;
       int number;
       string departure;

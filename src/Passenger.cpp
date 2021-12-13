@@ -56,6 +56,11 @@ int Passenger::getId() const
    return id;
 }
 
+string Passenger::getName() const
+{
+   return name;
+}
+
 bool Passenger::checkIn(Flight& flight)
 {
    if (!ticketOwned(flight)) return false;
@@ -90,6 +95,12 @@ bool Passenger::ticketOwned(const Flight& flight) const
          return true;
    }
    return false;
+}
+
+bool Passenger::operator < (const Passenger& p1) const
+{
+   if (name == p1.getName()) return id < p1.getId();
+   return name < p1.getName();
 }
 
 size_t Passenger::findTicket(const Flight& flight) const

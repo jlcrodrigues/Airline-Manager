@@ -2,7 +2,6 @@
 #define PLANE_H
 
 #include "Service.h"
-#include "Plane.h"
 #include "Flight.h"
 
 #include <string>
@@ -16,7 +15,7 @@ class Plane
    public:
 
       /**Plane's default constructor.**/
-      Plane();
+      Plane() = default;
 
       /**
          *Constructor for plane.
@@ -65,6 +64,12 @@ class Plane
        Service getNextService();
 
        /**
+        * Getter for the id.
+        * @return - Returns the plane's id.
+        */
+       string getId() const;
+
+       /**
           * Method to add flight to list of flights
           * @param flight - Flight to add
           */
@@ -76,9 +81,16 @@ class Plane
         */
        list<Flight> getFlights();
 
+       /**
+        * Plane's < operator.
+        * @param p1 - A plane object.
+        * @return Returns true if the id is lower.
+        */
+       bool operator < (const Plane& p1) const;
+
 private:
-      const string id;
-      const int capacity;
+      string id;
+      int capacity;
       queue<Service> services;
       vector<Service> old_services;
       list<Flight> flights;

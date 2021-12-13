@@ -64,6 +64,12 @@ class Passenger
       int getId() const;
 
       /**
+       * Getter for name.
+       * @return - Returns the passenger's name.
+       */
+      string getName() const;
+
+      /**
        * Checks a passenger into a flight without baggage.
        * @param flight - The flight you want to check in.
        * @return - Returns true if the check-in was successful, false otherwise.
@@ -79,6 +85,13 @@ class Passenger
        * @return - Returns true if the check-in was successful, false otherwise.
        */
       bool checkIn(Flight& flight, const double& weight);
+
+      /**
+       * Passenger's < operator.
+       * @param p1 - A passenger object.
+       * @return - Returns true if the passenger's name is alphabetically lower and then if the id is lower.
+       */
+      bool operator < (const Passenger& p1) const;
 
    private:
       /**

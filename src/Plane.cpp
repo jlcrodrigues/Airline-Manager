@@ -2,11 +2,6 @@
 
 using namespace std;
 
-Plane::Plane() : capacity(0)
-{
-
-}
-
 Plane::Plane(const string& id, const int&capacity): id(id), capacity(capacity)
 {
 
@@ -50,6 +45,16 @@ queue<Service> Plane::getServices() {
     return services;
 }
 
+string Plane::getId() const
+{
+   return id;
+}
+
 vector<Service> Plane::getOldServices() {
     return old_services;
+}
+
+bool Plane::operator<(const Plane &p1) const
+{
+   return id < p1.getId();
 }

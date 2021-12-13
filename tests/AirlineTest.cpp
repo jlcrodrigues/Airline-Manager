@@ -40,3 +40,16 @@ TEST(airline, reading)
       EXPECT_EQ(planes[0].getCapacity(), 100);
    }
 }
+
+TEST(airline, insertions)
+{
+   Airline airline("../data/airports.csv",
+           "../data/flights.csv",
+           "..data/passengers.csv",
+           "..data/planes.csv");
+
+   //EXPECT_TRUE(airline.addAirport(Airport("OPO")));
+   //EXPECT_TRUE(airline.addAirport(Airport("JFK")));
+   EXPECT_EQ(airline.getAirports().size(), 2);
+   EXPECT_FALSE(airline.addAirport(Airport("OPO")));
+}

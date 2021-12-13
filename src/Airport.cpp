@@ -22,3 +22,8 @@ string Airport::getName() const {
 void Airport::setName(const string &name) {
     this->name = name;
 }
+
+bool Airport::operator < (const Airport &a1) const
+{
+   return name < a1.getName();
+}

@@ -46,8 +46,16 @@ public:
        *@param name - airport's name.
     **/
     void setName(const string& name);
+
+   /**
+    * Airport's < operator.
+    * @param a1 - An airport object.
+    * @return - //TODO
+    */
+   bool operator < (const Airport& a1) const;
+
 private:
-    string name;
+   string name;
     //BST<Transport> transports;
 };
 

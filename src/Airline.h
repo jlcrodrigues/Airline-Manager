@@ -25,11 +25,12 @@ class Airline
 
       /**
        * This constructor sets the file names and loads the data.
+       * @param airports - The name of the file containing airports.
        * @param flights - The name of the file containing flights.
        * @param passengers - The name of the file containing passengers.
-       * @param planes - The name of the file containing planes.
+       * @param planes - The of the file containing planes.
        */
-      Airline(const string& flights, const string& passengers, const string& planes);
+      Airline(const string& airports, const string& flights, const string& passengers, const string& planes);
 
       /**
        * Getter for the airports vector.
@@ -83,14 +84,52 @@ class Airline
        */
       bool loadPlanes(const string& file_name);
 
+      /**
+       * Adds an airport to the list.
+       * @param airport - The airport to be added.
+       * @return - Returns false if the airport already exists, true otherwise.
+       */
       bool addAirport(const Airport& airport);
+
+      /**
+       * Adds a flight to the list.
+       * @param flight - The Flight to be added.
+       * @return - Returns false if the flight already exists, true otherwise.
+       */
       bool addFlight(const Flight& flight);
+
+      /**
+       * Adds a passenger to the list.
+       * @param passenger - The passenger to be added.
+       * @return - Return false if the passenger already exists, true otherwise.
+       */
       bool addPassenger(const Passenger& passenger);
+
+      /**
+       * Adds a plane to the list.
+       * @param plane - The plane to be added.
+       * @return - Return false if the plane already exists, true otherwise.
+       */
       bool addPlane(const Plane& plane);
 
    private:
+      /**
+       * Sorts a vector using the Insertion Sort algorithm.
+       * @tparam T - Any object with a < operator implemented.
+       * @param v - The vector to be sorted.
+       */
       template<typename T>
-      void insertSorted(vector<T>& v);
+      void insertionSort(vector<T>& v);
+
+      /**
+       * Finds if a certain object is part of a vector.
+       * @tparam T - Any object with a < operator implemented.
+       * @param v - The vector to be searched.
+       * @param t - The object to be found.
+       * @return - Returns true if the object is in the vector and false otherwise.
+       */
+      template<typename T>
+      bool isIn(const vector<T>& v, const T& t);
 
       /**
        * Turns a line from a csv file into a vector<string> containing all columns.
@@ -106,7 +145,7 @@ class Airline
        * @param file_name - The path of the file to be written.
        */
       template<typename T>
-      void saveFile(vector<T> values, const string& file_name) const;
+      void saveFile(const vector<T>& values, const string& file_name) const;
 
       vector<Airport> airports;
       vector<Flight> flights;
