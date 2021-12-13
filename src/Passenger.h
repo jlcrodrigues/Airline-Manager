@@ -18,9 +18,10 @@ class Passenger
       /**
          *Constructor for Passanger.
 
+         *@param id - Passenger's id.
          *@param name - Passenger's name.
       **/
-      Passenger(const string& name);
+      Passenger(const int& id, const string& name);
 
       /**
          *Buys a ticket.
@@ -42,9 +43,19 @@ class Passenger
       **/
       bool buyTicket(Flight& flight, vector<struct GroupMember>& members);
 
-      // ********** development purpose only *************
-      //bool g() {return tickets[0].getBaggage();};
-      int g() {return tickets.size();};
+      /**
+       * Getter for the ticket vector.
+
+       * @return - Returns the ticket vector.
+       */
+      vector<Ticket> getTickets() const;
+
+      /**
+       * Getter for the Id.
+
+       * @return - Returns the passenger's id.
+       */
+      int getId() const;
 
       /**
        * Checks a passenger into a flight without baggage.
@@ -80,6 +91,7 @@ class Passenger
        */
       size_t findTicket(const Flight& flight) const;
 
+      int id;
       string name;
       vector<Ticket> tickets;
 };

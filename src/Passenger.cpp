@@ -2,8 +2,9 @@
 
 using namespace std;
 
-Passenger::Passenger(const string& name)
+Passenger::Passenger(const int& id, const string& name)
 {
+   this->id = id;
    this->name = name;
 }
 
@@ -35,6 +36,16 @@ bool Passenger::buyTicket(Flight& flight, vector<struct GroupMember>& members)
       return true;
    }
    return false;
+}
+
+vector<Ticket> Passenger::getTickets() const
+{
+   return tickets;
+}
+
+int Passenger::getId() const
+{
+   return id;
 }
 
 bool Passenger::checkIn(Flight& flight)

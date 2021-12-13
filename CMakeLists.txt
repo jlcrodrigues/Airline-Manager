@@ -4,6 +4,7 @@ project(feup-aed)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
+		src/Airline.cpp
 		src/Airport.cpp
 		src/Baggage.cpp
 		src/Cart.cpp
@@ -12,6 +13,7 @@ set(SOURCE_FILES
 		src/Plane.cpp
 		src/Service.cpp
 		src/Ticket.cpp
+		src/Airline.h
 		src/Airport.h
 		src/Baggage.h
 		src/Cart.h
@@ -22,6 +24,7 @@ set(SOURCE_FILES
 		src/Ticket.h)
 
 set(TEST_FILES
+		tests/AirlineTest.cpp
 		tests/PassengerTest.cpp
 		tests/CartTest.cpp)
 
