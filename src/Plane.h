@@ -37,28 +37,43 @@ class Plane
      * Method to add service to queue of services
      * @param service - Service to add
      */
-
-
-
     void addService(const Service& service);
 
     /**
-     * Getter for next service in order
-     * @return - Returns the oldest service of the queue
+     * Getter for plane's services
+     * @return - Returns queue of plane's services to be completed
      */
+    queue<Service> getServices();
 
+    /**
+     * Getter for plane's old services
+     * @return - Returns vector of plane's services history
+     */
+    vector<Service> getOldServices();
+
+    /**
+     * Getter for next service in order
+     * @return - Returns the next service to be completed
+     */
     Service getNextService();
 
     /**
        * Method to add flight to list of flights
        * @param flight - Flight to add
        */
-       void addFlight(const Flight& flight);
+    void addFlight(const Flight& flight);
+
+    /**
+     * Getter for list of flights
+     * @return - Returns list of plane's flights records
+     */
+    list<Flight> getFlights();
 
 private:
       const string id;
       const int capacity;
       queue<Service> services;
+      vector<Service> old_services;
       list<Flight> flights;
 };
 
