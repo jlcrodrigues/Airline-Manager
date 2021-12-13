@@ -12,6 +12,18 @@ Flight::Flight(const int &number, const string &departure, const string &duratio
    this->destination = destination;
 }
 
+string Flight::getCsv() const
+{
+   string csv = "";
+   csv += to_string(number) + ',';
+   csv += departure + ',';
+   csv += duration + ',';
+   csv += origin.getName() + ',';
+   csv += destination.getName() + ',';
+   csv += to_string(capacity) + '\n';
+   return csv;
+}
+
 int Flight::getNumber() const
 {
    return number;

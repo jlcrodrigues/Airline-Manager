@@ -21,6 +21,12 @@ class Flight
       Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity);
 
       /**
+       * Turns the object data into a csv row in order to be used later.
+       * @return - Returns a string representing a csv row with the class attributes.
+       */
+      string getCsv() const;
+
+      /**
        * Getter for number.
 
        * @return Returns the member number.

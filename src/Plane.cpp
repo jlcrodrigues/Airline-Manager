@@ -12,6 +12,14 @@ Plane::Plane(const string& id, const int&capacity): id(id), capacity(capacity)
 
 }
 
+string Plane::getCsv() const
+{
+   string csv = "";
+   csv += id + ',';
+   csv += to_string(capacity) + '\n';
+   return csv;
+}
+
 int Plane::getCapacity() const
 {
    return capacity;

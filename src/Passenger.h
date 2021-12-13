@@ -24,12 +24,18 @@ class Passenger
       Passenger(const int& id, const string& name);
 
       /**
-         *Buys a ticket.
+       * Turns the object data into a csv row in order to be used later.
+       * @return - Returns a string representing a csv row with the class attributes.
+       */
+      string getCsv() const;
 
-         *@param flight - The flight the ticket's for.
-         *@param baggage - True if the ticket should include baggage. False by default.
+      /**
+      *Buys a ticket.
 
-         *@return - Returns true if the purchase was successful, false otherwise.
+      *@param flight - The flight the ticket's for.
+      *@param baggage - True if the ticket should include baggage. False by default.
+
+      *@return - Returns true if the purchase was successful, false otherwise.
       **/
       bool buyTicket(Flight& flight, const bool& baggage = false);
 

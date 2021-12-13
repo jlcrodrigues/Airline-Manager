@@ -17,6 +17,11 @@ Airline::Airline(const string &flights, const string &passengers, const string &
    loadPlanes(planes_file);
 }
 
+vector<Airport> Airline::getAirports() const
+{
+   return airports;
+}
+
 vector<Flight> Airline::getFlights() const
 {
    return flights;
@@ -30,6 +35,22 @@ vector<Passenger> Airline::getPassengers() const
 vector<Plane> Airline::getPlanes() const
 {
    return planes;
+}
+
+bool Airline::loadAirports(const string &file_name)
+{
+   airports_file = file_name;
+   string line;
+   vector<string> line_contents;
+   ifstream file(airports_file);
+   if (!file.is_open()) return false;
+   while(getline(file, line))
+   {
+      line_contents = readLine(line);
+      airports.push_back(Airport(line_contents[0]));
+   }
+   file.close();
+   return true;
 }
 
 bool Airline::loadFlights(const string &file_name)
@@ -49,6 +70,7 @@ bool Airline::loadFlights(const string &file_name)
                                Airport(line_contents[4]),
                                stoi(line_contents[5])));
    }
+   file.close();
    return true;
 }
 
@@ -65,6 +87,7 @@ bool Airline::loadPassengers(const string &file_name)
       passengers.push_back(Passenger(stoi(line_contents[0]),
                                      line_contents[1]));
    }
+   file.close();
    return true;
 }
 
@@ -81,6 +104,7 @@ bool Airline::loadPlanes(const string &file_name)
       planes.push_back(Plane(line_contents[0],
                              stoi(line_contents[1])));
    }
+   file.close();
    return true;
 }
 
@@ -95,4 +119,15 @@ vector<string> Airline::readLine(const string& line) const
       row.push_back(col);
    }
    return row;
+}
+
+template<typename T>
+void Airline::saveFile(vector<T> values, const string& file_name) const
+{
+   ofstream file(file_name);
+   for (auto & row: values)
+   {
+      row.writeCsv();
+   }
+   file.close();
 }

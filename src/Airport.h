@@ -26,12 +26,19 @@ public:
     **/
     Airport(const string& name);
 
-    /**
-       *Getter for name.
 
-       *@return name - Returns airport's name.
-    **/
-    string getName();
+   /**
+    * Turns the object data into a csv row in order to be used later.
+    * @return - Returns a string representing a csv row with the class attributes.
+    */
+    string getCsv() const;
+
+   /**
+      *Getter for name.
+
+      *@return name - Returns airport's name.
+   **/
+    string getName() const;
 
     /**
        *Setter for name.

@@ -8,6 +8,14 @@ Passenger::Passenger(const int& id, const string& name)
    this->name = name;
 }
 
+string Passenger::getCsv() const
+{
+   string csv = "";
+   csv += to_string(id) + ',';
+   csv += name + '\n';
+   return csv;
+}
+
 bool Passenger::buyTicket(Flight& flight, const bool& baggage)
 {
    if (!ticketOwned(flight))

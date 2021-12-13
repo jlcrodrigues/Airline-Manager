@@ -8,7 +8,14 @@ Airport::Airport(const string& name){
     this->name = name;
 }
 
-string Airport::getName(){
+string Airport::getCsv() const
+{
+   string csv = "";
+   csv += name + '\n';
+   return csv;
+}
+
+string Airport::getName() const {
     return name;
 }
 

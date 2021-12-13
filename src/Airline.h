@@ -32,6 +32,12 @@ class Airline
       Airline(const string& flights, const string& passengers, const string& planes);
 
       /**
+       * Getter for the airports vector.
+       * @return - Returns a vector containing all the airline's airport.
+       */
+      vector<Airport> getAirports() const;
+
+      /**
        * Getter for the flight vector.
        * @return - Returns a vector containing all the airline's flights.
        */
@@ -50,6 +56,13 @@ class Airline
       vector<Plane> getPlanes() const;
 
       /**
+       * Fills the airports vector with airports from a file.
+       * @param file_name - The name of the file containing the airports.
+       * @return - Returns false if the file doens't exist and true otherwise.
+       */
+      bool loadAirports(const string& file_name);
+
+      /**
        * Fills the flights vector with flights from a file.
        * @param file_name - The name of the file containing the flights.
        * @return - Returns false if the file doesn't exist and true otherwise.
@@ -66,14 +79,18 @@ class Airline
       /**
        * Fills the planes vector with planes from a file.
        * @param file_name - The name of the file containing the planes.
-       * @return  - Returns false if the file doesn't exist and true otherwise.
+       * @return - Returns false if the file doesn't exist and true otherwise.
        */
       bool loadPlanes(const string& file_name);
 
+      bool addAirport(const Airport& airport);
+      bool addFlight(const Flight& flight);
+      bool addPassenger(const Passenger& passenger);
+      bool addPlane(const Plane& plane);
+
    private:
-      bool writeFlights() const;
-      bool writePassengers() const;
-      bool writePlanes() const;
+      template<typename T>
+      void insertSorted(vector<T>& v);
 
       /**
        * Turns a line from a csv file into a vector<string> containing all columns.
@@ -82,9 +99,20 @@ class Airline
        */
       vector<string> readLine(const string& line) const;
 
+      /**
+       * Writes a member-vector into a file.
+       * @tparam T - Type t needs to have a getCsv() method implemented;
+       * @param values - The vector to be written.
+       * @param file_name - The path of the file to be written.
+       */
+      template<typename T>
+      void saveFile(vector<T> values, const string& file_name) const;
+
+      vector<Airport> airports;
       vector<Flight> flights;
       vector<Passenger> passengers;
       vector<Plane> planes;
+      string airports_file;
       string flights_file;
       string passengers_file;
       string planes_file;

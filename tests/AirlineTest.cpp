@@ -8,6 +8,14 @@ TEST(airline, reading)
 {
    Airline airline;
 
+   EXPECT_FALSE(airline.loadAirports("test.csv"));
+   if (airline.loadAirports("..data/airports.csv"))
+   {
+      vector<Airport> airports = airline.getAirports();
+      EXPECT_EQ(airports.size(), 1);
+      EXPECT_EQ(airports[0].getName(), "OPO");
+   }
+
    EXPECT_FALSE(airline.loadFlights("test.csv"));
    if (airline.loadFlights("../data/flights.csv"))
    {
