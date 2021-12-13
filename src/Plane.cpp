@@ -23,9 +23,25 @@ void Plane::addService(const Service &service)
 }
 
 Service Plane::getNextService() {
-    return services.front();
+    Service s = services.front();
+    old_services.push_back(services.front());
+    services.pop();
+    return s;
+
 }
 
 void Plane::addFlight(const Flight &flight) {
     flights.push_back(flight);
+}
+
+list<Flight> Plane::getFlights() {
+    return flights;
+}
+
+queue<Service> Plane::getServices() {
+    return services;
+}
+
+vector<Service> Plane::getOldServices() {
+    return old_services;
 }
