@@ -34,17 +34,17 @@ public:
     Airport(const string& name, BST<Transport> transports);
 
 
-   /**
-    * Turns the object data into a csv row in order to be used later.
-    * @return - Returns a string representing a csv row with the class attributes.
-    */
+    /**
+     * Turns the object data into a csv row in order to be used later.
+     * @return - Returns a string representing a csv row with the class attributes.
+     */
     string getCsv() const;
 
-   /**
-      *Getter for name.
+    /**
+       *Getter for name.
 
-      *@return name - Returns airport's name.
-   **/
+       *@return name - Returns airport's name.
+    **/
     string getName() const;
 
     /**
@@ -61,16 +61,16 @@ public:
     **/
     Transport findClosest();
 
-   /**
-    * Airport's < operator.
-    * @param a1 - An airport object.
-    * @return - //TODO
-    */
-   bool operator < (const Airport& a1) const;
+    /**
+     * Airport's < operator.
+     * @param a1 - An airport object.
+     * @return - //TODO
+     */
+    bool operator < (const Airport& a1) const;
 
 private:
-   string name;
-   BST<Transport> transports;
+    string name;
+    BST<Transport> transports;
 };
 
 #endif

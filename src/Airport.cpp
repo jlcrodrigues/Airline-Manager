@@ -7,9 +7,9 @@ Airport::Airport(const string& name, BST<Transport> transports){
 
 string Airport::getCsv() const
 {
-   string csv = "";
-   csv += name + '\n';
-   return csv;
+    string csv = "";
+    csv += name + '\n';
+    return csv;
 }
 
 string Airport::getName() const {
@@ -26,7 +26,7 @@ Transport Airport::findClosest() {
 
 bool Airport::operator < (const Airport &a1) const
 {
-   return name < a1.getName();
+    return name < a1.getName();
 }
 
 
