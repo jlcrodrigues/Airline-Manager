@@ -53,3 +53,26 @@ TEST(airline, insertions)
    EXPECT_EQ(airline.getAirports().size(), 2);
    EXPECT_FALSE(airline.addAirport(Airport("OPO")));
 }
+
+TEST(airline, deletions)
+{
+   Airline airline("../data/airports.csv",
+                   "../data/flights.csv",
+                   "..data/passengers.csv",
+                   "..data/planes.csv");
+
+   EXPECT_FALSE(airline.removeAirport(Airport("TEST")));
+   airline.addAirport(Airport("TEST"));
+   EXPECT_TRUE(airline.removeAirport(Airport("TEST")));
+}
+
+TEST(airline, updates) {
+   Airline airline("../data/airports.csv",
+                   "../data/flights.csv",
+                   "..data/passengers.csv",
+                   "..data/planes.csv");
+
+   EXPECT_FALSE(airline.updateAirport(Airport("TEST")));
+   airline.addAirport(Airport("TEST"));
+   EXPECT_TRUE(airline.updateAirport(Airport("TEST")));
+}
