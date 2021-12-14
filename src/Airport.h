@@ -2,6 +2,7 @@
 #define AIRPORT_H
 
 #include <string>
+#include "bst.h"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ public:
 
 private:
    string name;
-    //BST<Transport> transports;
+   BST<Transport> transports;
 };
 
 #endif
