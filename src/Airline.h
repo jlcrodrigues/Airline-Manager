@@ -112,6 +112,62 @@ class Airline
        */
       bool addPlane(const Plane& plane);
 
+      /**
+       * Removes an existing airport.
+       * @param airport - The airport to be removed.
+       * @return - Returns false if the airport doesn't exist and true otherwise.
+       */
+      bool removeAirport(const Airport& airport);
+
+      /**
+       * Removes an existing flight.
+       * @param flight - The flight to be removed.
+       * @return - Returns false if the flight doesn't exist and true otherwise.
+       */
+      bool removeFlight(const Flight& flight);
+
+      /**
+       * Removes an existing passenger.
+       * @param passenger - The passenger to be removed.
+       * @return - Returns false if the passenger doesn't exist and true otherwise.
+       */
+      bool removePassenger(const Passenger& passenger);
+
+      /**
+       * Removes an existing plane.
+       * @param plane - The plane to be removed.
+       * @return - Returns false if the plane doesn't exist and true otherwise.
+       */
+      bool removePlane(const Plane& plane);
+
+      /**
+       * Changes an existing airport's value.
+       * @param airport - The airport to be updated.
+       * @return - Returns false if the airport doesn't exist and true otherwise.
+       */
+      bool updateAirport(const Airport& airport);
+
+      /**
+       * Changes an existing flight's value.
+       * @param flight - The flight to be updated.
+       * @return - Returns false if the flight doesn't exist and true otherwise.
+       */
+      bool updateFlight(const Flight& flight);
+
+      /**
+       * Changes an existing passenger's value.
+       * @param passenger - The passenger to be updated.
+       * @return - Returns false if the passenger doesn't exist and true otherwise.
+       */
+      bool updatePassenger(const Passenger& passenger);
+
+      /**
+       * Changes an existing plane's value.
+       * @param plane - The plane to be updated.
+       * @return - Returns false if the plane doesn't exist and true otherwise.
+       */
+      bool updatePlane(const Plane& plane);
+
    private:
       /**
        * Sorts a vector using the Insertion Sort algorithm.
@@ -129,7 +185,7 @@ class Airline
        * @return - Returns true if the object is in the vector and false otherwise.
        */
       template<typename T>
-      bool isIn(const vector<T>& v, const T& t);
+      int findElem(const vector<T>& v, const T& t);
 
       /**
        * Turns a line from a csv file into a vector<string> containing all columns.

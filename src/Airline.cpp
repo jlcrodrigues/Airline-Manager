@@ -112,7 +112,7 @@ bool Airline::loadPlanes(const string &file_name)
 
 bool Airline::addAirport(const Airport &airport)
 {
-   if (isIn(airports, airport)) return false;
+   if (findElem(airports, airport) != -1) return false;
    airports.push_back(airport);
    insertionSort(airports);
    saveFile(airports, airports_file);
@@ -121,7 +121,7 @@ bool Airline::addAirport(const Airport &airport)
 
 bool Airline::addFlight(const Flight& flight)
 {
-   if (isIn(flights, flight)) return false;
+   if (findElem(flights, flight) != -1) return false;
    flights.push_back(flight);
    insertionSort(flights);
    saveFile(flights, flights_file);
@@ -130,7 +130,7 @@ bool Airline::addFlight(const Flight& flight)
 
 bool Airline::addPassenger(const Passenger &passenger)
 {
-   if (isIn(passengers, passenger)) return false;
+   if (findElem(passengers, passenger) != -1) return false;
    passengers.push_back(passenger);
    insertionSort(passengers);
    saveFile(passengers, passengers_file);
@@ -139,10 +139,74 @@ bool Airline::addPassenger(const Passenger &passenger)
 
 bool Airline::addPlane(const Plane &plane)
 {
-   if (isIn(planes, plane)) return false;
+   if (findElem(planes, plane) != -1) return false;
    planes.push_back(plane);
    insertionSort(planes);
    saveFile(planes, planes_file);
+   return true;
+}
+
+bool Airline::removeAirport(const Airport &airport)
+{
+   int i = findElem(airports, airport);
+   if (i == -1) return false;
+   airports.erase(airports.begin() + i);
+   saveFile(airports, airports_file);
+   return true;
+}
+
+bool Airline::removeFlight(const Flight &flight)
+{
+   int i = findElem(flights, flight);
+   if (i == -1) return false;
+   flights.erase(flights.begin() + i);
+   saveFile(flights, flights_file);
+   return true;
+}
+
+bool Airline::removePassenger(const Passenger& passenger)
+{
+   int i = findElem(passengers, passenger);
+   if (i == -1) return false;
+   passengers.erase(passengers.begin() + i);
+   saveFile(passengers, passengers_file);
+   return true;
+}
+
+bool Airline::removePlane(const Plane &plane)
+{
+   int i = findElem(planes, plane);
+   if (i == -1) return false;
+   planes.erase(planes.begin() + i);
+   saveFile(planes, planes_file);
+   return true;
+}
+
+bool Airline::updateAirport(const Airport &airport)
+{
+   if (!removeAirport(airport)) return false;
+   addAirport(airport);
+   return true;
+}
+
+bool Airline::updateFlight(const Flight &flight)
+{
+   if (!removeFlight(flight)) return false;
+   addFlight(flight);
+   return true;
+}
+
+bool Airline::updatePassenger(const Passenger& passenger)
+{
+   if(!removePassenger(passenger)) return false;
+   addPassenger(passenger);
+   return true;
+}
+
+bool Airline::updatePlane(const Plane &plane)
+{
+   if (!removePlane(plane)) return false;
+   addPlane(plane);
    return true;
 }
 
@@ -160,7 +224,7 @@ void Airline::insertionSort(vector<T>& v)
 }
 
 template<typename T>
-bool Airline::isIn(const vector<T>& v, const T& t)
+int Airline::findElem(const vector<T>& v, const T& t)
 {
    int left = 0, right = v.size() - 1;
    while (left <= right)
@@ -168,9 +232,9 @@ bool Airline::isIn(const vector<T>& v, const T& t)
       int mid = (left + right) / 2;
       if (v[mid] < t) left = mid + 1;
       else if (t < v[mid]) right = mid - 1;
-      else return true;
+      else return mid;
    }
-   return false;
+   return -1;
 }
 
 vector<string> Airline::readLine(const string& line) const
