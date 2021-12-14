@@ -11,6 +11,12 @@ struct Transport {
     string type;
     int distance;
     int time;
+    /**
+       * Transport's < operator.
+       * @param t1 - An transport object.
+       * @return - Returns true if the transport's distance to airport is lower than the other transport
+    **/
+    bool operator < (const Transport& t1) const;
 };
 
 class Airport
@@ -18,14 +24,14 @@ class Airport
 public:
 
     /**Airport default's constructor.**/
-    Airport();
+    Airport()=default;
 
     /**
        *Constructor for plane.
 
        *@param name - airport's name.
     **/
-    Airport(const string& name);
+    Airport(const string& name, BST<Transport> transports);
 
 
    /**
@@ -47,6 +53,13 @@ public:
        *@param name - airport's name.
     **/
     void setName(const string& name);
+
+    /**
+       *Finds the transport that is closer to the airport.
+
+       *@return transport - The closest transport.
+    **/
+    Transport findClosest();
 
    /**
     * Airport's < operator.

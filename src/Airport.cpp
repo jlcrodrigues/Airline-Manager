@@ -1,11 +1,8 @@
 #include "Airport.h"
 
-Airport::Airport() {
-
-}
-
-Airport::Airport(const string& name){
+Airport::Airport(const string& name, BST<Transport> transports){
     this->name = name;
+    this->transports = transports;
 }
 
 string Airport::getCsv() const
@@ -23,7 +20,16 @@ void Airport::setName(const string &name) {
     this->name = name;
 }
 
+Transport Airport::findClosest() {
+    return transports.findMin();
+}
+
 bool Airport::operator < (const Airport &a1) const
 {
    return name < a1.getName();
+}
+
+
+bool Transport::operator<(const Transport &t1) const {
+    return distance < t1.distance;
 }
