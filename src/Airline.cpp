@@ -71,11 +71,12 @@ bool Airline::loadFlights(const string &file_name)
    {
       line_contents = readLine(line);
       flights.push_back(Flight(stoi(line_contents[0]),
-                               line_contents[1],
-                               line_contents[2],
-                               Airport(line_contents[3], set<Transport>()),
+                               Date(stoi(getDateString(line_contents[1].substr(0,2))), stoi(getDateString(line_contents[1].substr(2,2))), stoi(getDateString(line_contents[1].substr(4)))),
+                               Date(stoi(getDateString(line_contents[2].substr(0,2))), stoi(getDateString(line_contents[2].substr(2,2)))),
+                               Date(stoi(getDateString(line_contents[3].substr(0,2))), stoi(getDateString(line_contents[3].substr(2,2)))),
                                Airport(line_contents[4], set<Transport>()),
-                               stoi(line_contents[5])));
+                               Airport(line_contents[5], set<Transport>()),
+                               stoi(line_contents[6])));
    }
    file.close();
    sort(flights.begin(), flights.end());
@@ -111,7 +112,8 @@ bool Airline::loadPlanes(const string &file_name)
    {
       line_contents = readLine(line);
       planes.push_back(Plane(line_contents[0],
-                             stoi(line_contents[1])));
+                             line_contents[1],
+                             stoi(line_contents[2])));
    }
    file.close();
    sort(planes.begin(), planes.end());
@@ -302,4 +304,24 @@ void Airline::saveFile(const vector<T>& values, const string& file_name) const
       file << row.getCsv();
    }
    file.close();
+}
+
+string Airline::getDateString(string date) {
+    stringstream ss(date), ss2;
+    string s;
+    while(getline(ss, date, '/')){
+        ss2 << setfill('0') << setw(2) << date;
+    }
+    ss2 >> s;
+    return s;
+}
+
+string Airline::getTimeString(string date) {
+    stringstream ss(date), ss2;
+    string s;
+    while(getline(ss, date, ':')){
+        ss2 << setfill('0') << setw(2) << date;
+    }
+    ss2 >> s;
+    return s;
 }

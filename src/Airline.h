@@ -216,8 +216,21 @@ private:
        * @return - Returns a vector containing a string for each column.
        */
       vector<string> readLine(const string& line) const;
+      /**
+       * Returns string of date for constructor
+       * @param date - date to manipulate
+       * @return - Returns date in correct format
+       */
+      string getDateString(string date) ;
 
       /**
+       * Returns string of time for constructor
+       * @param date - time to manipulate
+       * @return - Returns time in correct format
+       */
+      string getTimeString(string date) ;
+
+    /**
        * Writes a member-vector into a file.
        * @tparam T - Type t needs to have a getCsv() method implemented;
        * @param values - The vector to be written.
