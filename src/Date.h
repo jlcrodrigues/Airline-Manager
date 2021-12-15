@@ -1,6 +1,9 @@
 #ifndef FEUP_AED_DATE_H
 #define FEUP_AED_DATE_H
 
+#include <iomanip>
+#include <sstream>
+#include <iostream>
 #include <string>
 
 using namespace std;

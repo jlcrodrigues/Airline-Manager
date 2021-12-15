@@ -2,9 +2,11 @@
 
 using namespace std;
 
-Plane::Plane(const string& id, const int&capacity): id(id), capacity(capacity)
+Plane::Plane(const string& id, const string model, const int&capacity)
 {
-
+    this->id = id;
+    this->model = model;
+    this->capacity = capacity;
 }
 
 string Plane::getCsv() const

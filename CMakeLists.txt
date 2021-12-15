@@ -21,13 +21,15 @@ set(SOURCE_FILES
 		src/Passenger.h
 		src/Plane.h
 		src/Service.h
-		src/Ticket.h)
+		src/Ticket.h
+		src/Date.cpp
+		src/Date.h src/App.cpp src/App.h)
 
 set(TEST_FILES
 		tests/AirlineTest.cpp
 		tests/PassengerTest.cpp
 		tests/CartTest.cpp
-		tests/PlaneTest.cpp src/Date.cpp src/Date.h)
+		tests/PlaneTest.cpp)
 
 include_directories(src)
 

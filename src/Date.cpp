@@ -1,8 +1,5 @@
 #include "Date.h"
-#include <iomanip>
-#include <sstream>
 
-using namespace std;
 
 Date::Date(unsigned int day, unsigned int month, unsigned int year) {
     this->day = day;
@@ -38,15 +35,15 @@ unsigned Date::getMinute() const {
 }
 
 void Date::displayDate() {
-//    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << endl;
+    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << endl;
 }
 
 void Date::displayTime() {
-//    cout << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    cout << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
 }
 
 void Date::displayDateTime() {
-//    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << " - " << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << " - " << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
 }
 
 string Date::toString(Date date) const{

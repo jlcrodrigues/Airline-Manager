@@ -23,7 +23,7 @@ class Plane
          *@param id - The license number.
          *@param capacity - Plane's capacity.
       **/
-      Plane (const string& id, const int&capacity);
+      Plane (const string& id, const string model, const int&capacity);
 
 
       /**
@@ -70,6 +70,12 @@ class Plane
        string getId() const;
 
        /**
+        * Getter for plane's model
+        * @return - Returns plane's model
+        */
+       string getModel() const;
+
+       /**
           * Method to add flight to list of flights
           * @param flight - Flight to add
           */
@@ -91,6 +97,7 @@ class Plane
 private:
       string id;
       int capacity;
+      string model;
       queue<Service> services;
       vector<Service> old_services;
       list<Flight> flights;
