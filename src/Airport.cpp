@@ -1,4 +1,9 @@
+#include <algorithm>
 #include "Airport.h"
+Airport::Airport(const string& name){
+    this->name = name;
+    transports = set<Transport>();
+}
 
 Airport::Airport(const string& name, set<Transport> transports){
     this->name = name;
@@ -29,6 +34,19 @@ bool Airport::operator < (const Airport &a1) const
     return name < a1.getName();
 }
 
+bool Airport::addTransport(Transport t1) {
+    for (auto i: transports){
+        if(i.distance == t1.distance && i.type == t1.type){
+            i.time.insert(i.time.end(),t1.type.begin(),t1.type.end());
+            vector<Date>::iterator it;
+            it = unique(i.time.begin(),i.time.end());
+            i.time.resize(distance(i.time.begin(), it));
+            return false;
+        }
+    }
+    transports.insert(t1);
+    return true;
+}
 
 bool Transport::operator<(const Transport &t1) const {
     return distance < t1.distance;
