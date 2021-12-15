@@ -2,7 +2,7 @@
 #define AIRPORT_H
 
 #include <string>
-#include "bst.h"
+#include <set>
 
 using namespace std;
 
@@ -30,7 +30,7 @@ public:
        *Constructor for plane.
        *@param name - airport's name.
     **/
-    Airport(const string& name, BST<Transport> transports);
+    Airport(const string& name, set<Transport> transports);
 
 
     /**
@@ -66,7 +66,7 @@ public:
 
 private:
     string name;
-    BST<Transport> transports;
+    set<Transport> transports;
 };
 
 #endif

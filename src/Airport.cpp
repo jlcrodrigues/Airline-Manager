@@ -1,6 +1,6 @@
 #include "Airport.h"
 
-Airport::Airport(const string& name, BST<Transport> transports){
+Airport::Airport(const string& name, set<Transport> transports){
     this->name = name;
     this->transports = transports;
 }
@@ -21,7 +21,7 @@ void Airport::setName(const string &name) {
 }
 
 Transport Airport::findClosest() {
-    return transports.findMin();
+    return *transports.begin();
 }
 
 bool Airport::operator < (const Airport &a1) const
