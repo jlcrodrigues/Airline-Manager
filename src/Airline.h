@@ -14,6 +14,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <functional>
 
 using namespace std;
 
@@ -168,7 +170,25 @@ class Airline
        */
       bool updatePlane(const Plane& plane);
 
-   private:
+      /**
+       * Re-sorts flights according to a new sorting rule.
+       * @param rule - What you want to sort by. Can either be number, departure, duration or capacity.
+       */
+      void setFlightOrder(const string& rule);
+
+      /**
+       * Re-sorts passengers according to a new sorting rule.
+       * @param rule - What you want to sort by. Can either be id or number.
+       */
+      void setPassengerOrder(const string& rule);
+
+      /**
+       * Re-sorts planes according to a new sorting rule.
+       * @param rule - What you want to sort by. Can either be id, model or capacity.
+       */
+      void setPlaneOrder(const string& rule);
+
+private:
       /**
        * Sorts a vector using the Insertion Sort algorithm.
        * @tparam T - Any object with a < operator implemented.
@@ -176,6 +196,9 @@ class Airline
        */
       template<typename T>
       void insertionSort(vector<T>& v);
+
+      template<typename T>
+      void insertionSort(vector<T>& v, function<bool(T, T)> func);
 
       /**
        * Finds if a certain object is part of a vector.

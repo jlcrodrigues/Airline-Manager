@@ -76,3 +76,18 @@ TEST(airline, updates) {
    airline.addAirport(Airport("TEST"));
    EXPECT_TRUE(airline.updateAirport(Airport("TEST")));
 }
+
+TEST(airline, sorting)
+{
+   Airline airline("../data/airports.csv",
+                   "../data/flights.csv",
+                   "..data/passengers.csv",
+                   "..data/planes.csv");
+
+   airline.addPassenger(Passenger(12, "Guilherme"));
+   airline.addPassenger(Passenger(20, "Barbosa"));
+
+   EXPECT_EQ(airline.getPassengers()[0].getId(), 20);
+   airline.setPassengerOrder("id");
+   EXPECT_EQ(airline.getPassengers()[0].getId(), 12);
+}

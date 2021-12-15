@@ -56,7 +56,22 @@ vector<Service> Plane::getOldServices() {
     return old_services;
 }
 
-bool Plane::operator<(const Plane &p1) const
+bool Plane::operator < (const Plane &p) const
 {
-   return id < p1.getId();
+   if (sorting_rule == "id")
+   {
+      if (id == p.getId()) return capacity < p.getCapacity();
+      return id < p.getId();
+   }
+   if (sorting_rule == "model")
+   {
+      if (model == p.getModel()) return id < p.getId();
+      return model < p.getModel();
+   }
+   if (sorting_rule == "capacity") {
+      if (capacity == p.getCapacity()) return id < p.getId();
+      return capacity < p.getCapacity();
+   }
+   throw (invalid_argument("That rule does not exist."));
+   return false;
 }

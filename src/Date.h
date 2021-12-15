@@ -88,6 +88,10 @@ public:
      */
     bool isDate();
 
+    //TODO
+    bool operator < (const Date& d);
+    bool operator == (const Date& d);
+
 private:
     int day;
     int month;

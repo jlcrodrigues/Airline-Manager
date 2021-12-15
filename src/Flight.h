@@ -10,6 +10,7 @@
 class Flight
 {
    public:
+      static string sorting_rule;
 
       /**Flight's default constructor.**/
       Flight() = default;
@@ -42,6 +43,24 @@ class Flight
       int getOccupation() const;
 
       /**
+       * Getter for the departure date.
+       * @return Returns the date when the plane takes off.
+       */
+      Date getDeparture() const;
+
+      /**
+       * Getter for the flight's duration.
+       * @return - Returns the duration of the flight.
+       */
+      Date getDuration() const;
+
+      /**
+       * Getter for capacity.
+       * @return - Returns the capacity of the flight.
+       */
+      int getCapacity() const;
+
+      /**
          *If there's one available, fills a seat.
 
          *@return - True if the ticket was bought, false otherwise.
@@ -70,7 +89,7 @@ class Flight
        * @param f1 - A flight object.
        * @return - Returns true if the flight's number is lower.
        */
-      bool operator < (const Flight& p1) const;
+      bool operator < (const Flight& f) const;
 
 private:
    int capacity;

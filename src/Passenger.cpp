@@ -97,10 +97,19 @@ bool Passenger::ticketOwned(const Flight& flight) const
    return false;
 }
 
-bool Passenger::operator < (const Passenger& p1) const
+bool Passenger::operator < (const Passenger& p) const
 {
-   if (name == p1.getName()) return id < p1.getId();
-   return name < p1.getName();
+   if (sorting_rule == "id") {
+      if (id == p.getId()) return name < p.getName();
+      return id == p.getId();
+   }
+   else if (sorting_rule == "name")
+   {
+      if (name == p.getName()) return id < p.getId();
+      return name < p.getName();
+   }
+   throw (invalid_argument("That rule does not exist."));
+   return false;
 }
 
 size_t Passenger::findTicket(const Flight& flight) const

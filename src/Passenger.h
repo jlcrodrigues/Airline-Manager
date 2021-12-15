@@ -13,6 +13,8 @@ using namespace std;
 class Passenger
 {
    public:
+      static string sorting_rule;
+
       Passenger() = default;
 
       /**
@@ -91,9 +93,9 @@ class Passenger
        * @param p1 - A passenger object.
        * @return - Returns true if the passenger's name is alphabetically lower and then if the id is lower.
        */
-      bool operator < (const Passenger& p1) const;
+      bool operator < (const Passenger& p) const;
 
-   private:
+private:
       /**
        * Checks if a ticket has been purchased already.
 

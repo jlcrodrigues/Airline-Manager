@@ -13,6 +13,7 @@ using namespace std;
 class Plane
 {
    public:
+      static string sorting_rule;
 
       /**Plane's default constructor.**/
       Plane() = default;
@@ -92,7 +93,7 @@ class Plane
         * @param p1 - A plane object.
         * @return Returns true if the id is lower.
         */
-       bool operator < (const Plane& p1) const;
+       bool operator < (const Plane& p) const;
 
 private:
       string id;

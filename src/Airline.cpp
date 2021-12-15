@@ -17,6 +17,9 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
+   Flight::sorting_rule == "departure"; //number, departure, duration, capacity
+   Passenger::sorting_rule == "name"; //id, name
+   Plane::sorting_rule == "id"; //id, model, capacity
 }
 
 vector<Airport> Airline::getAirports() const
@@ -39,6 +42,7 @@ vector<Plane> Airline::getPlanes() const
    return planes;
 }
 
+
 bool Airline::loadAirports(const string &file_name)
 {
    airports_file = file_name;
@@ -52,6 +56,7 @@ bool Airline::loadAirports(const string &file_name)
       airports.push_back(Airport(line_contents[0], BST<Transport>(Transport()), BST<Transport>(Transport())));
    }
    file.close();
+   sort(airports.begin(), airports.end());
    return true;
 }
 
@@ -73,6 +78,7 @@ bool Airline::loadFlights(const string &file_name)
                                stoi(line_contents[5])));
    }
    file.close();
+   sort(flights.begin(), flights.end());
    return true;
 }
 
@@ -90,6 +96,7 @@ bool Airline::loadPassengers(const string &file_name)
                                      line_contents[1]));
    }
    file.close();
+   sort(passengers.begin(), passengers.end());
    return true;
 }
 
@@ -107,6 +114,7 @@ bool Airline::loadPlanes(const string &file_name)
                              stoi(line_contents[1])));
    }
    file.close();
+   sort(planes.begin(), planes.end());
    return true;
 }
 
@@ -186,6 +194,7 @@ bool Airline::updateAirport(const Airport &airport)
 {
    if (!removeAirport(airport)) return false;
    addAirport(airport);
+   saveFile(airports, airports_file);
    return true;
 }
 
@@ -193,6 +202,7 @@ bool Airline::updateFlight(const Flight &flight)
 {
    if (!removeFlight(flight)) return false;
    addFlight(flight);
+   saveFile(flights, flights_file);
    return true;
 }
 
@@ -200,6 +210,7 @@ bool Airline::updatePassenger(const Passenger& passenger)
 {
    if(!removePassenger(passenger)) return false;
    addPassenger(passenger);
+   saveFile(passengers, passengers_file);
    return true;
 }
 
@@ -207,7 +218,26 @@ bool Airline::updatePlane(const Plane &plane)
 {
    if (!removePlane(plane)) return false;
    addPlane(plane);
+   saveFile(planes, planes_file);
    return true;
+}
+
+void Airline::setFlightOrder(const string& rule)
+{
+   Flight::sorting_rule = rule;
+   sort(flights.begin(), flights.end());
+}
+
+void Airline::setPassengerOrder(const string &rule)
+{
+   Passenger::sorting_rule = rule;
+   sort(passengers.begin(), passengers.end());
+}
+
+void Airline::setPlaneOrder(const string& rule)
+{
+   Plane::sorting_rule = rule;
+   sort(planes.begin(), planes.end());
 }
 
 template<typename T>
@@ -218,6 +248,19 @@ void Airline::insertionSort(vector<T>& v)
       T tmp = v[i];
       int j;
       for (j = i; j > 0 && tmp < v[j - 1]; j--)
+         v[j] = v[j - 1];
+      v[j] = tmp;
+   }
+}
+
+template<typename T>
+void Airline::insertionSort(vector<T>& v, function<bool(T, T)> func)
+{
+   for (int i = 1; i < v.size(); i++)
+   {
+      T tmp = v[i];
+      int j;
+      for (j = i; j > 0 && func(tmp, v[j - 1]); j--)
          v[j] = v[j - 1];
       v[j] = tmp;
    }

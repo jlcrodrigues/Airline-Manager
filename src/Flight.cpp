@@ -34,6 +34,21 @@ int Flight::getOccupation() const
    return occupation;
 }
 
+Date Flight::getDeparture() const
+{
+   return departure;
+}
+
+Date Flight::getDuration() const
+{
+   return duration;
+}
+
+int Flight::getCapacity() const
+{
+   return capacity;
+}
+
 bool Flight::buyTicket(const int& amount)
 {
    if (0 <= occupation - amount)
@@ -60,7 +75,29 @@ bool Flight::insertBaggage(const Baggage& bag)
    return carts.front().insert(bag);
 }
 
-bool Flight::operator<(const Flight &p1) const
+bool Flight::operator<(const Flight &f) const
 {
-   return number < p1.getNumber();
+   if (sorting_rule == "number")
+   {
+      if (number == f.getNumber()) return departure < f.getDeparture();
+      else return number < f.getNumber();
+   }
+   else if (sorting_rule == "departure")
+   {
+      if (departure == f.getDeparture()) return number < f.getNumber();
+      return departure < f.getDeparture();
+   }
+   else if (sorting_rule == "duration")
+   {
+      if (duration == f.getDuration()) return number < f.getNumber();
+      return duration < f.getDuration();
+   }
+   else if (sorting_rule == "capacity")
+   {
+      if (capacity == f.getCapacity()) return number < f.getNumber();
+      return capacity < f.getCapacity();
+   }
+   throw (invalid_argument("That rule does not exist."));
+   return false;
 }
+
