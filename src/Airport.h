@@ -28,7 +28,6 @@ public:
 
     /**
        *Constructor for plane.
-
        *@param name - airport's name.
     **/
     Airport(const string& name, BST<Transport> transports);
@@ -42,21 +41,18 @@ public:
 
     /**
        *Getter for name.
-
        *@return name - Returns airport's name.
     **/
     string getName() const;
 
     /**
        *Setter for name.
-
        *@param name - airport's name.
     **/
     void setName(const string& name);
 
     /**
        *Finds the transport that is closer to the airport.
-
        *@return transport - The closest transport.
     **/
     Transport findClosest();

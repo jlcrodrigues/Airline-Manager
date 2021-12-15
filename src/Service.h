@@ -3,6 +3,7 @@
 
 #include <string>
 #include <queue>
+#include "Date.h"
 
 using namespace std;
 
@@ -23,19 +24,13 @@ public:
      * @param employee - Employee in charge of service
      */
 
-    Service(const string&type, const string&date, const Employee& employee);
+    Service(const string&type, const Date&date, const Employee& employee);
 
     /**
      * Getter for type of service
      * @return - Returns service's type
      */
     string getServiceType();
-
-    /**
-     * Getter for date of service
-     * @return - Returns service's date
-     */
-    string getServiceDate();
 
     /**
      * Getter for service's employee
@@ -45,7 +40,7 @@ public:
 
 private:
     string type;
-    string date;
+    Date date;
     Employee emp;
 };
 

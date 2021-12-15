@@ -27,7 +27,7 @@ set(TEST_FILES
 		tests/AirlineTest.cpp
 		tests/PassengerTest.cpp
 		tests/CartTest.cpp
-		tests/PlaneTest.cpp)
+		tests/PlaneTest.cpp src/Date.cpp src/Date.h)
 
 include_directories(src)
 

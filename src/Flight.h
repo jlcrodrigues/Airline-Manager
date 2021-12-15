@@ -3,6 +3,7 @@
 
 #include "Airport.h"
 #include "Cart.h"
+#include "Date.h"
 
 #include <queue>
 
@@ -18,7 +19,7 @@ class Flight
 
          *@param capacity - The capacity for this flight.
       **/
-      Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity);
+      Flight(const int &number, const Date &departure, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity);
 
       /**
        * Turns the object data into a csv row in order to be used later.
@@ -75,8 +76,8 @@ private:
    int capacity;
       int occupation;
       int number;
-      string departure;
-      string duration;
+      Date departure;
+      Date duration;
       Airport origin;
       Airport destination;
       queue<Cart> carts;

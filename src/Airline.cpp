@@ -49,7 +49,7 @@ bool Airline::loadAirports(const string &file_name)
    while(getline(file, line))
    {
       line_contents = readLine(line);
-      airports.push_back(Airport(line_contents[0]));
+      airports.push_back(Airport(line_contents[0], BST<Transport>(Transport()), BST<Transport>(Transport())));
    }
    file.close();
    return true;
@@ -68,8 +68,8 @@ bool Airline::loadFlights(const string &file_name)
       flights.push_back(Flight(stoi(line_contents[0]),
                                line_contents[1],
                                line_contents[2],
-                               Airport(line_contents[3]),
-                               Airport(line_contents[4]),
+                               Airport(line_contents[3], BST<Transport>(Transport()), BST<Transport>(Transport())),
+                               Airport(line_contents[4], BST<Transport>(Transport()), BST<Transport>(Transport())),
                                stoi(line_contents[5])));
    }
    file.close();

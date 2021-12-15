@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Flight::Flight(const int &number, const string &departure, const string &duration, const Airport &origin, const Airport &destination, const int& capacity): capacity(capacity)
+Flight::Flight(const int &number, const Date &departure, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity): capacity(capacity)
 {
    this->occupation = capacity;
    this->number = number;
@@ -16,8 +16,8 @@ string Flight::getCsv() const
 {
    string csv = "";
    csv += to_string(number) + ',';
-   csv += departure + ',';
-   csv += duration + ',';
+   csv += departure.toString(departure) + ',';
+   csv += duration.toString(duration) + ',';
    csv += origin.getName() + ',';
    csv += destination.getName() + ',';
    csv += to_string(capacity) + '\n';

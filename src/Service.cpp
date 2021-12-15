@@ -1,6 +1,6 @@
 #include "Service.h"
 
-Service::Service(const string &type, const string &date, const Employee &employee)
+Service::Service(const string &type, const Date &date, const Employee &employee)
 {
     this->type = type;
     this->date = date;
@@ -9,10 +9,6 @@ Service::Service(const string &type, const string &date, const Employee &employe
 
 string Service::getServiceType() {
     return type;
-}
-
-string Service::getServiceDate() {
-    return date;
 }
 
 Employee Service::getServiceEmployee() {
