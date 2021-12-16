@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(SOURCE_FILES
 		src/Airline.cpp
 		src/Airport.cpp
+		src/App.cpp
 		src/Baggage.cpp
 		src/Cart.cpp
 		src/Flight.cpp
@@ -15,6 +16,7 @@ set(SOURCE_FILES
 		src/Ticket.cpp
 		src/Airline.h
 		src/Airport.h
+		src/App.h
 		src/Baggage.h
 		src/Cart.h
 		src/Flight.h
@@ -23,12 +25,13 @@ set(SOURCE_FILES
 		src/Service.h
 		src/Ticket.h
 		src/Date.cpp
-		src/Date.h src/App.cpp src/App.h)
+		src/Date.h)
 
 set(TEST_FILES
 		tests/AirlineTest.cpp
-		tests/PassengerTest.cpp
+		tests/AppTest.cpp
 		tests/CartTest.cpp
+		tests/PassengerTest.cpp
 		tests/PlaneTest.cpp)
 
 include_directories(src)
