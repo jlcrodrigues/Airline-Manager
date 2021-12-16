@@ -13,8 +13,10 @@ App::App(const string &airports, const string &flights, const string &passengers
 
 void App::run()
 {
+   cout << "Welcome to Airline Manager. Use help to get started.\n";
    while (app_run)
    {
+      cout << ">";
       readCommand();
       processCommand();
    }
@@ -87,11 +89,12 @@ void App::help()
    if (command.empty())
    {
       cout << "To find out how to use Airline Manager please use the following commands:\n\n";
-      cout << "help tutorial\n  ⮡ Find out how the program works.\n";
-      cout << "help airport\n  ⮡ See the airport commands.\n";
-      cout << "help flight\n  ⮡ See the flight commands.\n";
-      cout << "help passenger\n  ⮡ See the passenger commands.\n";
-      cout << "help plane\n  ⮡ See the plane commands.\n\n";
+      cout << "help tutorial\n  - Find out how the program works.\n";
+      cout << "help airport\n  - See the airport commands.\n";
+      cout << "help flight\n  - See the flight commands.\n";
+      cout << "help passenger\n  - See the passenger commands.\n";
+      cout << "help plane\n  - See the plane commands.\n\n";
+      return;
    }
    else if (command.front() == "tutorial")
    {
@@ -133,15 +136,19 @@ void App::helpAirport()
 
 void App::helpFlight()
 {
-   cout << "These are all the Flight commands:\n";
-   cout << "display         Displays flights\n";
-   cout << "'idFlight'      Selects flight with correspondent id\n";
-   cout << "add             Adds new flight\n";
+   cout << "These are all the Flight commands:\n\n";
+   cout << "flight display\n  - Displays flights\n";
+   cout << "flight 'idFlight'\n  - Selects flight with correspondent id\n";
+   cout << "flight add\n  - Adds new flight\n\n";
 }
 
 void App::helpPassenger()
 {
-   cout << ""; //TODO
+   cout << "passenger add 'id'\n  - Add the passenger by id.\n";
+   cout << "passenger display\n  - Displays the existing passengers.\n";
+   cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
+   cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
+   cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
 }
 
 void App::helpPlane()
@@ -184,9 +191,38 @@ void App::flight()
    return; //TODO
 }
 
+void App::addFlight() {
+
+}
+
+void App::theFlight() {
+   string id = command.front();
+   command.pop();
+   if (command.empty()){ // command example for this path: flight 5. It displays data from flight number 5.
+      // acabar
+   }
+   if (command.front() == "buy")
+   {
+      // acabar
+   }
+
+}
+
 void App::passenger()
 {
-   return; //TODO
+   if (command.empty())
+   {
+      cout << "Invalid command. Use help passenger to see available commands.\n";
+   }
+   else if (command.front() == "add")
+   {
+      return;
+   }
+}
+
+void App::addPassenger()
+{
+
 }
 
 void App::plane()
@@ -197,22 +233,5 @@ void App::plane()
 void App::quit()
 {
    app_run = false;
-}
-
-void App::addFlight() {
-
-}
-
-void App::theFlight() {
-    string id = command.front();
-    command.pop();
-    if (command.empty()){ // command example for this path: flight 5. It displays data from flight number 5.
-        // acabar
-    }
-    if (command.front() == "buy")
-    {
-        // acabar
-    }
-
 }
 

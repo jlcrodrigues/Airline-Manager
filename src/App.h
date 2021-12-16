@@ -1,5 +1,5 @@
-#ifndef FEUP_AED_APP_H
-#define FEUP_AED_APP_H
+#ifndef APP_H
+#define APP_H
 
 #include "Airline.h"
 
@@ -47,6 +47,9 @@ class App
       /**Outputs a series of options for plane operations.**/
       void helpPlane();
 
+      void airport();
+
+      void flight();
       /**
        *
        */
@@ -57,9 +60,10 @@ class App
        */
       void theFlight();
 
-      void airport();
-      void flight();
       void passenger();
+
+      void addPassenger();
+
       void plane();
       void quit();
 };

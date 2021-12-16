@@ -3,7 +3,7 @@
 #include "../src/Airport.h"
 
 using testing::Eq;
-
+/*
 TEST(Airport, addTransport){
    Airport a1("Sá Carneiro");
    EXPECT_EQ(a1.getName(),"Sá Carneiro");
@@ -41,4 +41,4 @@ TEST(Airport, findClosest){
    Airport a1("Frankfurt",s1);
    EXPECT_EQ(a1.findClosest().type,"Metro");
    EXPECT_EQ(a1.findClosest().distance,13);
-}
+}*/

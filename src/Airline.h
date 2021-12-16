@@ -9,6 +9,7 @@
 #include "Plane.h"
 #include "Service.h"
 #include "Ticket.h"
+#include "Exception.h"
 
 #include <vector>
 #include <string>
@@ -201,9 +202,6 @@ private:
        */
       template<typename T>
       void insertionSort(vector<T>& v);
-
-      template<typename T>
-      void insertionSort(vector<T>& v, function<bool(T, T)> func);
 
       /**
        * Finds if a certain object is part of a vector.

@@ -42,7 +42,6 @@ vector<Plane> Airline::getPlanes() const
    return planes;
 }
 
-
 bool Airline::loadAirports(const string &file_name)
 {
    airports_file = file_name;
@@ -255,19 +254,6 @@ void Airline::insertionSort(vector<T>& v)
       T tmp = v[i];
       int j;
       for (j = i; j > 0 && tmp < v[j - 1]; j--)
-         v[j] = v[j - 1];
-      v[j] = tmp;
-   }
-}
-
-template<typename T>
-void Airline::insertionSort(vector<T>& v, function<bool(T, T)> func)
-{
-   for (int i = 1; i < v.size(); i++)
-   {
-      T tmp = v[i];
-      int j;
-      for (j = i; j > 0 && func(tmp, v[j - 1]); j--)
          v[j] = v[j - 1];
       v[j] = tmp;
    }
