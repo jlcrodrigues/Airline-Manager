@@ -3,6 +3,8 @@
 
 #include <string>
 #include <set>
+#include <vector>
+#include "Date.h"
 
 using namespace std;
 
@@ -10,7 +12,7 @@ using namespace std;
 struct Transport {
     string type;
     int distance;
-    int time;
+    vector<Date> time;
     /**
        * Transport's < operator.
        * @param t1 - An transport object.
@@ -29,6 +31,13 @@ public:
     /**
        *Constructor for plane.
        *@param name - airport's name.
+    **/
+    Airport(const string& name);
+
+    /**
+       *Constructor for plane.
+       * @param name - airport's name
+       * @param transports - set of transports near the airport
     **/
     Airport(const string& name, set<Transport> transports);
 
@@ -50,6 +59,8 @@ public:
        *@param name - airport's name.
     **/
     void setName(const string& name);
+
+    bool addTransport(Transport t1);
 
     /**
        *Finds the transport that is closer to the airport.
