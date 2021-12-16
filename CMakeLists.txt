@@ -29,6 +29,7 @@ set(SOURCE_FILES
 
 set(TEST_FILES
 		tests/AirlineTest.cpp
+		tests/AirportTest.cpp
 		tests/AppTest.cpp
 		tests/CartTest.cpp
 		tests/PassengerTest.cpp

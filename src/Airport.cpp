@@ -48,6 +48,13 @@ bool Airport::addTransport(Transport t1) {
     return true;
 }
 
+set<Transport> Airport::getTransports() {
+    return transports;
+}
+
 bool Transport::operator<(const Transport &t1) const {
+    if (distance == t1.distance){
+        return (type < t1.type);
+    }
     return distance < t1.distance;
 }
