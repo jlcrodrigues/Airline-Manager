@@ -65,3 +65,24 @@ bool Date::isDate() {
     return is_date;
 }
 
+bool Date::operator<(const Date &d) {
+    if(d.is_date){
+        if(year == d.getYear()) return month < d.getMonth();
+        if(month == d.getMonth()) return day < d.getDay();
+        return year < d.getYear();
+    }
+
+    if(hour == d.getHour()) return minute < d.getMinute();
+    return hour < d.getHour();
+}
+
+bool Date::operator==(const Date &d) {
+    if(d.is_date){
+        if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
+        return false;
+    }
+
+    if((hour == d.getHour()) && (minute == d.getMinute())) return true;
+    return false;
+}
+

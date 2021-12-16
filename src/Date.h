@@ -88,8 +88,18 @@ public:
      */
     bool isDate();
 
-    //TODO
+    /**
+    * Date's < operator.
+    * @param d - A Date object.
+    * @return - Returns true if the Date is older.
+    */
     bool operator < (const Date& d);
+
+    /**
+    * Date's == operator.
+    * @param d - A Date object.
+    * @return - Returns true if the Date is equal.
+    */
     bool operator == (const Date& d);
 
 private:
