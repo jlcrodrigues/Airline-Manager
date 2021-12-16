@@ -37,7 +37,7 @@ bool Airport::operator < (const Airport &a1) const
 bool Airport::addTransport(Transport t1) {
     for (auto i: transports){
         if(i.distance == t1.distance && i.type == t1.type){
-            i.time.insert(i.time.end(),t1.type.begin(),t1.type.end());
+            i.time.insert(i.time.end(),t1.time.begin(),t1.time.end());
             vector<Date>::iterator it;
             it = unique(i.time.begin(),i.time.end());
             i.time.resize(distance(i.time.begin(), it));

@@ -8,19 +8,19 @@ Flight getFlight()
 {
    Airport airport1;
    Airport airport2;
-   return Flight(3, "9/12/2021", "3h24", airport1, airport2, 100);
+   return Flight(3, Date(11, 2, 2020), Date(16,0), Date(2,0), airport1, airport2, 100);
 }
 
 Plane getPlane()
 {
-   return Plane("A310", 310);
+   return Plane("83598", "A310", 310);
 }
 
 TEST(passenger, buyTicket)
 {
    Plane plane = getPlane();
    Flight flight = getFlight();
-   Flight flight_full(4, "9/12/2021", "3h24", Airport(), Airport(), 1);
+   Flight flight_full(4, Date(4,4,2010), Date(3,20), Date(2,30), Airport(), Airport(), 1);
    Passenger pa = Passenger(12341234, "Carlos");
    Passenger pa1 = Passenger(24525, "Manuel");
    Passenger pa2 = Passenger(123412, "Maria");
