@@ -2,6 +2,8 @@
 
 using namespace std;
 
+string Passenger::sorting_rule = "name"; //id, name
+
 Passenger::Passenger(const int& id, const string& name)
 {
    this->id = id;

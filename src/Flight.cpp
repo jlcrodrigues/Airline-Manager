@@ -2,6 +2,8 @@
 
 using namespace std;
 
+string Flight::sorting_rule = "departure"; //number, departure, duration, capacity
+
 Flight::Flight(const int &number, const Date &departureDate, const Date &departureTime, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity)
 {
    this->occupation = capacity;
@@ -84,7 +86,7 @@ bool Flight::insertBaggage(const Baggage& bag)
 
 bool Flight::operator<(const Flight &f) const
 {
-   if (sorting_rule == "number")
+   /*if (sorting_rule == "number")
    {
       if (number == f.getNumber()) return departureDate < f.getDepartureDate();
       else return number < f.getNumber();
@@ -104,7 +106,7 @@ bool Flight::operator<(const Flight &f) const
       if (capacity == f.getCapacity()) return number < f.getNumber();
       return capacity < f.getCapacity();
    }
-   throw (invalid_argument("That rule does not exist."));
+   throw (invalid_argument("That rule does not exist."));*/
    return false;
 }
 

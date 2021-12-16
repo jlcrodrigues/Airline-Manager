@@ -35,7 +35,7 @@ bool Airport::operator < (const Airport &a1) const
 }
 
 bool Airport::addTransport(Transport t1) {
-    for (auto i: transports){
+    /*for (auto i: transports){
         if(i.distance == t1.distance && i.type == t1.type){
             i.time.insert(i.time.end(),t1.time.begin(),t1.time.end());
             vector<Date>::iterator it;
@@ -44,7 +44,7 @@ bool Airport::addTransport(Transport t1) {
             return false;
         }
     }
-    transports.insert(t1);
+    transports.insert(t1);*/
     return true;
 }
 

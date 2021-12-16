@@ -17,9 +17,9 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
-   Flight::sorting_rule == "departure"; //number, departure, duration, capacity
-   Passenger::sorting_rule == "name"; //id, name
-   Plane::sorting_rule == "id"; //id, model, capacity
+   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
+   Passenger::sorting_rule = "name"; //id, name
+   Plane::sorting_rule = "id"; //id, model, capacity
 }
 
 vector<Airport> Airline::getAirports() const
