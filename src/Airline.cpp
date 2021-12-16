@@ -330,3 +330,18 @@ string Airline::getTimeString(string date) {
     ss2 >> s;
     return s;
 }
+
+void Airline::displayAllFlights() {
+    cout <<"|||||||    ||          ||    ||||||||    ||    ||    ||||||||    ||||||||\n";
+    cout <<"||	       ||          ||    ||          ||    ||       ||       ||      \n";
+    cout <<"||         ||          ||    ||          ||    ||       ||       ||      \n";
+    cout <<"||||||     ||          ||    ||  ||||    ||||||||       ||       ||||||||\n";
+    cout <<"||         ||          ||    ||    ||    ||    ||       ||             ||\n";
+    cout <<"||         ||          ||    ||    ||    ||    ||       ||             ||\n";
+    cout <<"||		   ||||||||    ||    ||||||||    ||    ||       ||       ||||||||\n";
+    cout <<"═════════════════════════════════════════════════════════════════════════\n";
+    cout <<"Number  DepartureDate  DepartureTime  Duration  Origin  Destination  Capacity\n";
+    for(auto f: flights){
+        // acabar
+    }
+}

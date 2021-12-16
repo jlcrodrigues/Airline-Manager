@@ -47,6 +47,16 @@ class App
       /**Outputs a series of options for plane operations.**/
       void helpPlane();
 
+      /**
+       *
+       */
+      void addFlight();
+
+      /**
+       *
+       */
+      void theFlight();
+
       void airport();
       void flight();
       void passenger();

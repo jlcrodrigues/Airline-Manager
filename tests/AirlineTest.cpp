@@ -105,7 +105,7 @@ TEST(airline, sorting2)
     Date d2(10,30);
     Date d3(2,15);
 //    airline.addFlight(Flight(9,d,d2,d3,a,a2,650));
-//    EXPECT_EQ(airline.getFlights()[0].getDuration().getHour(),2);
+//    EXPECT_EQ(airline.getFlights()[0].getCapacity(),600);
 //    airline.setFlightOrder("duration");
 //    EXPECT_EQ(airline.getFlights()[0].getDuration().getHour(), 1);
 

@@ -188,6 +188,11 @@ class Airline
        */
       void setPlaneOrder(const string& rule);
 
+      /**
+       *
+       */
+      void displayAllFlights();
+
 private:
       /**
        * Sorts a vector using the Insertion Sort algorithm.
