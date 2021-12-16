@@ -1,9 +1,8 @@
-#include <iostream>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "src/App.h"
 
-int main(int argc, char* argv[]) {
-    testing::InitGoogleTest(&argc, argv);
-    std::cout << "Testing airline." << std::endl;
-    return RUN_ALL_TESTS();
+int main()
+{
+   App app;
+   app.run();
+   return 0;
 }
