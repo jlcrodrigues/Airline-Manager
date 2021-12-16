@@ -2,21 +2,24 @@
 
 using namespace std;
 
-Flight::Flight(const int &number, const Date &departure, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity): capacity(capacity)
+Flight::Flight(const int &number, const Date &departureDate, const Date &departureTime, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity)
 {
    this->occupation = capacity;
    this->number = number;
-   this->departure = departure;
+   this->departureDate = departureDate;
+   this->departureTime = departureTime;
    this->duration = duration;
    this->origin = origin;
    this->destination = destination;
+   this->capacity = capacity;
 }
 
 string Flight::getCsv() const
 {
    string csv = "";
    csv += to_string(number) + ',';
-   csv += departure.toString(departure) + ',';
+   csv += departureDate.toString(departureDate) + ',';
+   csv += departureTime.toString(departureTime) + ',';
    csv += duration.toString(duration) + ',';
    csv += origin.getName() + ',';
    csv += destination.getName() + ',';
@@ -34,9 +37,13 @@ int Flight::getOccupation() const
    return occupation;
 }
 
-Date Flight::getDeparture() const
+Date Flight::getDepartureDate() const
 {
-   return departure;
+   return departureDate;
+}
+
+Date Flight::getDepartureTime() const {
+    return departureTime;
 }
 
 Date Flight::getDuration() const
@@ -79,13 +86,13 @@ bool Flight::operator<(const Flight &f) const
 {
    if (sorting_rule == "number")
    {
-      if (number == f.getNumber()) return departure < f.getDeparture();
+      if (number == f.getNumber()) return departureDate < f.getDepartureDate();
       else return number < f.getNumber();
    }
    else if (sorting_rule == "departure")
    {
-      if (departure == f.getDeparture()) return number < f.getNumber();
-      return departure < f.getDeparture();
+      if (departureDate == f.getDepartureDate()) return number < f.getNumber();
+      return departureDate < f.getDepartureDate();
    }
    else if (sorting_rule == "duration")
    {

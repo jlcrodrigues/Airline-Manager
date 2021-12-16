@@ -20,7 +20,7 @@ class Flight
 
          *@param capacity - The capacity for this flight.
       **/
-      Flight(const int &number, const Date &departure, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity);
+      Flight(const int &number, const Date &departureDate, const Date &departureTime, const Date &duration, const Airport &origin, const Airport &destination, const int& capacity);
 
       /**
        * Turns the object data into a csv row in order to be used later.
@@ -46,7 +46,13 @@ class Flight
        * Getter for the departure date.
        * @return Returns the date when the plane takes off.
        */
-      Date getDeparture() const;
+      Date getDepartureDate() const;
+
+      /**
+      * Getter for the departure date.
+       * @return Returns the date when the plane takes off.
+      */
+      Date getDepartureTime() const;
 
       /**
        * Getter for the flight's duration.
@@ -95,7 +101,8 @@ private:
    int capacity;
       int occupation;
       int number;
-      Date departure;
+      Date departureDate;
+      Date departureTime;
       Date duration;
       Airport origin;
       Airport destination;
