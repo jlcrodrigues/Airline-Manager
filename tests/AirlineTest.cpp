@@ -48,8 +48,8 @@ TEST(airline, insertions)
            "..data/passengers.csv",
            "..data/planes.csv");
 
-   //EXPECT_TRUE(airline.addAirport(Airport("OPO")));
-   //EXPECT_TRUE(airline.addAirport(Airport("JFK")));
+//   EXPECT_TRUE(airline.addAirport(Airport("OPO")));
+//   EXPECT_TRUE(airline.addAirport(Airport("JFK")));
    EXPECT_EQ(airline.getAirports().size(), 2);
    EXPECT_FALSE(airline.addAirport(Airport("OPO")));
 }
@@ -90,4 +90,23 @@ TEST(airline, sorting)
    EXPECT_EQ(airline.getPassengers()[0].getId(), 20);
    airline.setPassengerOrder("id");
    EXPECT_EQ(airline.getPassengers()[0].getId(), 12);
+}
+
+TEST(airline, sorting2)
+{
+    Airline airline("../data/airports.csv",
+                    "../data/flights.csv",
+                    "..data/passengers.csv",
+                    "..data/planes.csv");
+
+    Airport a("BER");
+    Airport a2("BUD");
+    Date d(4,2,2019);
+    Date d2(10,30);
+    Date d3(2,15);
+//    airline.addFlight(Flight(9,d,d2,d3,a,a2,650));
+//    EXPECT_EQ(airline.getFlights()[0].getDuration().getHour(),2);
+//    airline.setFlightOrder("duration");
+//    EXPECT_EQ(airline.getFlights()[0].getDuration().getHour(), 1);
+
 }
