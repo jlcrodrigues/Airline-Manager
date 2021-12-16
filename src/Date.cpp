@@ -65,7 +65,7 @@ bool Date::isDate() {
     return is_date;
 }
 
-bool Date::operator<(const Date &d) {
+bool Date::operator<(const Date &d) const{
     if(d.is_date){
         if(year == d.getYear()) return month < d.getMonth();
         if(month == d.getMonth()) return day < d.getDay();
@@ -76,7 +76,7 @@ bool Date::operator<(const Date &d) {
     return hour < d.getHour();
 }
 
-bool Date::operator==(const Date &d) {
+bool Date::operator==(const Date &d) const{
     if(d.is_date){
         if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
         return false;

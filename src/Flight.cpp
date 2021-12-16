@@ -86,7 +86,7 @@ bool Flight::insertBaggage(const Baggage& bag)
 
 bool Flight::operator<(const Flight &f) const
 {
-   /*if (sorting_rule == "number")
+   if (sorting_rule == "number")
    {
       if (number == f.getNumber()) return departureDate < f.getDepartureDate();
       else return number < f.getNumber();
@@ -106,7 +106,7 @@ bool Flight::operator<(const Flight &f) const
       if (capacity == f.getCapacity()) return number < f.getNumber();
       return capacity < f.getCapacity();
    }
-   throw (invalid_argument("That rule does not exist."));*/
+   throw (invalid_argument("That rule does not exist."));
    return false;
 }
 

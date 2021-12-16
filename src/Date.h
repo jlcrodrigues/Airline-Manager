@@ -93,14 +93,14 @@ public:
     * @param d - A Date object.
     * @return - Returns true if the Date is older.
     */
-    bool operator < (const Date& d);
+    bool operator < (const Date& d) const;
 
     /**
     * Date's == operator.
     * @param d - A Date object.
     * @return - Returns true if the Date is equal.
     */
-    bool operator == (const Date& d);
+    bool operator == (const Date& d) const;
 
 private:
     int day;
