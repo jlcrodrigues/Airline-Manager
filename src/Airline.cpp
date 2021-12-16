@@ -72,8 +72,8 @@ bool Airline::loadFlights(const string &file_name)
       line_contents = readLine(line);
       flights.push_back(Flight(stoi(line_contents[0]),
                                Date(stoi(getDateString(line_contents[1].substr(0,2))), stoi(getDateString(line_contents[1].substr(2,2))), stoi(getDateString(line_contents[1].substr(4)))),
-                               Date(stoi(getDateString(line_contents[2].substr(0,2))), stoi(getDateString(line_contents[2].substr(2,2)))),
-                               Date(stoi(getDateString(line_contents[3].substr(0,2))), stoi(getDateString(line_contents[3].substr(2,2)))),
+                               Date(stoi(getTimeString(line_contents[2].substr(0,2))), stoi(getTimeString(line_contents[2].substr(2,2)))),
+                               Date(stoi(getTimeString(line_contents[3].substr(0,2))), stoi(getTimeString(line_contents[3].substr(2,2)))),
                                Airport(line_contents[4], set<Transport>()),
                                Airport(line_contents[5], set<Transport>()),
                                stoi(line_contents[6])));
