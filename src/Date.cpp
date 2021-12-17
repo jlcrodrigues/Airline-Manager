@@ -34,17 +34,27 @@ unsigned Date::getMinute() const {
     return minute;
 }
 
-void Date::displayDate() {
-    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << endl;
+string Date::displayDate() {
+    string s;
+    stringstream ss;
+    ss << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << endl;
+    ss >> s;
+    return s;
 }
 
-void Date::displayTime() {
-    cout << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
-}
+string Date::displayTime() {
+    string s;
+    stringstream ss;
+    ss << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    ss >> s;
+    return s;}
 
-void Date::displayDateTime() {
-    cout << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << " - " << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
-}
+string Date::displayDateTime() {
+    string s;
+    stringstream ss;
+    ss << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << " - " << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    ss >> s;
+    return s;}
 
 string Date::toString(Date date) const{
     stringstream ss;

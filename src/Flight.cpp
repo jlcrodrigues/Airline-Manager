@@ -53,6 +53,16 @@ Date Flight::getDuration() const
    return duration;
 }
 
+Airport Flight::getAirportOrigin() const
+{
+    return origin;
+}
+
+Airport Flight::getAirportDestination() const
+{
+    return destination;
+}
+
 int Flight::getCapacity() const
 {
    return capacity;

@@ -9,7 +9,6 @@
 #include "Plane.h"
 #include "Service.h"
 #include "Ticket.h"
-#include "Exception.h"
 
 #include <vector>
 #include <string>
@@ -190,9 +189,20 @@ class Airline
       void setPlaneOrder(const string& rule);
 
       /**
-       *
+       * Displays all of the existing flights.
        */
       void displayAllFlights();
+
+      /**
+       * Displays flights partially according to dates.
+       * @param since - Since which date you want to see the flights.
+       * @param until - Until which date you want to see the flights.
+       * @return - Returns true if its possible to display flights, false otherwise.
+       */
+      bool partialDisplay(string since, string until);
+
+      void partialDisplayAux(Flight f);
+
 
 private:
       /**
