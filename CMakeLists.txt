@@ -28,7 +28,8 @@ set(SOURCE_FILES
 		src/Service.h
 		src/Ticket.h
 		src/Date.cpp
-		src/Date.h)
+		src/Date.h
+		)
 
 set(TEST_FILES
 		tests/AirlineTest.cpp

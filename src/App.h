@@ -58,7 +58,7 @@ class App
       /**
        *
        */
-      void theFlight();
+      void selectedFlight();
 
       void passenger();
 

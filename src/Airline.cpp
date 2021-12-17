@@ -331,3 +331,38 @@ void Airline::displayAllFlights() {
         // acabar
     }
 }
+
+bool Airline::partialDisplay(string since, string until)
+{
+    bool b = false;
+    Date start(stoi(since.substr(0,2)), stoi(since.substr(2,2)), stoi(since.substr(4)));
+    Date end(stoi(until.substr(0,2)), stoi(until.substr(2,2)), stoi(until.substr(4)));
+    if (end < start) return false;
+
+    setFlightOrder("departure");
+    int endIndex = flights.size() - 1;
+
+    cout <<"═════════════════════════════════════════════════════════════════════════════\n";
+    cout <<"Number  DepartureDate  DepartureTime  Duration  Origin  Destination  Capacity\n";
+    for (vector<Flight>::iterator it = flights.begin(); it != flights.end(); it++)
+    {
+        if (it->getDepartureDate() == start || start < it->getDepartureDate()){
+            for (vector<Flight>::iterator it2 = it; it2 != flights.end(); it2++){
+                if (it2->getDepartureDate() == end){
+                    partialDisplayAux(*it2);
+                    b = true;
+                    continue;
+                }
+                if (!(it2->getDepartureDate() == end) && b == true) return true;
+                partialDisplayAux(*it2);
+                if(it2 == flights.end() - 1) return true;
+            }
+        }
+    }
+
+}
+
+void Airline::partialDisplayAux(Flight f)
+{
+    cout <<f.getNumber() << "  " << f.getDepartureDate().displayDate() <<"  "<<f.getDepartureTime().displayTime() <<"  "<<f.getDepartureDate().displayTime() << "  " << f.getAirportOrigin().getName() <<"  "<<f.getAirportDestination().getName() <<"  "<<f.getDuration().displayTime() << endl;
+}

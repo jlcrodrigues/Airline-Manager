@@ -61,19 +61,19 @@ public:
     unsigned getMinute() const;
 
     /**
-     * Displays Date - DD/MM/YYYY
+     * Returns string with Date - DD/MM/YYYY
      */
-    void displayDate();
+    string displayDate();
 
     /**
-     * Displays Time - HH:MM
+     * Returns string with Time - HH:MM
      */
-    void displayTime();
+    string displayTime();
 
     /**
-     * Displays Date with Time - DD/MM/YYYY - HH:MM
+     * Returns string with Date and Time - DD/MM/YYYY - HH:MM
      */
-    void displayDateTime();
+    string displayDateTime();
 
     /**
      * Passes date to string

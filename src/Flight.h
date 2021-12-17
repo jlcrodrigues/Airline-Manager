@@ -61,6 +61,18 @@ class Flight
       Date getDuration() const;
 
       /**
+       * Getter for origin Airport
+       * @return - Returns origin Airport
+       */
+      Airport getAirportOrigin() const;
+
+      /**
+      * Getter for destination Airport
+      * @return - Returns destination Airport
+      */
+      Airport getAirportDestination() const;
+
+      /**
        * Getter for capacity.
        * @return - Returns the capacity of the flight.
        */

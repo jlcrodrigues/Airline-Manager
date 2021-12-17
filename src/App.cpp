@@ -136,10 +136,12 @@ void App::helpAirport()
 
 void App::helpFlight()
 {
-   cout << "These are all the Flight commands:\n\n";
    cout << "flight display\n  - Displays flights\n";
    cout << "flight 'idFlight'\n  - Selects flight with correspondent id\n";
-   cout << "flight add\n  - Adds new flight\n\n";
+   cout << "flight add 'flightsID, departureDate, departureTime, duration, origin Airport id, destination Airport id'\n  - Adds new flight\n\n";
+   cout << "flight remove 'flightsID, departureDate, departureTime, duration, origin Airport id, destination Airport id'\n  -  Removes flight\n\n";
+   cout << "flight edit 'x' 'y' 'z'\n  -  Edits flight with id x. Changes attribute y to new value z\n\n";
+   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure'\n\n";
 }
 
 void App::helpPassenger()
@@ -185,8 +187,9 @@ void App::flight()
        }catch (...)
        {
            cout <<"Invalid id number. Id must be an integer\n";
+           app_run = false;
        }
-       theFlight();
+       selectedFlight();
    }
    return; //TODO
 }
@@ -195,11 +198,12 @@ void App::addFlight() {
 
 }
 
-void App::theFlight() {
+void App::selectedFlight() {
    string id = command.front();
    command.pop();
+
    if (command.empty()){ // command example for this path: flight 5. It displays data from flight number 5.
-      // acabar
+
    }
    if (command.front() == "buy")
    {
