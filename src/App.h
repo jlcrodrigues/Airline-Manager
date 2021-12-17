@@ -85,6 +85,9 @@ class App
 
       void plane();
       void quit();
+
+      bool partialDisplay(string since, string until);
+      void partialDisplayAux(Flight f);
 };
 
 

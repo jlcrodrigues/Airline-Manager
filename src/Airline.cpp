@@ -50,9 +50,36 @@ vector<Plane> Airline::getPlanes() const
    return planes;
 }
 
+bool Airline::checkAirport(const string &name) const
+{
+   for (auto & a: airports)
+   {
+      if (a.getName() == name) return true;
+   }
+   return false;
+}
+
+bool Airline::checkFlight(const int& id) const
+{
+   for (auto & f: flights)
+   {
+      if (f.getNumber() == id) return true;
+   }
+   return false;
+}
+
 bool Airline::checkPassenger(const int &id) const
 {
    for (auto & p : passengers)
+   {
+      if (p.getId() == id) return true;
+   }
+   return false;
+}
+
+bool Airline::checkPlane(const string &id) const
+{
+   for (auto & p: planes)
    {
       if (p.getId() == id) return true;
    }
@@ -181,6 +208,19 @@ bool Airline::removeAirport(const Airport &airport)
    return true;
 }
 
+bool Airline::removeAirport(const string& name)
+{
+   vector<Airport>::iterator i = airports.begin();
+   for (; i != airports.end(); i++)
+   {
+      if (i->getName() == name) {
+         i = airports.erase(i);
+         return true;
+      }
+   }
+   return false;
+}
+
 bool Airline::removeFlight(const Flight &flight)
 {
    int i = findElem(flights, flight);
@@ -188,6 +228,19 @@ bool Airline::removeFlight(const Flight &flight)
    flights.erase(flights.begin() + i);
    saveFile(flights, flights_file);
    return true;
+}
+
+bool Airline::removeFlight(const int& id)
+{
+   vector<Flight>::iterator i = flights.begin();
+   for (; i != flights.end(); i++)
+   {
+      if (i->getNumber() == id) {
+         i = flights.erase(i);
+         return true;
+      }
+   }
+   return false;
 }
 
 bool Airline::removePassenger(const Passenger& passenger)
@@ -219,6 +272,19 @@ bool Airline::removePlane(const Plane &plane)
    planes.erase(planes.begin() + i);
    saveFile(planes, planes_file);
    return true;
+}
+
+bool Airline::removePlane(const string& id)
+{
+   vector<Plane>::iterator i = planes.begin();
+   for (; i != planes.end(); i++)
+   {
+      if (i->getId() == id) {
+         i = planes.erase(i);
+         return true;
+      }
+   }
+   return false;
 }
 
 bool Airline::updateAirport(const Airport &airport)
@@ -345,54 +411,4 @@ string Airline::getTimeString(string date) {
     }
     ss2 >> s;
     return s;
-}
-
-void Airline::displayAllFlights() {
-    cout <<"|||||||    ||          ||    ||||||||    ||    ||    ||||||||    ||||||||\n";
-    cout <<"||	       ||          ||    ||          ||    ||       ||       ||      \n";
-    cout <<"||         ||          ||    ||          ||    ||       ||       ||      \n";
-    cout <<"||||||     ||          ||    ||  ||||    ||||||||       ||       ||||||||\n";
-    cout <<"||         ||          ||    ||    ||    ||    ||       ||             ||\n";
-    cout <<"||         ||          ||    ||    ||    ||    ||       ||             ||\n";
-    cout <<"||		   ||||||||    ||    ||||||||    ||    ||       ||       ||||||||\n";
-    cout <<"═════════════════════════════════════════════════════════════════════════\n";
-    cout <<"Number  DepartureDate  DepartureTime  Duration  Origin  Destination  Capacity\n";
-    for(auto f: flights){
-        // acabar
-    }
-}
-
-bool Airline::partialDisplay(string since, string until)
-{
-    bool b = false;
-    Date start(stoi(since.substr(0,2)), stoi(since.substr(2,2)), stoi(since.substr(4)));
-    Date end(stoi(until.substr(0,2)), stoi(until.substr(2,2)), stoi(until.substr(4)));
-    if (end < start) return false;
-
-    setFlightOrder("departure");
-    int endIndex = flights.size() - 1;
-
-    cout <<"═════════════════════════════════════════════════════════════════════════════\n";
-    cout <<"Number  DepartureDate  DepartureTime  Duration  Origin  Destination  Capacity\n";
-    for (vector<Flight>::iterator it = flights.begin(); it != flights.end(); it++)
-    {
-        if (it->getDepartureDate() == start || start < it->getDepartureDate()){
-            for (vector<Flight>::iterator it2 = it; it2 != flights.end(); it2++){
-                if (it2->getDepartureDate() == end){
-                    partialDisplayAux(*it2);
-                    b = true;
-                    continue;
-                }
-                if (!(it2->getDepartureDate() == end) && b == true) return true;
-                partialDisplayAux(*it2);
-                if(it2 == flights.end() - 1) return true;
-            }
-        }
-    }
-
-}
-
-void Airline::partialDisplayAux(Flight f)
-{
-    cout <<f.getNumber() << "  " << f.getDepartureDate().displayDate() <<"  "<<f.getDepartureTime().displayTime() <<"  "<<f.getDepartureDate().displayTime() << "  " << f.getAirportOrigin().getName() <<"  "<<f.getAirportDestination().getName() <<"  "<<f.getDuration().displayTime() << endl;
 }

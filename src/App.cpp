@@ -166,7 +166,7 @@ void App::helpFlight()
 void App::helpPassenger()
 {
    cout << "passenger add 'id'\n  - Add the passenger by id.\n";
-   cout << "passenger display\n  - Displays the existing passengers.\n";
+   cout << "passenger display [page]\n  - Displays the existing passengers.\n";
    cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
    cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
    //TODO cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
@@ -393,3 +393,37 @@ void App::quit()
    app_run = false;
 }
 
+bool App::partialDisplay(string since, string until)
+{
+   bool b = false;
+   Date start(stoi(since.substr(0,2)), stoi(since.substr(2,2)), stoi(since.substr(4)));
+   Date end(stoi(until.substr(0,2)), stoi(until.substr(2,2)), stoi(until.substr(4)));
+   if (end < start) return false;
+
+   airline.setFlightOrder("departure");
+   int endIndex = airline.getFlights().size() - 1;
+
+   cout <<"═════════════════════════════════════════════════════════════════════════════\n";
+   cout <<"Number  DepartureDate  DepartureTime  Duration  Origin  Destination  Capacity\n";
+   for (vector<Flight>::iterator it = airline.getFlights().begin(); it != airline.getFlights().end(); it++)
+   {
+      if (it->getDepartureDate() == start || start < it->getDepartureDate()){
+         for (vector<Flight>::iterator it2 = it; it2 != airline.getFlights().end(); it2++){
+            if (it2->getDepartureDate() == end){
+               partialDisplayAux(*it2);
+               b = true;
+               continue;
+            }
+            if (!(it2->getDepartureDate() == end) && b == true) return true;
+            partialDisplayAux(*it2);
+            if(it2 == airline.getFlights().end() - 1) return true;
+         }
+      }
+   }
+
+}
+
+void App::partialDisplayAux(Flight f)
+{
+   cout <<f.getNumber() << "  " << f.getDepartureDate().displayDate() <<"  "<<f.getDepartureTime().displayTime() <<"  "<<f.getDepartureDate().displayTime() << "  " << f.getAirportOrigin().getName() <<"  "<<f.getAirportDestination().getName() <<"  "<<f.getDuration().displayTime() << endl;
+}

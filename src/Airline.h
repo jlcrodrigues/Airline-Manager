@@ -59,11 +59,32 @@ class Airline
       vector<Plane> getPlanes() const;
 
       /**
+       * Looks for the existence of an airport.
+       * @param name - The name of the airport to be found.
+       * @return - Returns true if hte airport was find and false if it doesn't exist.
+       */
+      bool checkAirport(const string& name) const;
+
+      /**
+       * Looks for the existence of a flight.
+       * @param id - The id of the flight to be found.
+       * @return - Returns true if the flight was found and false if it doesn't exist- Returns true if the flight was found and false if it doesn't exist
+       */
+      bool checkFlight(const int& id) const;
+
+      /**
        * Looks for the existence of a passenger.
        * @param id - The id you want to look for.
        * @return - Returns true if the passenger belongs to the airline and false otherwise.
        */
       bool checkPassenger(const int& id) const;
+
+      /**
+       * Looks for the existence of a plane.
+       * @param id - The id of the plane to be found.
+       * @return - Returns true if the plane exists and false otherwise.
+       */
+      bool checkPlane(const string& id) const;
 
       /**
        * Fills the airports vector with airports from a file.
@@ -129,11 +150,25 @@ class Airline
       bool removeAirport(const Airport& airport);
 
       /**
+       * Removes an existing airport.
+       * @param name - The name of the airport to be removed.
+       * @return - Returns false if the airport doesn't exist and true otherwise.
+       */
+      bool removeAirport(const string& name);
+
+      /**
        * Removes an existing flight.
        * @param flight - The flight to be removed.
        * @return - Returns false if the flight doesn't exist and true otherwise.
        */
       bool removeFlight(const Flight& flight);
+
+      /**
+       * Removes an existing flight.
+       * @param id - The id of the flight to be removed.
+       * @return - Returns false if the flight doesn't exist and true otherwise.
+       */
+      bool removeFlight(const int& id);
 
       /**
        * Removes an existing passenger.
@@ -155,6 +190,13 @@ class Airline
        * @return - Returns false if the plane doesn't exist and true otherwise.
        */
       bool removePlane(const Plane& plane);
+
+      /**
+       * Removes an existing plane.
+       * @param id - The id of the plane to be removed.
+       * @return - Returns false if the plan doesn't exist and true otherwise.
+       */
+      bool removePlane(const string& id);
 
       /**
        * Changes an existing airport's value.
@@ -206,16 +248,6 @@ class Airline
        * Displays all of the existing flights.
        */
       void displayAllFlights();
-
-      /**
-       * Displays flights partially according to dates.
-       * @param since - Since which date you want to see the flights.
-       * @param until - Until which date you want to see the flights.
-       * @return - Returns true if its possible to display flights, false otherwise.
-       */
-      bool partialDisplay(string since, string until);
-
-      void partialDisplayAux(Flight f);
 
 
 private:
