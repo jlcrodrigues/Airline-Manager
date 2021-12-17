@@ -86,56 +86,56 @@ bool Airline::checkPlane(const string &id) const
    return false;
 }
 
-Airport Airline::findAirport(const string &name) const
+Airport* Airline::findAirport(const string &name)
 {
-   Airport res;
+   Airport* res;
    for (auto & a: airports)
    {
       if (a.getName() == name)
       {
-         res = a;
+         res = &a;
          break;
       }
    }
    return res;
 }
 
-Flight Airline::findFlight(const int &id) const
+Flight* Airline::findFlight(const int &id)
 {
-   Flight res;
+   Flight* res;
    for (auto & f: flights)
    {
       if (f.getNumber() == id)
       {
-         res = f;
+         res = &f;
          break;
       }
    }
    return res;
 }
 
-Passenger Airline::findPassenger(const int &id) const
+Passenger* Airline::findPassenger(const int &id)
 {
-   Passenger res;
+   Passenger* res;
    for (auto & p: passengers)
    {
       if (p.getId() == id)
       {
-         res = p;
+         res = &p;
          break;
       }
    }
    return res;
 }
 
-Plane Airline::findPlane(const string &id) const
+Plane* Airline::findPlane(const string &id)
 {
-   Plane res;
+   Plane* res;
    for (auto & p: planes)
    {
       if (p.getId() == id)
       {
-         res = p;
+         res = &p;
          break;
       }
    }
