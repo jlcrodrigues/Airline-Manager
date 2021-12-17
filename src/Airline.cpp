@@ -86,6 +86,62 @@ bool Airline::checkPlane(const string &id) const
    return false;
 }
 
+Airport Airline::findAirport(const string &name) const
+{
+   Airport res;
+   for (auto & a: airports)
+   {
+      if (a.getName() == name)
+      {
+         res = a;
+         break;
+      }
+   }
+   return res;
+}
+
+Flight Airline::findFlight(const int &id) const
+{
+   Flight res;
+   for (auto & f: flights)
+   {
+      if (f.getNumber() == id)
+      {
+         res = f;
+         break;
+      }
+   }
+   return res;
+}
+
+Passenger Airline::findPassenger(const int &id) const
+{
+   Passenger res;
+   for (auto & p: passengers)
+   {
+      if (p.getId() == id)
+      {
+         res = p;
+         break;
+      }
+   }
+   return res;
+}
+
+Plane Airline::findPlane(const string &id) const
+{
+   Plane res;
+   for (auto & p: planes)
+   {
+      if (p.getId() == id)
+      {
+         res = p;
+         break;
+      }
+   }
+   return res;
+}
+
 bool Airline::loadAirports(const string &file_name)
 {
    airports_file = file_name;

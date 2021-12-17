@@ -87,6 +87,34 @@ class Airline
       bool checkPlane(const string& id) const;
 
       /**
+       * Looks for an airport by name.
+       * @param name - The name you want to look for.
+       * @return - Returns an existing airport's object.
+       */
+      Airport findAirport(const string& name) const;
+
+      /**
+       * Looks for a flight by id.
+       * @param id - The id of the flight to be searched.
+       * @return - Returns an existing flight's object.
+       */
+      Flight findFlight(const int& id) const;
+
+      /**
+       * Looks for a passenger by id.
+       * @param id - The id of the passenger to be searched.
+       * @return - Returns an existing passenger's object.
+       */
+      Passenger findPassenger(const int& id) const;
+
+      /**
+       * Looks for a passenger by id.
+       * @param id - The id of the plane to be searched.
+       * @return - Returns an existing plane's object.
+       */
+      Plane findPlane(const string& id) const;
+
+      /**
        * Fills the airports vector with airports from a file.
        * @param file_name - The name of the file containing the airports.
        * @return - Returns false if the file doesn't exist and true otherwise.
