@@ -1,11 +1,11 @@
 #include "App.h"
 
-App::App()
+App::App(): ITEMS_PER_PAGE(5)
 {
    app_run = true;
 }
 
-App::App(const string &airports, const string &flights, const string &passengers, const string &planes)
+App::App(const string &airports, const string &flights, const string &passengers, const string &planes): ITEMS_PER_PAGE(5)
 {
    airline = Airline(airports, flights, passengers, planes);
    app_run = true;
@@ -19,6 +19,25 @@ void App::run()
       cout << ">";
       readCommand();
       processCommand();
+   }
+}
+
+void App::clearStream() const
+{
+   cin.clear();
+   cin.ignore(INT_MAX, '\n');
+}
+
+bool App::readNumber(int& n, const string& s) const
+{
+   try
+   {
+      n = stoi(s);
+      return true;
+   }
+   catch (...)
+   {
+      return false;
    }
 }
 
@@ -51,25 +70,25 @@ void App::processCommand()
          help();
          return;
       }
-      else if (command.front() == "airport")
+      else if (command.front() == "airport" || command.front() == "a")
       {
          command.pop();
          airport();
          return;
       }
-      else if (command.front() == "flight")
+      else if (command.front() == "flight" || command.front() == "f")
       {
          command.pop();
          flight();
          return;
       }
-      else if (command.front() == "passenger")
+      else if (command.front() == "passenger" || command.front() == "pa")
       {
          command.pop();
          passenger();
          return;
       }
-      else if (command.front() == "plane")
+      else if (command.front() == "plane" || command.front() == "pl")
       {
          command.pop();
          plane();
@@ -148,8 +167,8 @@ void App::helpPassenger()
 {
    cout << "passenger add 'id'\n  - Add the passenger by id.\n";
    cout << "passenger display\n  - Displays the existing passengers.\n";
-   cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
-   cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
+   //TODO cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
+   //TODO cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
    cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
 }
 
@@ -220,13 +239,93 @@ void App::passenger()
    }
    else if (command.front() == "add")
    {
+      command.pop();
+      addPassenger();
       return;
    }
+   else if (command.front() == "display")
+   {
+      command.pop();
+      displayPassenger();
+      return;
+   }
+   else if (command.front() == "sort")
+   {
+      command.pop();
+      sortPassenger();
+   }
+   else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
 void App::addPassenger()
 {
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  passenger add 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Id must be a number. Please try again.\n";
+      return;
+   }
+   command.pop();
+   if (airline.checkPassenger(id))
+   {
+      cout << "That passenger already exists. Maybe you want to try:\n  passenger edit 'id'\n";
+   }
+   else
+   {
+      string name;
+      if (command.empty()) {
+         cout << "Name: ";
+         cin >> name;
+         clearStream();
+      }
+      else name = command.front();
+      airline.addPassenger({id, name});
+      cout << "\nPassenger " << name << " added to the airline.\n";
+   }
 
+}
+
+void App::displayPassenger()
+{
+   vector<Passenger> passengers = airline.getPassengers();
+   int page;
+   if (command.empty()) page = 0;
+   else if (!readNumber(page, command.front()))
+   {
+      cout << "Page must be a number. Please try again.\n";
+      return;
+   }
+   page *= ITEMS_PER_PAGE;
+   while (passengers.size() <= page) page -= ITEMS_PER_PAGE;
+   if (0 <= page)
+   {
+      cout << "Id\tName\n";
+      for (int i = page; i < passengers.size() &&  i < page + ITEMS_PER_PAGE; i++)
+      {
+         cout << passengers[i].getId() << '\t' << passengers[i].getName() << '\n';
+      }
+      //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
+   }
+   else cout << "No passengers to display.\n\n";
+}
+
+void App::sortPassenger()
+{
+   if (!command.empty()) {
+      if (command.front() == "id" || command.front() == "name") {
+         airline.setPassengerOrder(command.front());
+         cout << "Passengers sorted by " << command.front() << ".\n";
+      }
+   }
+   else
+   {
+      cout << "Usage:\n  passenger sort 'order'\n\n  Order options: id, name\n";
+   }
 }
 
 void App::plane()

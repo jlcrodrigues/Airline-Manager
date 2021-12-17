@@ -22,6 +22,12 @@ class App
       Airline airline;
       queue<string> command;
       bool app_run;
+      const int ITEMS_PER_PAGE;
+
+      /**Clears the cin buffer.**/
+      void clearStream() const;
+
+      bool readNumber(int& n, const string& s) const;
 
       /**Reads a command from cin stream and stores it word by word in the command queue.**/
       void readCommand();
@@ -62,7 +68,14 @@ class App
 
       void passenger();
 
+      /**Adds a new passenger to the airline.**/
       void addPassenger();
+
+      /**Displays the airline's passengers.**/
+      void displayPassenger();
+
+      /**Changes the passenger displaying order.**/
+      void sortPassenger();
 
       void plane();
       void quit();

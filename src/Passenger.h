@@ -95,6 +95,13 @@ class Passenger
        */
       bool operator < (const Passenger& p) const;
 
+      /**
+       * Passenger's == operator.
+       * @param p - A passenger object.
+       * @return Returns true if the id's are the sameand false otherwise.
+       */
+      bool operator == (const Passenger& p) const;
+
 private:
       /**
        * Checks if a ticket has been purchased already.

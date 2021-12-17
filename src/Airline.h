@@ -59,9 +59,16 @@ class Airline
       vector<Plane> getPlanes() const;
 
       /**
+       * Looks for the existence of a passenger.
+       * @param id - The id you want to look for.
+       * @return - Returns true if the passenger belongs to the airline and false otherwise.
+       */
+      bool checkPassenger(const int& id) const;
+
+      /**
        * Fills the airports vector with airports from a file.
        * @param file_name - The name of the file containing the airports.
-       * @return - Returns false if the file doens't exist and true otherwise.
+       * @return - Returns false if the file doesn't exist and true otherwise.
        */
       bool loadAirports(const string& file_name);
 
@@ -221,7 +228,7 @@ private:
        * @return - Returns true if the object is in the vector and false otherwise.
        */
       template<typename T>
-      int findElem(const vector<T>& v, const T& t);
+      int findElem(const vector<T>& v, const T& t) const;
 
       /**
        * Turns a line from a csv file into a vector<string> containing all columns.

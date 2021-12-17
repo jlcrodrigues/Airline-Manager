@@ -2,9 +2,17 @@
 
 Airline::Airline()
 {
+   airports_file = "../data/airports.csv";
    flights_file = "../data/flights.csv";
    passengers_file = "../data/passengers.csv";
    planes_file = "../data/planes.csv";
+   loadAirports(airports_file);
+   loadFlights(flights_file);
+   loadPassengers(passengers_file);
+   loadPlanes(planes_file);
+   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
+   Passenger::sorting_rule = "name"; //id, name
+   Plane::sorting_rule = "id"; //id, model, capacity
 }
 
 Airline::Airline(const string& airports, const string &flights, const string &passengers, const string &planes)
@@ -40,6 +48,15 @@ vector<Passenger> Airline::getPassengers() const
 vector<Plane> Airline::getPlanes() const
 {
    return planes;
+}
+
+bool Airline::checkPassenger(const int &id) const
+{
+   for (auto & p : passengers)
+   {
+      if (p.getId() == id) return true;
+   }
+   return false;
 }
 
 bool Airline::loadAirports(const string &file_name)
@@ -97,6 +114,7 @@ bool Airline::loadPassengers(const string &file_name)
    }
    file.close();
    sort(passengers.begin(), passengers.end());
+   cout << passengers[0].getName() << endl;
    return true;
 }
 
@@ -260,7 +278,7 @@ void Airline::insertionSort(vector<T>& v)
 }
 
 template<typename T>
-int Airline::findElem(const vector<T>& v, const T& t)
+int Airline::findElem(const vector<T>& v, const T& t) const
 {
    int left = 0, right = v.size() - 1;
    while (left <= right)

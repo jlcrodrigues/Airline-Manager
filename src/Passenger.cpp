@@ -103,7 +103,7 @@ bool Passenger::operator < (const Passenger& p) const
 {
    if (sorting_rule == "id") {
       if (id == p.getId()) return name < p.getName();
-      return id == p.getId();
+      return id < p.getId();
    }
    else if (sorting_rule == "name")
    {
@@ -112,6 +112,11 @@ bool Passenger::operator < (const Passenger& p) const
    }
    throw (invalid_argument("That rule does not exist."));
    return false;
+}
+
+bool Passenger::operator==(const Passenger &p) const
+{
+   return id == p.getId();
 }
 
 size_t Passenger::findTicket(const Flight& flight) const
