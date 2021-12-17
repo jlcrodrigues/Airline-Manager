@@ -167,7 +167,8 @@ void App::helpPassenger()
 {
    cout << "passenger add 'id'\n  - Add the passenger by id.\n";
    cout << "passenger display\n  - Displays the existing passengers.\n";
-   //TODO cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
+   cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
+   cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
    //TODO cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
    cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
 }
@@ -249,6 +250,16 @@ void App::passenger()
       displayPassenger();
       return;
    }
+   else if (command.front() == "edit")
+   {
+      command.pop();
+      editPassenger();
+   }
+   else if (command.front() == "remove")
+   {
+      command.pop();
+      removePassenger();
+   }
    else if (command.front() == "sort")
    {
       command.pop();
@@ -312,6 +323,50 @@ void App::displayPassenger()
       //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
    }
    else cout << "No passengers to display.\n\n";
+}
+
+void App::editPassenger()
+{
+   int id;
+   string name;
+   if (command.empty())
+   {
+      cout << "Usage:\n  passenger edit 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Id must be a number. Please try again.\n";
+      return;
+   }
+   if (!airline.removePassenger(id))
+   {
+      cout << "That passenger doesn't exist. Maybe you want to try:\n  passenger add 'id'\n";
+      return;
+   }
+   cout << "Name: "; cin >> name; clearStream();
+   airline.addPassenger({id, name});
+   cout << "Passenger " << name << " was updated.\n";
+}
+
+void App::removePassenger()
+{
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  passenger remove 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Id must be a number. Please try again.\n";
+      return;
+   }
+   if (airline.removePassenger(id))
+   {
+      cout << "Passenger " << id << " was removed.\n";
+   }
+   else cout << "That passenger doesn't exist.";
 }
 
 void App::sortPassenger()

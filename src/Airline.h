@@ -143,6 +143,13 @@ class Airline
       bool removePassenger(const Passenger& passenger);
 
       /**
+       * Removes an existing passenger by id.
+       * @param id - The id of the passenger being removed.
+       * @return - Returns true if the passenger was remove and false if it doesn't exist.
+       */
+      bool removePassenger(const int& id);
+
+      /**
        * Removes an existing plane.
        * @param plane - The plane to be removed.
        * @return - Returns false if the plane doesn't exist and true otherwise.

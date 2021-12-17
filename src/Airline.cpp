@@ -114,7 +114,6 @@ bool Airline::loadPassengers(const string &file_name)
    }
    file.close();
    sort(passengers.begin(), passengers.end());
-   cout << passengers[0].getName() << endl;
    return true;
 }
 
@@ -198,6 +197,19 @@ bool Airline::removePassenger(const Passenger& passenger)
    passengers.erase(passengers.begin() + i);
    saveFile(passengers, passengers_file);
    return true;
+}
+
+bool Airline::removePassenger(const int& id)
+{
+   vector<Passenger>::iterator i = passengers.begin();
+   for (; i != passengers.end(); i++)
+   {
+      if (i->getId() == id) {
+         i = passengers.erase(i);
+         return true;
+      }
+   }
+   return false;
 }
 
 bool Airline::removePlane(const Plane &plane)

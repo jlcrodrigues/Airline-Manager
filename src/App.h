@@ -74,6 +74,12 @@ class App
       /**Displays the airline's passengers.**/
       void displayPassenger();
 
+      /**Edits the details for an existing passenger.**/
+      void editPassenger();
+
+      /**Removes an existing passenger.**/
+      void removePassenger();
+
       /**Changes the passenger displaying order.**/
       void sortPassenger();
 
