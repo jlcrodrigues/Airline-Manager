@@ -169,7 +169,11 @@ void App::helpTutorial()
 
 void App::helpAirport()
 {
-   cout << ""; //TODO
+    cout << "airport display\n  - Displays airports"; //TODO
+    cout << "airport 'nameAirport\n  - Selects airport with correspondent name\n";
+    cout << "airport add 'nameAirport'\n  - Add the airport by name\n"
+    cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name\n"
+    cout << "airport edit 'nameAirport'\n  - Edits an existing airport by name\n"
 }
 
 void App::helpFlight()
@@ -205,7 +209,31 @@ void App::helpTicket()
 
 void App::airport()
 {
-   return; //TODO
+    if (command.empty())
+    {
+        cout << "Invalid command. Use help airport to see available commands.\n";
+    }
+    else if (command.front() == "add")
+    {
+        command.pop();
+        addAirport();
+    }
+    else if (command.front() == "display")
+    {
+        command.pop();
+        displayAirport();
+    }
+    else if (command.front() == "edit")
+    {
+        command.pop();
+        editAirport();
+    }
+    else if (command.front() == "remove")
+    {
+        command.pop();
+        removeAirport();
+    }
+    else cout << "Invalid command. Use help airport to get more info.\n";
 }
 
 void App::flight()
@@ -288,6 +316,27 @@ void App::passenger()
       sortPassenger();
    }
    else cout << "Invalid command. Use help passenger to get more info.\n";
+}
+
+void App::addAirport()
+{
+    string name;
+    if(command.empty())
+    {
+        cout << "Usage:\n  airport add 'nameAirport'\n";
+        return;
+    }
+    name = command.front();
+    command.pop();
+    if (airline.checkAirport(name))
+    {
+        cout << "That airport already exists. Maybe you want to try:\n  airport edit 'nameAirport'\n";
+    }
+    else
+    {
+        airline.addAirport({name});
+        cout << "\nAirport " << name << " added to the airline.\n";
+    }
 }
 
 void App::addFlight() {
