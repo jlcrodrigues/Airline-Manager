@@ -277,6 +277,8 @@ class Airline
        */
       void displayAllFlights();
 
+      bool buyTicket(Flight* flight, vector<GroupMember> group);
+
 
 private:
       /**

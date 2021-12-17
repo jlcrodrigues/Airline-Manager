@@ -29,6 +29,8 @@ class App
 
       bool readNumber(int& n, const string& s) const;
 
+      bool getOption() const;
+
       /**Reads a command from cin stream and stores it word by word in the command queue.**/
       void readCommand();
 
@@ -52,6 +54,9 @@ class App
 
       /**Outputs a series of options for plane operations.**/
       void helpPlane();
+
+      /**Outputs a series of options for ticket operations.**/
+      void helpTicket();
 
       void airport();
 
@@ -87,6 +92,12 @@ class App
       void sortPassenger();
 
       void plane();
+
+      /**Handles the ticket commands.**/
+      void ticket();
+
+      /**Handles ticket buying.**/
+      void buyTicket();
       void quit();
 
       bool partialDisplay(string since, string until);

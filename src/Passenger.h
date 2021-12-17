@@ -39,7 +39,7 @@ class Passenger
 
       *@return - Returns true if the purchase was successful, false otherwise.
       **/
-      bool buyTicket(Flight& flight, const bool& baggage = false);
+      bool buyTicket(Flight* flight, const bool& baggage = false);
 
       /**
          *Overloaded buyTicket for when you want multiple tickets.
@@ -49,7 +49,7 @@ class Passenger
 
          *@return - Returns true if the purchase was successful, false otherwise.
       **/
-      bool buyTicket(Flight& flight, vector<struct GroupMember>& members);
+      bool buyTicket(Flight* flight, vector<struct GroupMember>& members);
 
       /**
        * Getter for the ticket vector.
@@ -127,7 +127,7 @@ private:
 /**Defines a passenger and their baggage option for group ticket purchases.**/
 struct GroupMember
 {
-   Passenger& passenger;
+   Passenger* passenger;
    bool baggage;
 };
 

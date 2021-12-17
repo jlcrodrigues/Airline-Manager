@@ -398,6 +398,11 @@ void Airline::setPlaneOrder(const string& rule)
 
 }
 
+bool Airline::buyTicket(Flight *flight, vector<GroupMember> group)
+{
+   return passengers[0].buyTicket(flight, group);
+}
+
 template<typename T>
 void Airline::insertionSort(vector<T>& v)
 {
