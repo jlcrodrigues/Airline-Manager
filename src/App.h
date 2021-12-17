@@ -67,6 +67,11 @@ class App
 
       void passenger();
 
+      /**
+       * Adds a new airport to the airline.
+      **/
+      void addAirport();
+
      /**
       * Adds a new flight to the airline.
       */
@@ -75,7 +80,12 @@ class App
       /**Adds a new passenger to the airline.**/
       void addPassenger();
 
-     /**
+      /**
+       * Displays the airline's airports.
+      **/
+      void displayAirport();
+
+      /**
       * Displays the airline's flights.
       */
       void displayFlight();
@@ -84,12 +94,22 @@ class App
       void displayPassenger();
 
       /**
+      * Edits the details for an existing airport.
+      **/
+      void editAirport();
+
+      /**
        * Edits the details for an existing flight.
        */
       void editFlight();
 
       /**Edits the details for an existing passenger.**/
       void editPassenger();
+
+      /**
+      * Removes an existing airport.
+      **/
+      void removeAirport();
 
       /**
        * Removes an existing flight.

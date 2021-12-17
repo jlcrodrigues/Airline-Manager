@@ -171,9 +171,9 @@ void App::helpAirport()
 {
     cout << "airport display\n  - Displays airports"; //TODO
     cout << "airport 'nameAirport\n  - Selects airport with correspondent name\n";
-    cout << "airport add 'nameAirport'\n  - Add the airport by name\n"
-    cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name\n"
-    cout << "airport edit 'nameAirport'\n  - Edits an existing airport by name\n"
+    cout << "airport add 'nameAirport'\n  - Add the airport by name\n";
+    cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name\n";
+    cout << "airport edit 'nameAirport'\n  - Edits an existing airport by name\n";
 }
 
 void App::helpFlight()
