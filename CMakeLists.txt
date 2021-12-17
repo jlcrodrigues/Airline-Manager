@@ -11,6 +11,7 @@ set(SOURCE_FILES
 		src/App.cpp
 		src/Baggage.cpp
 		src/Cart.cpp
+		src/Exception.h
 		src/Flight.cpp
 		src/Passenger.cpp
 		src/Plane.cpp
