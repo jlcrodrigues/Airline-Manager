@@ -27,8 +27,10 @@ class App
       /**Clears the cin buffer.**/
       void clearStream() const;
 
+
       bool readNumber(int& n, const string& s) const;
 
+      bool readDate(Date &date, const string s ) const;
       /**Reads a command from cin stream and stores it word by word in the command queue.**/
       void readCommand();
 
@@ -56,32 +58,53 @@ class App
       void airport();
 
       void flight();
-      /**
-       *
-       */
-      void addFlight();
-
-      /**
-       *
-       */
-      void selectedFlight();
 
       void passenger();
+
+     /**
+      * Adds a new flight to the airline.
+      */
+      void addFlight();
 
       /**Adds a new passenger to the airline.**/
       void addPassenger();
 
+     /**
+      * Displays the airline's flights.
+      */
+      void displayFlight();
+
       /**Displays the airline's passengers.**/
       void displayPassenger();
+
+      /**
+       * Edits the details for an existing flight.
+       */
+      void editFlight();
 
       /**Edits the details for an existing passenger.**/
       void editPassenger();
 
+      /**
+       * Removes an existing flight.
+       */
+      void removeFlight();
+
       /**Removes an existing passenger.**/
       void removePassenger();
 
+      /**
+       * Locates a flight.
+       */
+      void findFlight();
+
       /**Locates a passenger.**/
       void findPassenger();
+
+      /**
+       * Changes the flight displaying order.
+       */
+      void sortFlight();
 
       /**Changes the passenger displaying order.**/
       void sortPassenger();

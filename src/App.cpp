@@ -155,18 +155,18 @@ void App::helpAirport()
 
 void App::helpFlight()
 {
-   cout << "flight display\n  - Displays flights\n";
-   cout << "flight 'idFlight'\n  - Selects flight with correspondent id\n";
-   cout << "flight add 'flightsID, departureDate, departureTime, duration, origin Airport id, destination Airport id'\n  - Adds new flight\n\n";
-   cout << "flight remove 'flightsID, departureDate, departureTime, duration, origin Airport id, destination Airport id'\n  -  Removes flight\n\n";
-   cout << "flight edit 'x' 'y' 'z'\n  -  Edits flight with id x. Changes attribute y to new value z\n\n";
-   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure'\n\n";
+   cout << "flight display [page]\n  - Displays the existing flights\n";
+   cout << "flight add 'id'\n  - Adds the flight by id.\n";
+   cout << "flight edit 'id'\n  -  Edit an existing flight by id.\n";
+   cout << "flight remove 'id'\n  -  Removes an existing flight by id.\n";
+   cout << "flight find 'id'\n  -  Try to locate a flight by id.\n";
+   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure'\n";
 }
 
 void App::helpPassenger()
 {
-   cout << "passenger add 'id'\n  - Add the passenger by id.\n";
    cout << "passenger display [page]\n  - Displays the existing passengers.\n";
+   cout << "passenger add 'id'\n  - Add the passenger by id.\n";
    cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
    cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
    cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
@@ -187,49 +187,41 @@ void App::flight()
 {
    if (command.empty())
    {
-       cout << "Invalid option. Use help to see the available options.\n";
-   }
-   else if (command.front() == "display")
-   {
-       command.pop();
-       // Airline::displayAllFlights();
+       cout << "Invalid option. Use help to see the available commands.\n";
    }
    else if (command.front() == "add")
    {
        command.pop();
        addFlight();
    }
-   else
+   else if (command.front() == "display")
    {
-       try
-       {
-           stoi(command.front());
-       }catch (...)
-       {
-           cout <<"Invalid id number. Id must be an integer\n";
-           app_run = false;
-       }
-       selectedFlight();
+       command.pop();
+       displayFlight();
+       return;
    }
-   return; //TODO
-}
-
-void App::addFlight() {
-
-}
-
-void App::selectedFlight() {
-   string id = command.front();
-   command.pop();
-
-   if (command.empty()){ // command example for this path: flight 5. It displays data from flight number 5.
-
-   }
-   if (command.front() == "buy")
+   else if (command.front() == "edit")
    {
-      // acabar
+       command.pop();
+       editFlight();
    }
-
+   else if (command.front() == "remove")
+   {
+       command.pop();
+       removeFlight();
+   }
+   else if (command.front() == "find")
+   {
+       command.pop();
+       findFlight();
+   }
+   else if (command.front() == "sort")
+   {
+       command.pop();
+       sortFlight();
+   }
+   else cout << "Invalid command. Use help flight to get more info.\n";
+   return;
 }
 
 void App::passenger()
@@ -273,6 +265,27 @@ void App::passenger()
    else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
+void App::addFlight() {
+    int id;
+    if (command.empty()) {
+        cout << "Usage:\n flight add 'id'\n";
+        return;
+    } else if (!readNumber(id, command.front())) {
+        cout << "Id must be a number. Please try again.\n";
+        return;
+    }
+    command.pop();
+    if (airline.checkFlight(id)) {
+        cout << "That flight already exists. Maybe you want to try:\n  flight edit 'id'\n";
+    } else {
+        string dD, dT, d; // departureDate, departureTime, duration
+        Date departureDate, departureTime, duration;
+        if (command.empty()) {
+
+        }
+    }
+}
+
 void App::addPassenger()
 {
    int id;
@@ -306,6 +319,11 @@ void App::addPassenger()
 
 }
 
+void App::displayFlight()
+{
+
+}
+
 void App::displayPassenger()
 {
    vector<Passenger> passengers = airline.getPassengers();
@@ -328,6 +346,11 @@ void App::displayPassenger()
       //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
    }
    else cout << "No passengers to display.\n\n";
+}
+
+void App::editFlight()
+{
+
 }
 
 void App::editPassenger()
@@ -354,6 +377,11 @@ void App::editPassenger()
    cout << "Passenger " << name << " was updated.\n";
 }
 
+void App::removeFlight()
+{
+
+}
+
 void App::removePassenger()
 {
    int id;
@@ -372,6 +400,11 @@ void App::removePassenger()
       cout << "Passenger " << id << " was removed.\n";
    }
    else cout << "That passenger doesn't exist.";
+}
+
+void App::findFlight()
+{
+
 }
 
 void App::findPassenger()
@@ -393,6 +426,11 @@ void App::findPassenger()
       cout << "Id: " << p.getId() << " \nName: " << p.getName() << "\n";
    }
    else cout << "Passenger not found.\n";
+}
+
+void App::sortFlight()
+{
+
 }
 
 void App::sortPassenger()
