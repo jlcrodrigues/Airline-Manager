@@ -41,6 +41,19 @@ bool App::readNumber(int& n, const string& s) const
    }
 }
 
+bool App::getOption() const
+{
+   char option = 'a';
+   while (option != 'y' && option != 'n')
+   {
+      cin >> option;
+      option = tolower(option);
+   }
+   clearStream();
+   if (option == 'y') return true;
+   return option != 'n';
+}
+
 void App::readCommand()
 {
    string w;
@@ -112,7 +125,8 @@ void App::help()
       cout << "help airport\n  - See the airport commands.\n";
       cout << "help flight\n  - See the flight commands.\n";
       cout << "help passenger\n  - See the passenger commands.\n";
-      cout << "help plane\n  - See the plane commands.\n\n";
+      cout << "help plane\n  - See the plane commands.\n";
+      cout << "help ticket\n  - See the ticket commands.\n\n";
       return;
    }
    else if (command.front() == "tutorial")
@@ -138,6 +152,11 @@ void App::help()
    else if (command.front() == "plane")
    {
       helpPlane();
+      return;
+   }
+   else if (command.front() == "ticket")
+   {
+      helpTicket();
       return;
    }
    cout << "Invalid option. Use help to see the available options.\n";
@@ -176,6 +195,12 @@ void App::helpPassenger()
 void App::helpPlane()
 {
    cout << ""; //TODO
+}
+
+void App::helpTicket()
+{
+   cout << "ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
+   cout << "ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
 }
 
 void App::airport()
@@ -422,8 +447,8 @@ void App::findPassenger()
    }
    if (airline.checkPassenger(id))
    {
-      Passenger p = airline.findPassenger(id);
-      cout << "Id: " << p.getId() << " \nName: " << p.getName() << "\n";
+      Passenger* p = airline.findPassenger(id);
+      cout << "Id: " << p->getId() << " \nName: " << p->getName() << "\n";
    }
    else cout << "Passenger not found.\n";
 }
@@ -450,6 +475,65 @@ void App::sortPassenger()
 void App::plane()
 {
    return; //TODO
+}
+
+void App::ticket()
+{
+   if (command.empty())
+   {
+      cout << "Invalid command. Use help ticket to see available commands.\n";
+   }
+   else if (command.front() == "buy")
+   {
+      command.pop();
+      buyTicket();
+      return;
+   }
+}
+
+void App::buyTicket()
+{
+   int flight_id, passenger_id;
+   vector<GroupMember> group;
+   if (command.empty())
+   {
+      helpTicket(); return;
+   }
+   if (!readNumber(flight_id, command.front()))
+   {
+      cout << "Invalid flight. Use flight display to see available flights.\n";
+      return;
+   }
+   Flight* flight = airline.findFlight(flight_id);
+   if (!airline.checkFlight(flight_id))
+   {
+      cout << "Flight not recognized. Use flight add to add a flight or flight display to see available flights.\n";
+      return;
+   }
+   command.pop();
+   while (!command.empty())
+   {
+      if (!readNumber(passenger_id, command.front()))
+      {
+         cout << "'" << command.front() << "' is not a valid passenger. Use passenger display to see available passengers.\n";
+         return;
+      }
+      if (!airline.checkPassenger(passenger_id))
+      {
+         cout << "Passenger " << passenger_id << "not found. Use passenger help to add a passenger or passenger display to see the available passengers.\n";
+         return;
+      }
+      Passenger* pa = airline.findPassenger(passenger_id);
+      char option;
+      cout << "Include baggage for passenger " << pa->getName() << "(" << pa->getId() << ")? (y/n) ";
+      group.push_back({pa, getOption()});
+   }
+   if (airline.buyTicket(flight, group))
+   {
+      cout << "The tickets to " << flight->getAirportDestination().getName() << " were bought.\n";
+   }
+   else
+      cout << "Couldn't buy tickets. Please try again.";
 }
 
 void App::quit()

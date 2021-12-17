@@ -18,30 +18,30 @@ string Passenger::getCsv() const
    return csv;
 }
 
-bool Passenger::buyTicket(Flight& flight, const bool& baggage)
+bool Passenger::buyTicket(Flight* flight, const bool& baggage)
 {
-   if (!ticketOwned(flight))
+   if (!ticketOwned(*flight))
    {
-      if (flight.buyTicket())
+      if (flight->buyTicket())
       {
-         tickets.push_back(Ticket(flight, baggage));
+         tickets.push_back(Ticket(*flight, baggage));
          return true;
       }
    }
    return false;
 }
 
-bool Passenger::buyTicket(Flight& flight, vector<struct GroupMember>& members)
+bool Passenger::buyTicket(Flight* flight, vector<struct GroupMember>& members)
 {
    for (auto member: members)
    {
-      if (member.passenger.ticketOwned(flight)) return false;
+      if (member.passenger->ticketOwned(*flight)) return false;
    }
-   if (flight.buyTicket(members.size()))
+   if (flight->buyTicket(members.size()))
    {
       for (auto& member : members)
       {
-         member.passenger.tickets.push_back(Ticket(flight, member.baggage));
+         member.passenger->tickets.push_back(Ticket(*flight, member.baggage));
       }
       return true;
    }

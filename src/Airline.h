@@ -91,28 +91,28 @@ class Airline
        * @param name - The name you want to look for.
        * @return - Returns an existing airport's object.
        */
-      Airport findAirport(const string& name) const;
+      Airport* findAirport(const string& name);
 
       /**
        * Looks for a flight by id.
        * @param id - The id of the flight to be searched.
        * @return - Returns an existing flight's object.
        */
-      Flight findFlight(const int& id) const;
+      Flight* findFlight(const int& id);
 
       /**
        * Looks for a passenger by id.
        * @param id - The id of the passenger to be searched.
        * @return - Returns an existing passenger's object.
        */
-      Passenger findPassenger(const int& id) const;
+      Passenger* findPassenger(const int& id);
 
       /**
        * Looks for a passenger by id.
        * @param id - The id of the plane to be searched.
        * @return - Returns an existing plane's object.
        */
-      Plane findPlane(const string& id) const;
+      Plane* findPlane(const string& id);
 
       /**
        * Fills the airports vector with airports from a file.
@@ -290,6 +290,15 @@ class Airline
      * @return - Returns time in correct format
      */
       string getTimeString(string date) ;
+
+      /**
+       *
+       * @param flight
+       * @param group
+       * @return
+       */
+      bool buyTicket(Flight* flight, vector<GroupMember> group);
+
 
 private:
       /**
