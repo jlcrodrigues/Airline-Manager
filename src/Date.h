@@ -102,6 +102,13 @@ public:
     */
     bool operator == (const Date& d) const;
 
+    /**
+     * Checks if Date is valid.
+     * @param d - Date object to verify.
+     * @return - Returns true if date is valid, false otherwise.
+     */
+    bool checkDate(const Date& d) const;
+
 private:
     int day;
     int month;
