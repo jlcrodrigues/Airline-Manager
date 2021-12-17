@@ -80,6 +80,9 @@ class App
       /**Removes an existing passenger.**/
       void removePassenger();
 
+      /**Locates a passenger.**/
+      void findPassenger();
+
       /**Changes the passenger displaying order.**/
       void sortPassenger();
 

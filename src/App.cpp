@@ -169,7 +169,7 @@ void App::helpPassenger()
    cout << "passenger display [page]\n  - Displays the existing passengers.\n";
    cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
    cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
-   //TODO cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
+   cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
    cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
 }
 
@@ -259,6 +259,11 @@ void App::passenger()
    {
       command.pop();
       removePassenger();
+   }
+   else if (command.front() == "find")
+   {
+      command.pop();
+      findPassenger();
    }
    else if (command.front() == "sort")
    {
@@ -367,6 +372,27 @@ void App::removePassenger()
       cout << "Passenger " << id << " was removed.\n";
    }
    else cout << "That passenger doesn't exist.";
+}
+
+void App::findPassenger()
+{
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  - passenger find 'id'";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Id must be a number. Please try again.\n";
+      return;
+   }
+   if (airline.checkPassenger(id))
+   {
+      Passenger p = airline.findPassenger(id);
+      cout << "Id: " << p.getId() << " \nName: " << p.getName() << "\n";
+   }
+   else cout << "Passenger not found.\n";
 }
 
 void App::sortPassenger()
