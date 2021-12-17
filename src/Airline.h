@@ -282,14 +282,14 @@ class Airline
       * @param date - date to manipulate
       * @return - Returns date in correct format
       */
-      string getDateString(string date) ;
+      string getDateString(string date) const;
 
     /**
      * Returns string of time for constructor
      * @param date - time to manipulate
      * @return - Returns time in correct format
      */
-      string getTimeString(string date) ;
+      string getTimeString(string date) const;
 
       /**
        *

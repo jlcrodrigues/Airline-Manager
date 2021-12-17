@@ -398,6 +398,26 @@ void Airline::setPlaneOrder(const string& rule)
 
 }
 
+string Airline::getDateString(string date) const{
+    stringstream ss(date), ss2;
+    string s;
+    while(getline(ss, date, '/')){
+        ss2 << setfill('0') << setw(2) << date;
+    }
+    ss2 >> s;
+    return s;
+}
+
+string Airline::getTimeString(string date) const{
+    stringstream ss(date), ss2;
+    string s;
+    while(getline(ss, date, ':')){
+        ss2 << setfill('0') << setw(2) << date;
+    }
+    ss2 >> s;
+    return s;
+}
+
 bool Airline::buyTicket(Flight *flight, vector<GroupMember> group)
 {
    return passengers[0].buyTicket(flight, group);
@@ -452,24 +472,4 @@ void Airline::saveFile(const vector<T>& values, const string& file_name) const
       file << row.getCsv();
    }
    file.close();
-}
-
-string Airline::getDateString(string date) {
-    stringstream ss(date), ss2;
-    string s;
-    while(getline(ss, date, '/')){
-        ss2 << setfill('0') << setw(2) << date;
-    }
-    ss2 >> s;
-    return s;
-}
-
-string Airline::getTimeString(string date) {
-    stringstream ss(date), ss2;
-    string s;
-    while(getline(ss, date, ':')){
-        ss2 << setfill('0') << setw(2) << date;
-    }
-    ss2 >> s;
-    return s;
 }

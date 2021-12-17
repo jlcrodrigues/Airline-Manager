@@ -41,6 +41,21 @@ bool App::readNumber(int& n, const string& s) const
    }
 }
 
+bool App::readDate(Date &date, const string s) const
+{
+    try
+    {
+        string s2;
+        if (!date.checkDate(date)) return false;
+        s2 = airline.getDateString(s);
+
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
 bool App::getOption() const
 {
    char option = 'a';
@@ -306,7 +321,9 @@ void App::addFlight() {
         string dD, dT, d; // departureDate, departureTime, duration
         Date departureDate, departureTime, duration;
         if (command.empty()) {
-
+            cout << "Departure date (dd/mm/yyyy): ";
+            cin >> dD;
+            clearStream();
         }
     }
 }
