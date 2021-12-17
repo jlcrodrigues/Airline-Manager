@@ -120,6 +120,11 @@ class App
       void removePassenger();
 
       /**
+       * Locates an airport.
+      **/
+      void findAirport();
+
+      /**
        * Locates a flight.
        */
       void findFlight();
