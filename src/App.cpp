@@ -184,17 +184,21 @@ void App::helpTutorial()
 
 void App::helpAirport()
 {
-   cout << ""; //TODO
+    cout << "airport display [page]\n  - Displays airports.\n";
+    cout << "airport add 'nameAirport'\n  - Add the airport by name.\n";
+    cout << "airport edit 'nameAirport'\n  - Edits an existing airport by name.\n";
+    cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name.\n";
+    cout << "airport find 'nameAirport'\n  -  Try to locate a airport by name.\n";
 }
 
 void App::helpFlight()
 {
-   cout << "flight display [page]\n  - Displays the existing flights\n";
+   cout << "flight display [page]\n  - Displays the existing flights.\n";
    cout << "flight add 'id'\n  - Adds the flight by id.\n";
    cout << "flight edit 'id'\n  -  Edit an existing flight by id.\n";
    cout << "flight remove 'id'\n  -  Removes an existing flight by id.\n";
    cout << "flight find 'id'\n  -  Try to locate a flight by id.\n";
-   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure'\n";
+   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure.'\n";
 }
 
 void App::helpPassenger()
@@ -220,7 +224,31 @@ void App::helpTicket()
 
 void App::airport()
 {
-   return; //TODO
+    if (command.empty())
+    {
+        cout << "Invalid command. Use help airport to see available commands.\n";
+    }
+    else if (command.front() == "add")
+    {
+        command.pop();
+        addAirport();
+    }
+    else if (command.front() == "display")
+    {
+        command.pop();
+        displayAirport();
+    }
+    else if (command.front() == "edit")
+    {
+        command.pop();
+        editAirport();
+    }
+    else if (command.front() == "remove")
+    {
+        command.pop();
+        removeAirport();
+    }
+    else cout << "Invalid command. Use help airport to get more info.\n";
 }
 
 void App::flight()
@@ -305,6 +333,27 @@ void App::passenger()
    else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
+void App::addAirport()
+{
+    string name;
+    if(command.empty())
+    {
+        cout << "Usage:\n  airport add 'nameAirport'\n";
+        return;
+    }
+    name = command.front();
+    command.pop();
+    if (airline.checkAirport(name))
+    {
+        cout << "That airport already exists. Maybe you want to try:\n  airport edit 'nameAirport'\n";
+    }
+    else
+    {
+        airline.addAirport({name});
+        cout << "\nAirport " << name << " added to the airline.\n";
+    }
+}
+
 void App::addFlight() {
     int id;
     if (command.empty()) {
@@ -361,6 +410,30 @@ void App::addPassenger()
 
 }
 
+void App::displayAirport()
+{
+   vector<Airport> airports = airline.getAirports();
+   int page;
+   if (command.empty()) page = 0;
+   else if (!readNumber(page, command.front()))
+   {
+      cout << "Page must be a number. Please try again.\n";
+      return;
+   }
+   page *= ITEMS_PER_PAGE;
+   while (airports.size() <= page) page -= ITEMS_PER_PAGE;
+   if (0 <= page)
+   {
+      cout << "Name\n";
+      for (int i = page; i < airports.size() &&  i < page + ITEMS_PER_PAGE; i++)
+      {
+         cout << airports[i].getName() << '\n';
+      }
+      cout << "Page (" << page / 5 + 1 << "/" << airports.size() / 5 + 1 << ").\n";
+   }
+   else cout << "No airports to display.\n\n";
+}
+
 void App::displayFlight()
 {
 
@@ -388,6 +461,11 @@ void App::displayPassenger()
       //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
    }
    else cout << "No passengers to display.\n\n";
+}
+
+void App::editAirport()
+{
+   //TODO
 }
 
 void App::editFlight()
@@ -419,6 +497,21 @@ void App::editPassenger()
    cout << "Passenger " << name << " was updated.\n";
 }
 
+void App::removeAirport()
+{
+   string name;
+   if (command.empty())
+   {
+      cout << "Usage:\n  airport remove 'nameAirport'\n";
+      return;
+   }
+   if (airline.removeAirport(name))
+   {
+      cout << "Airport " << name << " was removed.\n";
+   }
+   else cout << "That Airport doesn't exist.";
+}
+
 void App::removeFlight()
 {
 
@@ -442,6 +535,11 @@ void App::removePassenger()
       cout << "Passenger " << id << " was removed.\n";
    }
    else cout << "That passenger doesn't exist.";
+}
+
+void App::findAirport()
+{
+
 }
 
 void App::findFlight()
