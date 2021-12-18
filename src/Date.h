@@ -92,24 +92,21 @@ public:
 
    /**
     * Function to display date in format dd/mm/yyyy.
-    * @param date - date object to display.
     * @return - Returns string of date in correct format.
     */
-    string displayDate(const Date &date) const;
+    string displayDate() const;
 
     /**
     * Function to display time in format hh:mm
-    * @param date - date object to display.
     * @return - Returns string of date in correct time format.
     */
-    string displayTime(const Date &date) const;
+    string displayTime() const;
 
     /**
      * Function to display date and time in format: dd/mm/yyyy - hh:mm
-     * @param date - date object to display.
      * @return - Returns string of date in correct format.
      */
-    string displayDateTime(const Date &date) const;
+    string displayDateTime() const;
 
     /**
      * Passes date to string
