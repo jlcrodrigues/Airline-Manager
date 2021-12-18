@@ -27,10 +27,17 @@ class App
       /**Clears the cin buffer.**/
       void clearStream() const;
 
-
       bool readNumber(int& n, const string& s) const;
 
-      bool readDate(Date &date, const string s ) const;
+      bool readDate(Date &date, const string s) const;
+
+      bool readTime(Date &date, const string s) const;
+
+      void invalidDate(Date &date, string &s) const;
+
+      void invalidDepartureTime(Date &date, string &s) const;
+
+      void invalidDuration(Date &date, string &s) const;
 
       bool getOption() const;
 

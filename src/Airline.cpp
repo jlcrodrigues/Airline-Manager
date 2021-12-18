@@ -401,8 +401,11 @@ void Airline::setPlaneOrder(const string& rule)
 string Airline::getDateString(string date) const{
     stringstream ss(date), ss2;
     string s;
+    int c = 0;
     while(getline(ss, date, '/')){
-        ss2 << setfill('0') << setw(2) << date;
+        c += 1;
+        if (c == 3) ss2 << setfill('0') << setw(4) << date;
+        else  ss2 << setfill('0') << setw(2) << date;
     }
     ss2 >> s;
     return s;

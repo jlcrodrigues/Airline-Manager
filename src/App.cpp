@@ -33,6 +33,7 @@ bool App::readNumber(int& n, const string& s) const
    try
    {
       n = stoi(s);
+      if (n < 0) return false;
       return true;
    }
    catch (...)
@@ -45,14 +46,74 @@ bool App::readDate(Date &date, const string s) const
 {
     try
     {
-        string s2;
-        if (!date.checkDate(date)) return false;
-        s2 = airline.getDateString(s);
+        if (airline.getDateString(s).length() != 8) return false;
+        int c = count(s.begin(), s.end(), '/');
+        if (c != 2) return false;
+        date.setDay(stoi(airline.getDateString(s).substr(0,2)));
+        date.setMonth(stoi(airline.getDateString(s).substr(2,2)));
+        date.setYear(stoi(airline.getDateString(s).substr(4, 4)));
 
+        if (!date.checkDate(date)) return false;
+        return true;
     }
     catch (...)
     {
         return false;
+    }
+}
+
+bool App::readTime(Date &date, const string s) const
+{
+    try
+    {
+        if (airline.getTimeString(s).length() != 4) return false;
+        int c = count(s.begin(), s.end(), ':');
+        if (c != 1) return false;
+        date.setHour(stoi(airline.getTimeString(s).substr(0,2)));
+        date.setMinute(stoi(airline.getTimeString(s).substr(2, 2)));
+        if (!date.checkTime(date)) return false;
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+void App::invalidDate(Date &date, string &s) const
+{
+    while(1)
+    {
+        cout << "Invalid date. Please try again.\n";
+        cout << "Departure date (dd/mm/yyyy): ";
+        cin >> s;
+        clearStream();
+        if (readDate(date, s)) break;
+    }
+}
+
+
+void App::invalidDepartureTime(Date &date, string &s) const
+{
+    while(1)
+    {
+        cout << "Invalid time. Please try again.\n";
+        cout << "Departure time (hh:mm): ";
+        cin >> s;
+        clearStream();
+        if (readTime(date, s)) break;
+    }
+}
+
+void App::invalidDuration(Date &date, string &s) const
+{
+    while(1)
+    {
+        cout << "Invalid time. Please try again.\n";
+        cout << "Duration time (hh:mm): ";
+        cin >> s;
+        clearStream();
+        if (readTime(date, s)) break;
     }
 }
 
@@ -357,25 +418,145 @@ void App::addAirport()
 void App::addFlight() {
     int id;
     if (command.empty()) {
-        cout << "Usage:\n flight add 'id'\n";
+        cout << "Usage:\n  flight add 'id'\n";
         return;
     } else if (!readNumber(id, command.front())) {
-        cout << "Id must be a number. Please try again.\n";
+        cout << "Id must be an integer. Please try again.\n";
         return;
     }
     command.pop();
     if (airline.checkFlight(id)) {
-        cout << "That flight already exists. Maybe you want to try:\n  flight edit 'id'\n";
+        cout << "That flight already exists. To check existing flights try:\n  flight display\n";
     } else {
-        string dD, dT, d; // departureDate, departureTime, duration
+        string dD, dT, d, aO, aD, capacity; // departureDate, departureTime, duration, airportOrigin, airportDestination
         Date departureDate, departureTime, duration;
         if (command.empty()) {
             cout << "Departure date (dd/mm/yyyy): ";
             cin >> dD;
             clearStream();
+            if (!readDate(departureDate, dD)) {
+                invalidDate(departureDate, dD);
+            }
+        } else {
+            dD = command.front();
+            if (!readDate(departureDate, dD)) {
+                invalidDate(departureDate, dD);
+            }
+            command.pop();
         }
+        if (command.empty()) {
+            cout << "Departure time (hh:mm): ";
+            cin >> dT;
+            clearStream();
+            if (!readTime(departureTime, dT)) {
+                invalidDepartureTime(departureTime, dT);
+            }
+        } else {
+            dT = command.front();
+            if (!readTime(departureTime, dT)) {
+                invalidDepartureTime(departureTime, dT);
+            }
+            command.pop();
+        }
+        if (command.empty()) {
+            cout << "Duration (hh:mm): ";
+            cin >> d;
+            clearStream();
+            if (!readTime(duration, d)) {
+                invalidDuration(duration, d);
+            }
+        } else {
+            d = command.front();
+            if (!readTime(duration, d)) {
+                invalidDuration(duration, d);
+            }
+            command.pop();
+        }
+        if (command.empty()) {
+            cout << "Origin airport id: ";
+            cin >> aO;
+            clearStream();
+            if (!airline.checkAirport(aO)) {
+                while (1) {
+                    cout << "Airport " << aO
+                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Origin airport id: ";
+                    cin >> aO;
+                    clearStream();
+                    if (airline.checkAirport(aO)) break;
+                }
+            }
+        } else {
+            aO = command.front();
+            if (!airline.checkAirport(aO)) {
+                while (1) {
+                    cout << "Airport " << aO
+                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Origin airport id: ";
+                    cin >> aO;
+                    clearStream();
+                    if (airline.checkAirport(aO)) break;
+                }
+            }
+            command.pop();
+        }
+        if (command.empty()) {
+            cout << "Destination airport id: ";
+            cin >> aD;
+            clearStream();
+            if (!airline.checkAirport(aD)) {
+                while (1) {
+                    cout << "Airport " << aD
+                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Destination airport id: ";
+                    cin >> aD;
+                    clearStream();
+                    if (airline.checkAirport(aD)) break;
+                }
+            }
+        } else {
+            aD = command.front();
+            if (!airline.checkAirport(aD)) {
+                while (1) {
+                    cout << "Airport " << aD
+                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Destination airport id: ";
+                    cin >> aD;
+                    clearStream();
+                    if (airline.checkAirport(aD)) break;
+                }
+            }
+            command.pop();
+        }
+        int capacityI; // capacity integer
+        if (command.empty()) {
+            cout << "Flight capacity: ";
+            cin >> capacity;
+            clearStream();
+            if (!readNumber(capacityI, capacity)) {
+                while (1) {
+                    cout << "Flight capacity must be an integer. Please try again.\nFlight capacity: ";
+                    cin >> capacity;
+                    clearStream();
+                    if (readNumber(capacityI, capacity)) break;
+                }
+            }
+        } else {
+            capacity = command.front();
+            if (!readNumber(capacityI, capacity)) {
+                while (1) {
+                    cout << "Flight capacity must be an integer. Please try again.\nFlight capacity: ";
+                    cin >> capacity;
+                    clearStream();
+                    if (readNumber(capacityI, capacity)) break;
+                }
+                command.pop();
+            }
+        }
+//        airline.addFlight(Flight(id, Date(stoi(dD.substr(0,2)), stoi(dD.substr(2,2)), stoi(dD.substr(4))), Date(stoi(dT.substr(0,2)), stoi(dT.substr(2))), Date(stoi(d.substr(0,2)), stoi(d.substr(2))), airline.findAirport(aO), airline.findAirport(aD), capacityI));
     }
 }
+
 
 void App::addPassenger()
 {
@@ -688,5 +869,4 @@ bool App::partialDisplay(string since, string until)
 
 void App::partialDisplayAux(Flight f)
 {
-   cout <<f.getNumber() << "  " << f.getDepartureDate().displayDate() <<"  "<<f.getDepartureTime().displayTime() <<"  "<<f.getDepartureDate().displayTime() << "  " << f.getAirportOrigin().getName() <<"  "<<f.getAirportDestination().getName() <<"  "<<f.getDuration().displayTime() << endl;
 }
