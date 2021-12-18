@@ -34,7 +34,7 @@ unsigned Date::getMinute() const {
     return minute;
 }
 
-void Date::setDay(unsigned int day)
+void Date::setDay(int day)
 {
     this->day = day;
 }
@@ -122,18 +122,27 @@ bool Date::operator==(const Date &d) const{
 
 bool Date::checkDate(const Date &d) const
 {
-    if ((d.getDay() >= 1) && (d.getDay() <= 30) && (d.getMonth() >= 1) && (d.getMonth() >= 12) && (d.getMonth() != 2)) // every month expect february
+
+    if ((d.getDay() >= 1) && (d.getDay() <= 30) && (d.getMonth() >= 1) && (d.getMonth() <=  12) && (d.getMonth() != 2)) // every month expect february
     {
         return true;
     }
-    else if ((d.getDay() >= 1) && (d.getDay() <= 31) && (d.getMonth() >= 1) && (d.getMonth() >= 12) && (d.getMonth() != 2) && (d.getMonth() != 4) && (d.getMonth() !=6) && (d.getMonth() != 9) && (d.getMonth() != 11)) // all months with 31 days
+    else if ((d.getDay() >= 1) && (d.getDay() <= 31) && (d.getMonth() >= 1) && (d.getMonth() <= 12) && (d.getMonth() != 2) && (d.getMonth() != 4) && (d.getMonth() !=6) && (d.getMonth() != 9) && (d.getMonth() != 11)) // all months with 31 days
     {
         return true;
     }
-    else if ((d.getDay() >= 1) && (d.getDay() <= 28) && (d.getMonth() >= 1) && (d.getMonth() >= 12)) // includes february
+    else if ((d.getDay() >= 1) && (d.getDay() <= 28) && (d.getMonth() >= 1) && (d.getMonth() >= 1) && (d.getMonth() <= 12)) // includes february
     {
         return true;
     }
     return false;
 }
 
+bool Date::checkTime(const Date &t) const
+{
+    if ((t.getHour() >= 0) && (t.getHour() <= 23) && (t.getMinute() >= 0) && (t.getMinute() <= 59))
+    {
+        return true;
+    }
+    return false;
+}

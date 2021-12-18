@@ -145,6 +145,13 @@ public:
      */
     bool checkDate(const Date& d) const;
 
+    /**
+     * Checks if time is valid.
+     * @param t - Date object to verify
+     * @return - Returns true if time is valid, false otherwise.
+     */
+    bool checkTime(const Date& t) const;
+
 private:
     int day;
     int month;
