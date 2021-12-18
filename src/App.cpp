@@ -56,6 +56,67 @@ bool App::readDate(Date &date, const string s) const
     }
 }
 
+vector<int> App::findLength(const vector<vector<string>> &table) const
+{
+   vector<int> res(table[0].size(), 2);
+   for (int i = 0; i < table.size(); i++)
+   {
+      for (int j = 0; j < table[0].size(); j++)
+      {
+         if (res[j] < table[i][j].size()) res[j] = table[i][j].size();
+      }
+   }
+   return res;
+}
+
+void App::displayTable(vector<vector<string> > table, int page) const
+{
+   vector<int> length = findLength(table);
+   vector<string> header = table[0];
+   table.erase(table.begin());
+   int n_pages = (table.size() + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE - 1;
+   page = min(n_pages, page - 1);
+   page = max(0, page);
+   string barrier = "+";
+   for (int & i: length) barrier += string(i + 2, '-') + '+';
+   cout << barrier << "\n|";
+   for (int i = 0; i < header.size(); i++) cout << " " << left << setw(length[i]) << header[i]<< " |";
+   cout << endl << barrier << endl;
+   for (int i = page * ITEMS_PER_PAGE; i < table.size() && i < (page + 1) * ITEMS_PER_PAGE; i++)
+   {
+      cout << "|";
+      for (int j = 0; j < table[0].size(); j++)
+      {
+         cout << " " << left << setw(length[j]) << table[i][j] << " |";
+      }
+      cout << endl;
+   }
+   cout << barrier << endl;
+   string index = "Page " + to_string(page + 1) + "/" + to_string(n_pages + 1);
+   cout << right << setw(barrier.size()) << index << endl;
+}
+/*
+int App::displayTable(const vector<vector<string> >& table) const
+{
+   vector<int> length = findLength(table);
+   string barrier = "+";
+   for (int & i: length) barrier += string(i + 2, '-') + '+';
+   cout << barrier << "\n|";
+   for (int i = 0; i < table[0].size(); i++) cout << " " << table[0][i] << setw(length[i]) << " |";
+   cout << endl << barrier << endl;
+   for (int i = 1; i < table.size(); i++)
+   {
+      cout << "|";
+      for (int j = 0; j < table[0].size(); j++)
+      {
+         cout << " "<< left << setw(length[i]) << table[i][j] << " |";
+      }
+      cout << endl;
+   }
+   cout << barrier << endl;
+   return barrier.size();
+}*/
+
 bool App::getOption() const
 {
    char option = 'a';
@@ -220,6 +281,8 @@ void App::helpTicket()
 {
    cout << "ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
    cout << "ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
+   cout << "ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
+   cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passegner.\n";
 }
 
 void App::airport()
@@ -441,26 +504,38 @@ void App::displayFlight()
 
 void App::displayPassenger()
 {
-   vector<Passenger> passengers = airline.getPassengers();
    int page;
+   vector<vector<string> > table;
+   table.push_back({"Id", "Name"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
    {
       cout << "Page must be a number. Please try again.\n";
       return;
    }
-   page *= ITEMS_PER_PAGE;
-   while (passengers.size() <= page) page -= ITEMS_PER_PAGE;
-   if (0 <= page)
-   {
-      cout << "Id\tName\n";
-      for (int i = page; i < passengers.size() &&  i < page + ITEMS_PER_PAGE; i++)
-      {
-         cout << passengers[i].getId() << '\t' << passengers[i].getName() << '\n';
-      }
-      //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
+   for (auto & p: airline.getPassengers()) table.push_back({to_string(p.getId()), p.getName()});
+   displayTable(table, page);
+   //else cout << "No passengers to display.\n\n";
+}
+
+void App::displayTicket()
+{
+   if (command.empty()) {
+      cout << "Usage:\n  ";
+      cout << "  ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
+      cout << "  ticket display passenger 'flight_id'\n  - See the tickets owned by a passenger.\n";
    }
-   else cout << "No passengers to display.\n\n";
+   else if (command.front() == "flight")
+   {
+      command.pop();
+      //displayTicketFlight();
+   }
+   else if (command.front() == "passenger" || command.front() == "pa")
+   {
+      command.pop();
+      //displayTicketPassenger();
+   }
+   else cout << "Invalid command. Use ticket display to get more info.\n";
 }
 
 void App::editAirport()
@@ -602,8 +677,13 @@ void App::ticket()
    {
       command.pop();
       buyTicket();
-      return;
    }
+   else if (command.front() == "display")
+   {
+      command.pop();
+      displayTicket();
+   }
+   else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
 void App::buyTicket()
@@ -612,7 +692,9 @@ void App::buyTicket()
    vector<GroupMember> group;
    if (command.empty())
    {
-      helpTicket(); return;
+      cout << "Usage:\n";
+      cout << "  ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
+      cout << "  ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
    }
    if (!readNumber(flight_id, command.front()))
    {
