@@ -89,6 +89,22 @@ class Passenger
       bool checkIn(Flight& flight, const double& weight);
 
       /**
+       * Checks if a ticket has been purchased already.
+
+       * @param flight - The flight we want to check for.
+
+       * @return Returns true if the passenger owns the ticket, false otherwise.
+       */
+      bool ticketOwned(const Flight& flight) const;
+
+      /**
+       * Returns a ticket for a flight.
+       * @param flight - The flight you want a ticket for.
+       * @return - Returns a ticket to the flight.
+       */
+      Ticket getTicket(const Flight& flight) const;
+
+      /**
        * Passenger's < operator.
        * @param p1 - A passenger object.
        * @return - Returns true if the passenger's name is alphabetically lower and then if the id is lower.
@@ -103,14 +119,6 @@ class Passenger
       bool operator == (const Passenger& p) const;
 
 private:
-      /**
-       * Checks if a ticket has been purchased already.
-
-       * @param flight - The flight we want to check for.
-
-       * @return Returns true if the passenger owns the ticket, false otherwise.
-       */
-      bool ticketOwned(const Flight& flight) const;
 
       /**
        * Looks for a ticket and returns it's index in tickets if found.

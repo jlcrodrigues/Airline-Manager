@@ -99,6 +99,11 @@ bool Passenger::ticketOwned(const Flight& flight) const
    return false;
 }
 
+Ticket Passenger::getTicket(const Flight& flight) const
+{
+   return tickets[findTicket(flight)];
+}
+
 bool Passenger::operator < (const Passenger& p) const
 {
    if (sorting_rule == "id") {

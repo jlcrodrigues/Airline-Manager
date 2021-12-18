@@ -48,7 +48,7 @@ class App
       void displayTable(vector<vector<string> > table, int page) const;
 
 
-      bool getOption() const;
+      bool getOption();
 
       /**Reads a command from cin stream and stores it word by word in the command queue.**/
       void readCommand();
