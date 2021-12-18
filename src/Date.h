@@ -61,26 +61,62 @@ public:
     unsigned getMinute() const;
 
     /**
-     * Returns string with Date - DD/MM/YYYY
+     * Setter for day.
+     * @param day - day value to set
      */
-    string displayDate();
+    void setDay(unsigned int day);
 
     /**
-     * Returns string with Time - HH:MM
+     * Setter for month.
+     * @param month - month value to set
      */
-    string displayTime();
+    void setMonth(unsigned int month);
 
     /**
-     * Returns string with Date and Time - DD/MM/YYYY - HH:MM
+     * Setter for year.
+     * @param year - year value to set
      */
-    string displayDateTime();
+    void setYear(unsigned int year);
+
+    /**
+     * Setter for hour.
+     * @param hour - hour value to set
+     */
+    void setHour(unsigned int hour);
+
+    /**
+     * Setter for minute.
+     * @param minute - minute value to set
+     */
+    void setMinute(unsigned int minute);
+
+   /**
+    * Function to display date in format dd/mm/yyyy.
+    * @param date - date object to display.
+    * @return - Returns string of date in correct format.
+    */
+    string displayDate(const Date &date) const;
+
+    /**
+    * Function to display time in format hh:mm
+    * @param date - date object to display.
+    * @return - Returns string of date in correct time format.
+    */
+    string displayTime(const Date &date) const;
+
+    /**
+     * Function to display date and time in format: dd/mm/yyyy - hh:mm
+     * @param date - date object to display.
+     * @return - Returns string of date in correct format.
+     */
+    string displayDateTime(const Date &date) const;
 
     /**
      * Passes date to string
      * @param date - date to change to string
      * @return - Returns date in string
      */
-    string toString(Date date) const;
+    string toString(const Date &date) const;
 
     /**
      * Bool to determinate if object is a date(dd/mm/yyyy) or a time(hh:mm)

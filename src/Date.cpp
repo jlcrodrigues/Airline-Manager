@@ -34,29 +34,53 @@ unsigned Date::getMinute() const {
     return minute;
 }
 
-string Date::displayDate() {
+void Date::setDay(unsigned int day)
+{
+    this->day = day;
+}
+
+void Date::setMonth(unsigned int month)
+{
+    this->month = month;
+}
+
+void Date::setYear(unsigned int year)
+{
+    this->year = year;
+}
+
+void Date::setHour(unsigned int hour)
+{
+    this->hour = hour;
+}
+
+void Date::setMinute(unsigned int minute)
+{
+    this->minute = minute;
+}
+string Date::displayDate(const Date &date) const {
     string s;
     stringstream ss;
-    ss << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << endl;
+    ss << setfill('0') << setw(2) << date.getDay() << "/" << setfill('0') << setw(2) << date.getMonth() << "/"  << setw(4) << date.getYear() << endl;
     ss >> s;
     return s;
 }
 
-string Date::displayTime() {
+string Date::displayTime(const Date &date) const {
     string s;
     stringstream ss;
-    ss << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    ss << setfill('0') << setw(2) << date.getHour() << "h:" << setfill('0') << setw(2) << date.getMinute() << "m" << endl;
     ss >> s;
     return s;}
 
-string Date::displayDateTime() {
+string Date::displayDateTime(const Date &date) const {
     string s;
     stringstream ss;
-    ss << setfill('0') << setw(2) << day << "/" << setfill('0') << setw(2) << month << "/"  << year << " - " << setfill('0') << setw(2) << hour << "h:" << setfill('0') << setw(2) << minute << "m" << endl;
+    ss << setfill('0') << setw(2) << date.getDay() << "/" << setfill('0') << setw(2) << date.getMonth() << "/"  << setw(4) << date.getYear()  << " - " << setfill('0') << setw(2) << date.getHour() << "h:" << setfill('0') << setw(2) << date.getMinute() << "m" << endl;
     ss >> s;
     return s;}
 
-string Date::toString(Date date) const{
+string Date::toString(const Date &date) const{
     stringstream ss;
     string s;
     if(is_date){
