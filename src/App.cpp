@@ -117,15 +117,60 @@ void App::invalidDuration(Date &date, string &s) const
     }
 }
 
-bool App::getOption() const
+vector<int> App::findLength(const vector<vector<string>> &table) const
+{
+   vector<int> res(table[0].size(), 2);
+   for (int i = 0; i < table.size(); i++)
+   {
+      for (int j = 0; j < table[0].size(); j++)
+      {
+         if (res[j] < table[i][j].size()) res[j] = table[i][j].size();
+      }
+   }
+   return res;
+}
+
+void App::displayTable(vector<vector<string> > table, int page) const
+{
+   vector<int> length = findLength(table);
+   vector<string> header = table[0];
+   table.erase(table.begin());
+   int n_pages = (table.size() + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE - 1;
+   page = min(n_pages, page - 1);
+   page = max(0, page);
+   string barrier = "+";
+   for (int & i: length) barrier += string(i + 2, '-') + '+';
+   cout << barrier << "\n|";
+   for (int i = 0; i < header.size(); i++) cout << " " << left << setw(length[i]) << header[i]<< " |";
+   cout << endl << barrier << endl;
+   for (int i = page * ITEMS_PER_PAGE; i < table.size() && i < (page + 1) * ITEMS_PER_PAGE; i++)
+   {
+      cout << "|";
+      for (int j = 0; j < table[0].size(); j++)
+      {
+         cout << " " << left << setw(length[j]) << table[i][j] << " |";
+      }
+      cout << endl;
+   }
+   cout << barrier << endl;
+   string index = "Page " + to_string(page + 1) + "/" + to_string(n_pages + 1);
+   cout << right << setw(barrier.size()) << index << endl;
+}
+
+bool App::getOption()
 {
    char option = 'a';
    while (option != 'y' && option != 'n')
    {
       cin >> option;
+      if (cin.eof())
+      {
+         app_run = false;
+         return false;
+      }
       option = tolower(option);
+      clearStream();
    }
-   clearStream();
    if (option == 'y') return true;
    return option != 'n';
 }
@@ -183,7 +228,13 @@ void App::processCommand()
          plane();
          return;
       }
-      else if (command.front() == "quit")
+      else if (command.front() == "ticket" || command.front() == "t")
+      {
+         command.pop();
+         ticket();
+         return;
+      }
+      else if (command.front() == "quit" || command.front() == "q")
       {
          quit();
          return;
@@ -281,6 +332,8 @@ void App::helpTicket()
 {
    cout << "ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
    cout << "ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
+   cout << "ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
+   cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passegner.\n";
 }
 
 void App::airport()
@@ -553,7 +606,7 @@ void App::addFlight() {
                 command.pop();
             }
         }
-//        airline.addFlight(Flight(id, Date(stoi(dD.substr(0,2)), stoi(dD.substr(2,2)), stoi(dD.substr(4))), Date(stoi(dT.substr(0,2)), stoi(dT.substr(2))), Date(stoi(d.substr(0,2)), stoi(d.substr(2))), airline.findAirport(aO), airline.findAirport(aD), capacityI));
+//        airline.addFlight(Flight(id, Date(stoi(dD.substr(0,2)), stoi(dD.substr(2,2)), stoi(dD.substr(4))), Date(stoi(dT.substr(0,2)), stoi(dT.substr(2))), Date(stoi(d.substr(0,2)), stoi(d.substr(2))), *airline.findAirport(aO), *airline.findAirport(aD), capacityI));
     }
 }
 
@@ -622,26 +675,134 @@ void App::displayFlight()
 
 void App::displayPassenger()
 {
-   vector<Passenger> passengers = airline.getPassengers();
    int page;
+   vector<Passenger> passengers = airline.getPassengers();
+   if (passengers.size() == 0)
+   {
+      cout << "No passengers to display.\n";
+      return;
+   }
+   vector<vector<string> > table;
+   table.push_back({"Id", "Name"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
    {
       cout << "Page must be a number. Please try again.\n";
       return;
    }
-   page *= ITEMS_PER_PAGE;
-   while (passengers.size() <= page) page -= ITEMS_PER_PAGE;
-   if (0 <= page)
-   {
-      cout << "Id\tName\n";
-      for (int i = page; i < passengers.size() &&  i < page + ITEMS_PER_PAGE; i++)
-      {
-         cout << passengers[i].getId() << '\t' << passengers[i].getName() << '\n';
-      }
-      //cout << "Page (" << page / 5 + 1 << "/" << passengers.size() / 5 << ").\n"; TODO
+   for (auto & p: passengers) table.push_back({to_string(p.getId()), p.getName()});
+   displayTable(table, page);
+}
+
+void App::displayTicket()
+{
+   if (command.empty()) {
+      cout << "Usage:\n  ";
+      cout << "  ticket display flight 'flight_id'\n    - See who has a ticket to that flight.\n";
+      cout << "  ticket display passenger 'passenger_id'\n    - See the tickets owned by a passenger.\n";
    }
-   else cout << "No passengers to display.\n\n";
+   else if (command.front() == "flight")
+   {
+      command.pop();
+      displayTicketFlight();
+   }
+   else if (command.front() == "passenger" || command.front() == "pa")
+   {
+      command.pop();
+      displayTicketPassenger();
+   }
+   else cout << "Invalid command. Use ticket display to get more info.\n";
+}
+
+void App::displayTicketFlight()
+{
+   int page, flight_id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  - ticket display flight 'flight_id'\n";
+      return;
+   }
+   if (!readNumber(flight_id, command.front()))
+   {
+      cout << "Please specify a valid Id. Use flight display to see available flights.\n";
+      return;
+   }
+   command.pop();
+   if (!airline.checkFlight(flight_id))
+   {
+      cout << "That flight doesn't exist. Use flight display to see available flights.\n";
+      return;
+   }
+   Flight* flight = airline.findFlight(flight_id);
+   vector<PassengerTicket> tickets = airline.getTicketsToFlight(*flight);
+   if (tickets.size() == 0)
+   {
+      cout << "Tickets are yet to be purchased for flight " << flight->getNumber() << ".\n";
+      return;
+   }
+   vector<vector<string> > table;
+   table.push_back({"Id", "Name", "Baggage"});
+   if (command.empty()) page = 0;
+   else if (!readNumber(page, command.front()))
+   {
+      cout << "Page must be a number. Please try again.\n";
+      return;
+   }
+   for (auto & t: tickets)
+   {
+      string bag = "No";
+      if (t.ticket.getBaggage()) bag = "Yes";
+      table.push_back({to_string(t.passenger.getId()),
+                       t.passenger.getName(),
+                       bag});
+   }
+   displayTable(table, page);
+}
+
+void App::displayTicketPassenger()
+{
+   int page, passenger_id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  - ticket display passenger 'passenger_id'\n";
+      return;
+   }
+   if (!readNumber(passenger_id, command.front()))
+   {
+      cout << "Please specify a valid Id. Use passenger display to see available passengers.\n";
+      return;
+   }
+   command.pop();
+   if (!airline.checkPassenger(passenger_id))
+   {
+      cout << "That passenger doesn't exist. Use passenger display to see available passengers.\n";
+      return;
+   }
+   Passenger* passenger = airline.findPassenger(passenger_id);
+   vector<Ticket> tickets = passenger->getTickets();
+   if (tickets.size() == 0)
+   {
+      cout << "Passenger " << passenger->getId() << " doesn't own any tickets yet. Use ticket buy to purchase one.\n";
+      return;
+   }
+   vector<vector<string> > table;
+   table.push_back({"Flight Id", "Origin", "Destination", "Baggage"});
+   if (command.empty()) page = 0;
+   else if (!readNumber(page, command.front()))
+   {
+      cout << "Page must be a number. Please try again.\n";
+      return;
+   }
+   for (auto & t: tickets) {
+      Flight flight = t.getFlight();
+      string bag = "No";
+      if (t.getBaggage()) bag = "Yes";
+      table.push_back({to_string(flight.getNumber()),
+                       flight.getAirportOrigin().getName(),
+                       flight.getAirportDestination().getName(),
+                       bag});
+   }
+   displayTable(table, page);
 }
 
 void App::editAirport()
@@ -777,14 +938,19 @@ void App::ticket()
 {
    if (command.empty())
    {
-      cout << "Invalid command. Use help ticket to see available commands.\n";
+      cout << "Command not recognized. Use help ticket to see available commands.\n";
    }
    else if (command.front() == "buy")
    {
       command.pop();
       buyTicket();
-      return;
    }
+   else if (command.front() == "display")
+   {
+      command.pop();
+      displayTicket();
+   }
+   else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
 void App::buyTicket()
@@ -793,7 +959,9 @@ void App::buyTicket()
    vector<GroupMember> group;
    if (command.empty())
    {
-      helpTicket(); return;
+      cout << "Usage:\n";
+      cout << "  ticket buy 'flight_id' 'passenger_id'\n    - Buy the passenger a ticket for the flight.\n";
+      cout << "  ticket buy 'flight_id' id_list\n    - Buy a ticket to various passengers.\n";
    }
    if (!readNumber(flight_id, command.front()))
    {
@@ -820,16 +988,16 @@ void App::buyTicket()
          return;
       }
       Passenger* pa = airline.findPassenger(passenger_id);
-      char option;
-      cout << "Include baggage for passenger " << pa->getName() << "(" << pa->getId() << ")? (y/n) ";
+      cout << "Include baggage for passenger " << pa->getName() << " (" << pa->getId() << ")? (y/n):";
       group.push_back({pa, getOption()});
+      command.pop();
    }
    if (airline.buyTicket(flight, group))
    {
-      cout << "The tickets to " << flight->getAirportDestination().getName() << " were bought.\n";
+      cout << "\nThe tickets to " << flight->getAirportDestination().getName() << " were bought.\n";
    }
    else
-      cout << "Couldn't buy tickets. Please try again.";
+      cout << "Couldn't buy tickets. Please try again.\n";
 }
 
 void App::quit()

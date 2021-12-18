@@ -19,6 +19,12 @@
 
 using namespace std;
 
+struct PassengerTicket
+{
+    Passenger passenger;
+    Ticket ticket;
+};
+
 class Airline
 {
    public:
@@ -57,6 +63,8 @@ class Airline
        * @return - Returns a vector containing all the airline's planes.
        */
       vector<Plane> getPlanes() const;
+
+      vector<PassengerTicket> getTicketsToFlight(const Flight& flight) const;
 
       /**
        * Looks for the existence of an airport.

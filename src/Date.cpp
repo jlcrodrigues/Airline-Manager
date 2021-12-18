@@ -34,7 +34,7 @@ unsigned Date::getMinute() const {
     return minute;
 }
 
-void Date::setDay(int day)
+void Date::setDay(unsigned int day)
 {
     this->day = day;
 }

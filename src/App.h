@@ -8,6 +8,7 @@
 #include <queue>
 #include <sstream>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -39,7 +40,22 @@ class App
 
       void invalidDuration(Date &date, string &s) const;
 
-      bool getOption() const;
+      /**
+       * Finds the maximum for each field in a table.
+       * @param table - A 2d vector of strings.
+       * @return - Returns a vector with the width for each column of the table.
+       */
+      vector<int> findLength(const vector<vector<string> >& table) const;
+
+      /**
+       * Outputs a table from a 2d string vector.
+       * @param table - A 2d string vector. The first element is the header.
+       * @param page - The page to be displayed (user input).
+       */
+      void displayTable(vector<vector<string> > table, int page) const;
+
+
+      bool getOption();
 
       /**Reads a command from cin stream and stores it word by word in the command queue.**/
       void readCommand();
@@ -99,6 +115,12 @@ class App
 
       /**Displays the airline's passengers.**/
       void displayPassenger();
+
+      void displayTicket();
+
+      void displayTicketFlight();
+
+      void displayTicketPassenger();
 
       /**
       * Edits the details for an existing airport.
