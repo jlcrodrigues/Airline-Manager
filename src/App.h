@@ -28,6 +28,12 @@ class App
       /**Clears the cin buffer.**/
       void clearStream() const;
 
+      /**
+       * Checks it user input is a integer.
+       * @param n - Value to store integer value of string.
+       * @param s - String to convert to interger.
+       * @return - Returns true if it's possible to convert string to integer. False otherwise.
+       */
       bool readNumber(int& n, const string& s) const;
 
       bool readDate(Date &date, const string s) const;

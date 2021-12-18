@@ -52,7 +52,6 @@ bool App::readDate(Date &date, const string s) const
         date.setDay(stoi(airline.getDateString(s).substr(0,2)));
         date.setMonth(stoi(airline.getDateString(s).substr(2,2)));
         date.setYear(stoi(airline.getDateString(s).substr(4, 4)));
-
         if (!date.checkDate(date)) return false;
         return true;
     }
@@ -310,7 +309,7 @@ void App::helpFlight()
    cout << "flight edit 'id'\n  -  Edit an existing flight by id.\n";
    cout << "flight remove 'id'\n  -  Removes an existing flight by id.\n";
    cout << "flight find 'id'\n  -  Try to locate a flight by id.\n";
-   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' and 'departure.'\n";
+   cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' or 'departure.'\n";
 }
 
 void App::helpPassenger()
@@ -531,23 +530,34 @@ void App::addFlight() {
             clearStream();
             if (!airline.checkAirport(aO)) {
                 while (1) {
-                    cout << "Airport " << aO
-                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Airport " << aO << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
                     cout << "Origin airport id: ";
                     cin >> aO;
                     clearStream();
+                    if (aO == "airportDisplay")
+                    {
+                        displayAirport();
+                        return;
+                    }
                     if (airline.checkAirport(aO)) break;
                 }
             }
-        } else {
+        }
+        else
+        {
             aO = command.front();
+            transform(aO.begin(), aO.end(), aO.begin(), ::toupper);
             if (!airline.checkAirport(aO)) {
                 while (1) {
-                    cout << "Airport " << aO
-                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Airport " << aO << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
                     cout << "Origin airport id: ";
                     cin >> aO;
                     clearStream();
+                    if (aO == "airportDisplay")
+                    {
+                        displayAirport();
+                        return;
+                    }
                     if (airline.checkAirport(aO)) break;
                 }
             }
@@ -559,23 +569,32 @@ void App::addFlight() {
             clearStream();
             if (!airline.checkAirport(aD)) {
                 while (1) {
-                    cout << "Airport " << aD
-                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Airport " << aD << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
                     cout << "Destination airport id: ";
                     cin >> aD;
                     clearStream();
+                    if (aD == "airportDisplay")
+                    {
+                        displayAirport();
+                        return;
+                    }
                     if (airline.checkAirport(aD)) break;
                 }
             }
         } else {
             aD = command.front();
+            transform(aD.begin(), aD.end(), aD.begin(), ::toupper);
             if (!airline.checkAirport(aD)) {
                 while (1) {
-                    cout << "Airport " << aD
-                         << " doesn't exist.\nTo check available airports, quit and try: airport display\n";
+                    cout << "Airport " << aD << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
                     cout << "Destination airport id: ";
                     cin >> aD;
                     clearStream();
+                    if (aO == "airportDisplay")
+                    {
+                        displayAirport();
+                        return;
+                    }
                     if (airline.checkAirport(aD)) break;
                 }
             }
@@ -606,7 +625,7 @@ void App::addFlight() {
                 command.pop();
             }
         }
-//        airline.addFlight(Flight(id, Date(stoi(dD.substr(0,2)), stoi(dD.substr(2,2)), stoi(dD.substr(4))), Date(stoi(dT.substr(0,2)), stoi(dT.substr(2))), Date(stoi(d.substr(0,2)), stoi(d.substr(2))), *airline.findAirport(aO), *airline.findAirport(aD), capacityI));
+        airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
     }
 }
 
@@ -670,7 +689,23 @@ void App::displayAirport()
 
 void App::displayFlight()
 {
-
+    vector<Flight> flights = airline.getFlights();
+    int page;
+    if (flights.size() == 0)
+    {
+        cout << "No flights to display.\n";
+        return;
+    }
+    vector<vector<string>> table;
+    table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity"});
+    if (command.empty()) page == 0;
+    else if (!readNumber(page, command.front()))
+    {
+        cout << "Page must be an integer. Please try again.\n";
+        return;
+    }
+    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity())});
+    displayTable(table, page);
 }
 
 void App::displayPassenger()
@@ -912,7 +947,18 @@ void App::findPassenger()
 
 void App::sortFlight()
 {
-
+    if (!command.empty())
+    {
+        if (command.front() == "number" || command.front() == "departure" || command.front() == "duration" || command.front() == "capacity")
+        {
+            airline.setFlightOrder(command.front());
+            cout << "Flights sorted by " << command.front() << ".\n";
+        }
+        else
+        {
+            cout << "Invalid option. Use help flight for more info.\n";
+        }
+    }
 }
 
 void App::sortPassenger()

@@ -103,7 +103,7 @@ bool Flight::operator<(const Flight &f) const
    }
    else if (sorting_rule == "departure")
    {
-      if (departureDate == f.getDepartureDate()) return number < f.getNumber();
+      if (departureDate == f.getDepartureDate()) return departureTime < f.getDepartureTime();
       return departureDate < f.getDepartureDate();
    }
    else if (sorting_rule == "duration")
