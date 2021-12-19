@@ -250,6 +250,15 @@ bool Airline::loadPassengers(const string &file_name)
       line_contents = readLine(line);
       passengers.push_back(Passenger(stoi(line_contents[0]),
                                      line_contents[1]));
+      for (int i = 2; i < line_contents.size(); i++)
+      {
+         Flight* flight = findFlight(stoi(line_contents[i]));
+         bool baggage = false;
+         if (line_contents[i++] == "1") baggage = true;
+         Ticket ticket(*flight, baggage);
+         if (line_contents[i++] == "1") ticket.checkIn();
+         passengers[passengers.size() - 1].addTicket(ticket);
+      }
    }
    file.close();
    sort(passengers.begin(), passengers.end());
@@ -532,7 +541,9 @@ bool Airline::readData(const string &dateString, Date &date)
 
 bool Airline::buyTicket(Flight *flight, vector<GroupMember> group)
 {
-   return passengers[0].buyTicket(flight, group);
+   bool r = passengers[0].buyTicket(flight, group);
+   saveFile(passengers, passengers_file);
+   return r;
 }
 
 void Airline::assignAllCarts()
@@ -567,6 +578,23 @@ bool Airline::insertBaggage(const int& flight_id, const Baggage &bag)
       }
    }
    return false;
+}
+
+bool Airline::checkIn(const int &flight_id, const int &passenger_id)
+{
+   Flight* flight = findFlight(flight_id);
+   Passenger* passenger = findPassenger(passenger_id);
+   passenger->checkIn(*flight);
+   saveFile(passengers, passengers_file);
+   return true;
+}
+
+bool Airline::checkIn(const int &flight_id, const int &passenger_id, const double& bag)
+{
+   checkIn(flight_id, passenger_id);
+   insertBaggage(flight_id, bag);
+   saveFile(carts, carts_file);
+   return true;
 }
 
 template<typename T>

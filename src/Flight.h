@@ -109,6 +109,7 @@ private:
    int capacity;
       int occupation;
       int number;
+      int check_in;
       Date departureDate;
       Date departureTime;
       Date duration;

@@ -1420,7 +1420,7 @@ void App::checkIn()
    int id, flight_id;
    if (command.empty())
    {
-      cout << "Usage:\n  passenger checkin 'flight_id'";
+      cout << "Usage:\n  passenger checkin 'id' 'flight_id'\n";
       return;
    }
    if (!readNumber(id, command.front()))
@@ -1449,9 +1449,15 @@ void App::checkIn()
    Flight* flight = airline.findFlight(flight_id);
    if (passenger->ticketOwned(*flight))
    {
+      Ticket ticket = passenger->getTicket(*flight);
+      if (ticket.hasCheckedIn())
+      {
+         cout << "Passenger " << id << " has already checked in to that flight.\n";
+         return;
+      }
       if (!passenger->getTicket(*flight).getBaggage())
       {
-         passenger->checkIn(*flight);
+         airline.checkIn(flight_id, id);
       }
       else
       {
@@ -1459,11 +1465,11 @@ void App::checkIn()
          cout << "Baggage weight (kg): ";
          cin >> weight;
          clearStream();
-         cout << "yes1";
-         passenger->checkIn(*flight);
-         cout << "yes2";
-         airline.insertBaggage(flight_id, Baggage(weight));
-         cout << "yes3";
+         if (!airline.checkIn(flight_id, id, weight))
+         {
+            cout << "Flight " << flight_id << "'s carts are all full. Try adding a new one before checking in a passenger.\n";
+            return;
+         }
       }
       cout << "Check in successful!\n";
    }

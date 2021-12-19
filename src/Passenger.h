@@ -32,6 +32,12 @@ class Passenger
       string getCsv() const;
 
       /**
+       * Adds a ticket to the ticket list.
+       * @param ticket - Ticket object.
+       */
+      void addTicket(const Ticket& ticket);
+
+      /**
       *Buys a ticket.
 
       *@param flight - The flight the ticket's for.
@@ -77,16 +83,6 @@ class Passenger
        * @return - Returns true if the check-in was successful, false otherwise.
        */
       bool checkIn(Flight& flight);
-
-      /**
-       * Checks a bag into a flight.
-
-       * @param flight - The flight you want to check in.
-       * @param weight - The bag's weight.
-
-       * @return - Returns true if the check-in was successful, false otherwise.
-       */
-      bool checkIn(Flight& flight, const double& weight);
 
       /**
        * Checks if a ticket has been purchased already.

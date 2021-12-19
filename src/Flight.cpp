@@ -14,6 +14,7 @@ Flight::Flight(const int &number, const Date &departureDate, const Date &departu
    this->origin = origin;
    this->destination = destination;
    this->capacity = capacity;
+   check_in = 0;
 }
 
 string Flight::getCsv() const

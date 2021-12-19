@@ -379,6 +379,16 @@ class Airline
        */
       bool insertBaggage(const int& flight_id, const Baggage& bag);
 
+      /**
+       * Checks in a passenger to a flight.
+       * @param flight_id - The flight id.
+       * @param passenger_id - The passenger id.
+       * @return - Returns true if the passenger was checked in, false otherwise.
+       */
+      bool checkIn(const int& flight_id, const int& passenger_id);
+
+      bool checkIn(const int& flight_id, const int& passenger_id, const double& bag);
+
 private:
    /**
     * Sorts a vector using the Insertion Sort algorithm.
