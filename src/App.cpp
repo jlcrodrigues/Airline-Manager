@@ -1088,11 +1088,13 @@ void App::findAirport()
           return;
       }
       cout << "Name: " << a->getName() << " \nNumber of Transports: " << a->getTransports().size() << " \n";
-      cout << "Closest Transport: " << a->findClosest().type << " at " << a->findClosest().distance << " kilometers" << "\n";
-      vector<vector<string> > table;
-      table.push_back({"Type", "Distance", "First time", "Last time"});
-      for (auto b: a->getTransports() ) table.push_back({b.type, to_string(b.distance), b.time.begin()->displayTime(), (b.time.end()-1)->displayTime()});
-      displayTable(table, page);
+      if(a->getTransports().size()!=0) {
+         cout << "Closest Transport: " << a->findClosest().type << " at " << a->findClosest().distance << " kilometers" << "\n";
+         vector<vector<string> > table;
+         table.push_back({"Type", "Distance", "First time", "Last time"});
+         for (auto b: a->getTransports() ) table.push_back({b.type, to_string(b.distance), b.time.begin()->displayTime(), (b.time.end()-1)->displayTime()});
+         displayTable(table, page);
+      }
    }
    else cout << "Airport not found.\n";
 }
