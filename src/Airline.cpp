@@ -162,7 +162,7 @@ bool Airline::loadAirports(const string &file_name)
    while(getline(file, line))
    {
       line_contents = readLine(line);
-      string name = line_contents[0];
+      /*string name = line_contents[0];
       set<Transport> s;
       Transport t;
       Date d(00,00);
@@ -180,7 +180,8 @@ bool Airline::loadAirports(const string &file_name)
          t.time = v;
          s.insert(t);
       }
-      airports.push_back(Airport(line_contents[0], s));
+      */
+      airports.push_back(Airport(line_contents[0], set<Transport>()));
    }
    file.close();
    sort(airports.begin(), airports.end());
