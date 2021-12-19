@@ -300,6 +300,14 @@ class Airline
       string getTimeString(string date) const;
 
       /**
+       * Checks if string is a possible date and converts it to a date.
+       * @param dateString - String with the possible date.
+       * @param date - Receives the new date.
+       * @return - Returns true if the string is a possible date and false otherwise.
+      **/
+      bool readData(const string &dateString, Date &date);
+
+      /**
        *
        * @param flight
        * @param group

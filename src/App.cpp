@@ -1062,6 +1062,7 @@ void App::removePlane()
 
 void App::findAirport()
 {
+   int page;
    string name;
    if (command.empty())
    {
@@ -1069,16 +1070,23 @@ void App::findAirport()
       return;
    }
    name = command.front();
+   command.pop();
    transform(name.begin(),name.end(),name.begin(),::toupper);
    if (airline.checkAirport(name))
    {
       Airport* a = airline.findAirport(name);
-      vector<Date> d1;
-      Date d2(20,30);
-      d1.push_back(d2);
-      a->addTransport({"Car",20,d1});
+      if (command.empty()) page = 0;
+      else if (!readNumber(page, command.front()))
+      {
+          cout << "Page must be a number. Please try again.\n";
+          return;
+      }
       cout << "Name: " << a->getName() << " \nNumber of Transports: " << a->getTransports().size() << " \n";
       cout << "Closest Transport: " << a->findClosest().type << " at " << a->findClosest().distance << " kilometers" << "\n";
+      vector<vector<string> > table;
+      table.push_back({"Type", "Distance", "First time", "Last time"});
+      for (auto b: a->getTransports() ) table.push_back({b.type, to_string(b.distance), b.time.begin()->displayTime(), (b.time.end()-1)->displayTime()});
+      displayTable(table, page);
    }
    else cout << "Airport not found.\n";
 }
