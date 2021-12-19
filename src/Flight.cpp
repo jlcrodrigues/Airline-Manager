@@ -14,6 +14,7 @@ Flight::Flight(const int &number, const Date &departureDate, const Date &departu
    this->origin = origin;
    this->destination = destination;
    this->capacity = capacity;
+   check_in = 0;
 }
 
 string Flight::getCsv() const
@@ -66,6 +67,16 @@ Airport Flight::getAirportDestination() const
 int Flight::getCapacity() const
 {
    return capacity;
+}
+
+set<int> Flight::getCarts() const
+{
+   return carts;
+}
+
+void Flight::addCart(const int &id)
+{
+   carts.insert(id);
 }
 
 bool Flight::buyTicket(const int& amount)

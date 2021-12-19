@@ -6,6 +6,7 @@
 #include "Date.h"
 
 #include <queue>
+#include <set>
 
 class Flight
 {
@@ -79,6 +80,18 @@ class Flight
       int getCapacity() const;
 
       /**
+       * Getter for the carts set.
+       * @return - Returns a set containg assigned carts.
+       */
+      set<int> getCarts() const;
+
+      /**
+       * Adds a new cart to the carts id list.
+       * @param id - The id of the cart.
+       */
+      void addCart(const int& id);
+
+      /**
          *If there's one available, fills a seat.
 
          *@return - True if the ticket was bought, false otherwise.
@@ -96,11 +109,13 @@ private:
    int capacity;
       int occupation;
       int number;
+      int check_in;
       Date departureDate;
       Date departureTime;
       Date duration;
       Airport origin;
       Airport destination;
+      set<int> carts;
 };
 
 #endif

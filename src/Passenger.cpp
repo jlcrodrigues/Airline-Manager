@@ -14,8 +14,36 @@ string Passenger::getCsv() const
 {
    string csv = "";
    csv += to_string(id) + ',';
-   csv += name + '\n';
+   csv += name;
+   for (auto & ticket: tickets)
+   {
+      string bag = "0";
+      if (ticket.getBaggage()) bag = "1";
+      string checkin = "0";
+      if (ticket.hasCheckedIn()) checkin = "1";
+      csv += ',' + to_string(ticket.getFlight().getNumber()) + ',';
+      csv += bag + ',' + checkin;
+   }
+   csv += '\n';
    return csv;
+}
+
+void Passenger::addTicket(const Ticket &ticket)
+{
+   tickets.push_back(ticket);
+}
+
+void Passenger::removeTicket(const int &flight_id)
+{
+   vector<Ticket>::iterator it = tickets.begin();
+   for (; it != tickets.end(); it++)
+   {
+      if (it->getFlight().getNumber() == flight_id)
+      {
+         tickets.erase(it);
+         return;
+      }
+   }
 }
 
 bool Passenger::buyTicket(Flight* flight, const bool& baggage)
@@ -67,26 +95,8 @@ bool Passenger::checkIn(Flight& flight)
 {
    if (!ticketOwned(flight)) return false;
    size_t i = findTicket(flight);
-   if (tickets[i].getBaggage())
-   {
-      throw invalid_argument("You should check in with baggage.");
-      return false;
-   }
-   tickets.erase(tickets.begin() + i);
+   tickets[i].checkIn();
    return true;
-}
-
-bool Passenger::checkIn(Flight& flight, const double& weight)
-{
-   if (!ticketOwned(flight)) return false;
-   size_t i = findTicket(flight);
-   if (tickets[i].getBaggage())
-   {
-      tickets.erase(tickets.begin() + i);
-      //flight.insertBaggage(Baggage(weight));
-      return true;
-   }
-   return false;
 }
 
 bool Passenger::ticketOwned(const Flight& flight) const

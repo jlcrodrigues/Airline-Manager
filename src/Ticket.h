@@ -28,10 +28,22 @@ class Ticket
 
          *@return - Returns baggage boolean.
       **/
-      bool getBaggage();
+      bool getBaggage() const;
+
+      /**
+       * Makes the ticket checked in.
+       */
+      void checkIn();
+
+      /**
+       * Check if the ticket has been check in already.
+       * @return - True if the ticket is already checked in.
+       */
+      bool hasCheckedIn() const;
    private:
       Flight flight;
       bool baggage;
+      bool checked_in;
 
 };
 

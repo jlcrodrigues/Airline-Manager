@@ -104,6 +104,11 @@ bool Cart::isFull() const
    return false;
 }
 
+void Cart::clear()
+{
+   contents.clear();
+}
+
 bool Cart::operator<(const Cart &c) const
 {
    return id < c.getId();
