@@ -38,6 +38,12 @@ class Passenger
       void addTicket(const Ticket& ticket);
 
       /**
+       * Removes all the tickets to a flight.
+       * @param flight_id - The flight to be searched.
+       */
+      void removeTicket(const int& flight_id);
+
+      /**
       *Buys a ticket.
 
       *@param flight - The flight the ticket's for.

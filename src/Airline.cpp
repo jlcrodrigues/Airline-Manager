@@ -597,6 +597,27 @@ bool Airline::checkIn(const int &flight_id, const int &passenger_id, const doubl
    return true;
 }
 
+void Airline::flyFlight(const int& flight_id)
+{
+   for (int i = 0; i < carts.size(); i++)
+   {
+      if (carts[i].getFlight() == flight_id)
+      {
+         carts[i].clear();
+         carts[i].setFlight(0);
+      }
+   }
+   for (int i = 0; i < passengers.size(); i++)
+   {
+      passengers[i].removeTicket(flight_id);
+   }
+   vector<Flight>::iterator it = flights.begin();
+   for (; it != flights.end(); it++)
+   {
+      if (it->getNumber() == flight_id) it = flights.erase(it);
+   }
+}
+
 template<typename T>
 void Airline::insertionSort(vector<T>& v)
 {

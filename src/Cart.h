@@ -89,6 +89,9 @@ public:
    **/
    bool isFull() const;
 
+   /**Remove every bag in the cart.**/
+   void clear();
+
    /**
     * Less than operator for Cart.
     * @param c - A cart object.

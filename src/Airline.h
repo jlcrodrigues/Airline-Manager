@@ -389,6 +389,8 @@ class Airline
 
       bool checkIn(const int& flight_id, const int& passenger_id, const double& bag);
 
+      void flyFlight(const int& flight_id);
+
 private:
    /**
     * Sorts a vector using the Insertion Sort algorithm.

@@ -326,6 +326,7 @@ void App::helpFlight()
    cout << "flight remove 'id'\n  - Removes an existing flight by id.\n";
    cout << "flight find 'id'\n  - Try to locate a flight by id.\n";
    cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' or 'departure.'\n";
+   cout << "flight fly 'id'\n  - Take off flight number id.\n";
 }
 
 void App::helpCart()
@@ -351,7 +352,7 @@ void App::helpPassenger()
 
 void App::helpPlane()
 {
-   cout << "plane display [plage]\n  - Displays the existing planes.\n";
+   cout << "plane display [page]\n  - Displays the existing planes.\n";
    cout << "plane add 'id'\n - Add the plane by id.\n";
    cout << "plane edit 'id'\n  - Edit an existing plane by id.\n";
    cout << "plane remove 'id'\n  - Removes an existing plane by id.\n";
@@ -479,6 +480,11 @@ void App::flight()
    {
        command.pop();
        sortFlight();
+   }
+   else if (command.front() == "fly")
+   {
+      command.pop();
+      flyFlight();
    }
    else cout << "Invalid command. Use help flight to get more info.\n";
    return;
@@ -1514,6 +1520,28 @@ void App::assignCart()
       airline.assignCartFlight(id, flight_id);
       cout << "Cart " << id << " was assigned to flight " << flight_id << ".\n";
    }
+}
+
+void App::flyFlight()
+{
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  flight fly 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   if (!airline.checkFlight(id))
+   {
+      cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+      return;
+   }
+   airline.flyFlight(id);
+   cout << "The flight took of.\n";
 }
 
 void App::quit()

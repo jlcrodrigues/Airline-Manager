@@ -254,6 +254,8 @@ class App
 
       void assignCart();
 
+      void flyFlight();
+
 
       bool partialDisplay(string since, string until);
       void partialDisplayAux(Flight f);
