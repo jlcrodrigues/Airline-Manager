@@ -20,9 +20,9 @@ string Flight::getCsv() const
 {
    string csv = "";
    csv += to_string(number) + ',';
-   csv += departureDate.toString(departureDate) + ',';
-   csv += departureTime.toString(departureTime) + ',';
-   csv += duration.toString(duration) + ',';
+   csv += departureDate.toStringDate(departureDate) + ',';
+   csv += departureTime.toStringTime(departureTime) + ',';
+   csv += duration.toStringTime(duration) + ',';
    csv += origin.getName() + ',';
    csv += destination.getName() + ',';
    csv += to_string(capacity) + '\n';
@@ -88,7 +88,7 @@ bool Flight::operator<(const Flight &f) const
    }
    else if (sorting_rule == "departure")
    {
-      if (departureDate == f.getDepartureDate()) return departureTime < f.getDepartureTime();
+      if (departureDate == f.getDepartureDate()) return number < f.getNumber();
       return departureDate < f.getDepartureDate();
    }
    else if (sorting_rule == "duration")

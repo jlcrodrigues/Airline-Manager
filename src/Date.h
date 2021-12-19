@@ -109,11 +109,19 @@ public:
     string displayDateTime() const;
 
     /**
-     * Passes date to string
-     * @param date - date to change to string
-     * @return - Returns date in string
+     * Passes date to string.
+     * @param date - date to pass to string
+     * @return - Returns date in string dd/mm/yyyy
      */
-    string toString(const Date &date) const;
+    string toStringDate(const Date &date) const;
+
+    /**
+     * Passes time to string
+     * @param date - time to pass to string
+     * @return - Returns time in string hh::mm
+     */
+    string toStringTime(const Date &date) const;
+
 
     /**
      * Bool to determinate if object is a date(dd/mm/yyyy) or a time(hh:mm)

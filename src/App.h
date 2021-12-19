@@ -40,7 +40,10 @@ class App
 
       bool readTime(Date &date, const string s) const;
 
-      void invalidDate(Date &date, string &s) const;
+      bool invalidAirportOrigin(string &aO);
+      bool invalidAirportDestination(string &aD);
+
+      void invalidDepartureDate(Date &date, string &s) const;
 
       void invalidDepartureTime(Date &date, string &s) const;
 
@@ -157,6 +160,8 @@ class App
       */
       void displayFlight();
 
+      void partialDisplayFlight();
+
       /**Displays the airline's carts.**/
       void displayCart();
 
@@ -248,10 +253,6 @@ class App
       void sortPlane();
 
       void checkIn();
-
-
-      bool partialDisplay(string since, string until);
-      void partialDisplayAux(Flight f);
 };
 
 

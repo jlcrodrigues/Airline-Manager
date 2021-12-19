@@ -15,6 +15,7 @@ string Plane::getCsv() const
 {
    string csv = "";
    csv += id + ',';
+   csv += model + ',';
    csv += to_string(capacity) + '\n';
    return csv;
 }
@@ -65,17 +66,17 @@ vector<Service> Plane::getOldServices() {
 
 bool Plane::operator < (const Plane &p) const
 {
-   if (Plane::sorting_rule == "id")
+   if (sorting_rule == "id")
    {
       if (id == p.getId()) return capacity < p.getCapacity();
       return id < p.getId();
    }
-   if (Plane::sorting_rule == "model")
+   if (sorting_rule == "model")
    {
       if (model == p.getModel()) return id < p.getId();
       return model < p.getModel();
    }
-   if (Plane::sorting_rule == "capacity") {
+   if (sorting_rule == "capacity") {
       if (capacity == p.getCapacity()) return id < p.getId();
       return capacity < p.getCapacity();
    }

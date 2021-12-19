@@ -307,7 +307,7 @@ bool Airline::addAirport(const Airport &airport)
 
 bool Airline::addFlight(const Flight& flight)
 {
-   if (findElem(flights, flight) != -1) return false;
+//   if (findElem(flights, flight) != -1) return false;
    flights.push_back(flight);
    insertionSort(flights);
    saveFile(flights, flights_file);

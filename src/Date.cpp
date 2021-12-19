@@ -92,20 +92,23 @@ string Date::displayDateTime() const
     return s;
 }
 
-string Date::toString(const Date &date) const
+string Date::toStringDate(const Date &date) const
 {
     stringstream ss;
     string s;
-    if(is_date){
-        ss << setfill('0') << setw(2) <<date.day << "/" << setfill('0') << setw(2) << date.month << "/" << setw(4) << date.year;
-        ss >> s;
-        return s;
-    }
-    else{
-        ss << setfill('0') << setw(2) <<date. hour << ":" << setfill('0') << setw(2) << date.minute;
-        ss >> s;
-        return s;
-    }
+    ss << setfill('0') << setw(2) <<date.day << "/" << setfill('0') << setw(2) << date.month << "/" << setw(4) << date.year;
+    ss >> s;
+    return s;
+}
+
+string Date::toStringTime(const Date &date) const
+{
+    stringstream ss;
+    string s;
+    ss << setfill('0') << setw(2) <<date. hour << ":" << setfill('0') << setw(2) << date.minute;
+    ss >> s;
+    return s;
+
 }
 
 bool Date::isDate()
@@ -115,24 +118,25 @@ bool Date::isDate()
 
 bool Date::operator<(const Date &d) const
 {
-    if(d.is_date){
-        if(year == d.getYear()) return month < d.getMonth();
-        if(month == d.getMonth()) return day < d.getDay();
-        return year < d.getYear();
+    if (year == d.getYear())
+    {
+        if(month == d.getMonth())
+        {
+            if (day == d.getDay())
+            {
+                if (hour == d.getHour()) return minute < d.getMinute();
+                return hour < d.getHour();
+            }
+            return day < d.getDay();
+        }
+        return month < d.getMonth();
     }
-
-    if(hour == d.getHour()) return minute < d.getMinute();
-    return hour < d.getHour();
+    return year < d.getYear();
 }
 
 bool Date::operator==(const Date &d) const
 {
-    if(d.is_date){
-        if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
-        return false;
-    }
-
-    if((hour == d.getHour()) && (minute == d.getMinute())) return true;
+    if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
     return false;
 }
 
