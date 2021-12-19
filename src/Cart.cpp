@@ -46,6 +46,7 @@ string Cart::getCsv() const
    {
       csv += ',' + to_string(bags.front().getWeight());
    }
+   csv += '\n';
    return csv;
 }
 
