@@ -68,6 +68,16 @@ int Flight::getCapacity() const
    return capacity;
 }
 
+set<int> Flight::getCarts() const
+{
+   return carts;
+}
+
+void Flight::addCart(const int &id)
+{
+   carts.insert(id);
+}
+
 bool Flight::buyTicket(const int& amount)
 {
    if (0 <= occupation - amount)

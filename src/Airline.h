@@ -235,7 +235,7 @@ class Airline
       /**
        * Removes an existing car by id.
        * @param id - The id of the cart to be removed.
-       * @return - Returns true if the opertation was successful and false if the cart is not found.
+       * @return - Returns true if the operation was successful and false if the cart was not found.
        */
       bool removeCart(const int& id);
 
@@ -362,13 +362,29 @@ class Airline
        */
       bool buyTicket(Flight* flight, vector<GroupMember> group);
 
+      /**Assigns the correct carts to each flight**/
+      void assignAllCarts();
+
+      /**
+       * Assigns a flight to a cart;
+       * @param id - The cart id.
+       * @param flight_id - The flight id.
+       */
+      void assignCartFlight(const int& id, const int& flight_id);
+
+      /**
+       * Adds a new bag to one of the flight's assigned carts.
+       * @param bag - A bag object.
+       * @return - Return true if the operation was successful.
+       */
+      bool insertBaggage(const int& flight_id, const Baggage& bag);
 
 private:
-      /**
-       * Sorts a vector using the Insertion Sort algorithm.
-       * @tparam T - Any object with a < operator implemented.
-       * @param v - The vector to be sorted.
-       */
+   /**
+    * Sorts a vector using the Insertion Sort algorithm.
+    * @tparam T - Any object with a < operator implemented.
+    * @param v - The vector to be sorted.
+    */
       template<typename T>
       void insertionSort(vector<T>& v);
 

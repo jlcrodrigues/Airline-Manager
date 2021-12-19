@@ -12,6 +12,7 @@ Airline::Airline()
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
    loadCarts(carts_file);
+   assignAllCarts();
    Flight::sorting_rule = "departure"; //number, departure, duration, capacity
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
@@ -29,6 +30,7 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
    loadCarts(carts_file);
+   assignAllCarts();
    Flight::sorting_rule = "departure"; //number, departure, duration, capacity
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
@@ -531,6 +533,40 @@ bool Airline::readData(const string &dateString, Date &date)
 bool Airline::buyTicket(Flight *flight, vector<GroupMember> group)
 {
    return passengers[0].buyTicket(flight, group);
+}
+
+void Airline::assignAllCarts()
+{
+   for (auto & cart: carts)
+   {
+      int id = cart.getFlight();
+      Flight* flight = findFlight(id);
+      flight->addCart(id);
+   }
+}
+
+void Airline::assignCartFlight(const int &id, const int &flight_id)
+{
+   int i = findElem(carts, Cart(id, 0, 0, 0));
+   carts[i].setFlight(flight_id);
+   saveFile(carts, carts_file);
+}
+
+bool Airline::insertBaggage(const int& flight_id, const Baggage &bag)
+{
+   Flight* flight = findFlight(flight_id);
+   set<int> carts = flight->getCarts();
+   set<int>::iterator it = carts.begin();
+   for (; it != carts.end(); it++)
+   {
+      Cart* cart = findCart(*it);
+      if (!cart->isFull())
+      {
+         cart->insert(bag);
+         return true;
+      }
+   }
+   return false;
 }
 
 template<typename T>

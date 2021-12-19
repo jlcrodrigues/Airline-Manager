@@ -334,6 +334,8 @@ void App::helpCart()
    cout << "cart add 'id'\n  - Add the cart by id.\n";
    cout << "cart edit 'id'\n  - Edit the cart by id.\n";
    cout << "cart remove 'id'\n  - Remove a cart by id.\n";
+   cout << "cart find 'id'\n  - Try to locate a cart by id.\n";
+   cout << "cart assign 'id' 'flight_id'\n  - Assign a cart to a flight.\n";
 }
 
 void App::helpPassenger()
@@ -361,8 +363,8 @@ void App::helpTicket()
 {
    cout << "ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
    cout << "ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
-   cout << "ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
-   cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passenger.\n";
+   cout << "ticket display flight 'id'\n  - See who has a ticket to that flight.\n";
+   cout << "ticket display passenger 'id'\n  - See the tickets owned by a passenger.\n";
 }
 
 
@@ -428,6 +430,16 @@ void App::cart()
    {
       command.pop();
       removeCart();
+   }
+   else if (command.front() == "find")
+   {
+      command.pop();
+      findCart();
+   }
+   else if (command.front() == "assign")
+   {
+      command.pop();
+      assignCart();
    }
 }
 
@@ -1075,7 +1087,7 @@ void App::editCart()
       return;
    }
    command.pop();
-   if (!airline.checkCart(id))
+   if (!airline.removeCart(id))
    {
       cout << "Cart " << id << " does not exist. Adding a new one.\n";
    }
@@ -1267,6 +1279,31 @@ void App::findFlight()
 
 }
 
+void App::findCart()
+{
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  cart find 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   if (airline.checkCart(id))
+   {
+      Cart* cart = airline.findCart(id);
+      cout << "Id: " << cart->getId() << "\nCarriages. " << cart->getCarriages();
+      cout << "\nNumber of piles: " << cart->getPiles() << "\nBags per pile: ";
+      cout << cart->getPileSize() << "\nAssigned flight: ";
+      if (cart->getFlight() == 0) cout << "None\n";
+      else cout << cart->getFlight() << '\n';
+   }
+   else cout << "Cart not found.\n";
+}
+
 void App::findPassenger()
 {
    int id;
@@ -1412,7 +1449,64 @@ void App::checkIn()
    Flight* flight = airline.findFlight(flight_id);
    if (passenger->ticketOwned(*flight))
    {
+      if (!passenger->getTicket(*flight).getBaggage())
+      {
+         passenger->checkIn(*flight);
+      }
+      else
+      {
+         double weight;
+         cout << "Baggage weight (kg): ";
+         cin >> weight;
+         clearStream();
+         cout << "yes1";
+         passenger->checkIn(*flight);
+         cout << "yes2";
+         airline.insertBaggage(flight_id, Baggage(weight));
+         cout << "yes3";
+      }
+      cout << "Check in successful!\n";
+   }
+}
 
+void App::assignCart()
+{
+   int id, flight_id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  cart assign 'id' 'flight_id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   if (!airline.checkCart(id))
+   {
+      cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+      return;
+   }
+   command.pop();
+   if (!readNumber(flight_id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   if (!airline.checkFlight(flight_id))
+   {
+      cout << "That flight doesn't exist. Use flight display to see available flights.\n";
+      return;
+   }
+   Cart* cart = airline.findCart(id);
+   if (cart->getFlight() != 0)
+   {
+      cout << "Cart " << id << " is already assigned to a flight.\n";
+   }
+   else
+   {
+      airline.assignCartFlight(id, flight_id);
+      cout << "Cart " << id << " was assigned to flight " << flight_id << ".\n";
    }
 }
 

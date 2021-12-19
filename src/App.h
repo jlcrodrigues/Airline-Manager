@@ -221,6 +221,9 @@ class App
       **/
       void findAirport();
 
+      /**Find a cart using id.**/
+      void findCart();
+
       /**
        * Locates a flight.
        */
@@ -248,6 +251,8 @@ class App
       void sortPlane();
 
       void checkIn();
+
+      void assignCart();
 
 
       bool partialDisplay(string since, string until);

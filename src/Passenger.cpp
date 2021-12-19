@@ -67,11 +67,11 @@ bool Passenger::checkIn(Flight& flight)
 {
    if (!ticketOwned(flight)) return false;
    size_t i = findTicket(flight);
-   if (tickets[i].getBaggage())
+   /*if (tickets[i].getBaggage())
    {
       throw invalid_argument("You should check in with baggage.");
       return false;
-   }
+   }*/
    tickets.erase(tickets.begin() + i);
    return true;
 }
@@ -83,7 +83,6 @@ bool Passenger::checkIn(Flight& flight, const double& weight)
    if (tickets[i].getBaggage())
    {
       tickets.erase(tickets.begin() + i);
-      //flight.insertBaggage(Baggage(weight));
       return true;
    }
    return false;
