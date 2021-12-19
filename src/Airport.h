@@ -72,7 +72,7 @@ public:
        * @param t1 - Transport that will be added.
        * @return - True if the Transport was added successfully, false if Transport already existed.
     **/
-    bool addTransport(Transport t1);
+    bool addTransport(Transport& t1);
 
     /**
        *Finds the transport that is closer to the airport.

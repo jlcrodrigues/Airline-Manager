@@ -343,11 +343,12 @@ void App::helpTutorial()
 
 void App::helpAirport()
 {
-    cout << "airport display [page]\n  - Displays airports.\n";
-    cout << "airport add 'nameAirport'\n  - Add the airport by name.\n";
-    cout << "airport edit 'nameAirport'\n  - Edits an existing airport by name.\n";
-    cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name.\n";
-    cout << "airport find 'nameAirport'\n  -  Try to locate a airport by name.\n";
+   cout << "airport display [page]\n  - Displays airports.\n";
+   cout << "airport add 'nameAirport'\n  - Add the airport by name.\n";
+   cout << "airport edit name 'nameAirport' \n  - Edits an existing airport name by previous name.\n";
+   cout << "airport edit transport add 'nameAirport' \n  - Adds a transport to an existent airport.\n";
+   cout << "airport remove 'nameAirport'\n  - Removes an existing airport by name.\n";
+   cout << "airport find 'nameAirport'\n  -  Try to locate a airport by name.\n";
 }
 
 void App::helpFlight()
@@ -1211,7 +1212,73 @@ void App::displayTicketPassenger()
 
 void App::editAirport()
 {
-   //TODO
+   if (command.empty())
+   {
+      cout << "Usage:\n  airport edit name 'nameAirport'\n  airport edit transport add 'nameAirport'\n";
+      return;
+   }
+   else if(command.front()=="name")
+   {
+      command.pop();
+      string aname = command.front();
+      transform(aname.begin(),aname.end(),aname.begin(),::toupper);
+      command.pop();
+      if (!airline.checkAirport(aname))
+      {
+         cout << "That airport doesn't exist. Maybe you want to try:\n  airport add 'nameAirport'\n";
+         return;
+      }
+      Airport a = *airline.findAirport(aname);
+      string name;
+      cout << "Name: "; cin >> name; clearStream();
+      airline.removeAirport(aname);
+      a.setName(name);
+      airline.addAirport(a);
+      cout << "Airport " << name << " was updated.\n";
+   }
+   else if(command.front()=="transport")
+   {
+      command.pop();
+      if(command.front()=="add")
+      {
+         command.pop();
+         string aname = command.front();
+         transform(aname.begin(),aname.end(),aname.begin(),::toupper);
+         command.pop();
+         if (!airline.checkAirport(aname))
+         {
+            cout << "That airport doesn't exist. Maybe you want to try:\n  airport add 'nameAirport'\n";
+            return;
+         }
+         Airport a = *airline.findAirport(aname);
+         Transport t;
+         string distance;
+         int i;
+         cout << "Type: "; cin >> t.type; clearStream();
+         cout << "Distance: "; cin >> distance; clearStream();
+         readNumber(t.distance, distance);
+         cout << "Number of times: "; cin >> i ; clearStream();
+         int n = i;
+         vector<Date> v;
+         while (i>0)
+         {
+            string date;
+            cout << "Time " << n-i+1 << ": "; cin >> date; clearStream();
+            Date d(stoi(airline.getTimeString(date).substr(0,2)),stoi(airline.getTimeString(date).substr(2)));
+            v.push_back(d);
+            i--;
+         }
+         t.time = v;
+         airline.removeAirport(aname);
+         a.addTransport(t);
+         airline.addAirport(a);
+         cout << "Airport " << aname << " was updated.\n";
+      }
+   }
+   else
+   {
+      cout << "Usage:\n  airport edit name 'nameAirport'\n  airport edit transport add 'nameAirport'\n";
+   }
 }
 
 void App::editCart()

@@ -12,9 +12,19 @@ Airport::Airport(const string& name, set<Transport> transports){
 
 string Airport::getCsv() const
 {
-    string csv = "";
-    csv += name + '\n';
-    return csv;
+   string csv = "";
+   csv += name;
+   for (auto t: transports)
+   {
+      csv += "," + t.type + "," + to_string(t.distance);
+      for (auto v:t.time)
+      {
+         string s = v.toStringTime(v);
+         csv += "," + s;
+      }
+   }
+   csv+= "\n";
+   return csv;
 }
 
 string Airport::getName() const {
@@ -34,18 +44,21 @@ bool Airport::operator < (const Airport &a1) const
     return name < a1.getName();
 }
 
-bool Airport::addTransport(Transport t1) {
-    for (auto i: transports){
-        if(i.distance == t1.distance && i.type == t1.type){
-            i.time.insert(i.time.end(),t1.time.begin(),t1.time.end());
-            vector<Date>::iterator it;
-            it = unique(i.time.begin(),i.time.end());
-            i.time.resize(distance(i.time.begin(), it));
-            return false;
-        }
-    }
-    transports.insert(t1);
-    return true;
+bool Airport::addTransport(Transport& t1) {
+   for (auto i: transports){
+      if(i.distance == t1.distance && i.type == t1.type){
+         transports.erase(i);
+         i.time.insert(i.time.end(),t1.time.begin(),t1.time.end());
+         vector<Date>::iterator it;
+         it = unique(i.time.begin(),i.time.end());
+         i.time.resize(distance(i.time.begin(), it));
+         sort(i.time.begin(),i.time.end());
+         transports.insert(i);
+         return false;
+      }
+   }
+   transports.insert(t1);
+   return true;
 }
 
 set<Transport> Airport::getTransports() {

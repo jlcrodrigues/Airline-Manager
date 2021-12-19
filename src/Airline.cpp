@@ -189,10 +189,10 @@ bool Airline::loadAirports(const string &file_name)
    while(getline(file, line))
    {
       line_contents = readLine(line);
-      /*string name = line_contents[0];
+      string name = line_contents[0];
       set<Transport> s;
       Transport t;
-      Date d(00,00);
+      Date d;
       for(int i=1; i < line_contents.size(); i++){
          vector<Date> v;
          t.type = line_contents[i];
@@ -207,13 +207,13 @@ bool Airline::loadAirports(const string &file_name)
          t.time = v;
          s.insert(t);
       }
-      */
-      airports.push_back(Airport(line_contents[0], set<Transport>()));
+      airports.push_back(Airport(line_contents[0], s));
    }
    file.close();
    sort(airports.begin(), airports.end());
    return true;
 }
+
 
 bool Airline::loadFlights(const string &file_name)
 {
