@@ -198,7 +198,7 @@ bool Airline::loadAirports(const string &file_name)
          t.type = line_contents[i];
          t.distance = stoi(line_contents[i+1]);
          i+=2;
-         while (readData(line_contents[i], d) && i < line_contents.size())
+         while (i<line_contents.size() &&  readData(line_contents[i], d))
          {
             v.push_back(d);
             i++;
