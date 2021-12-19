@@ -341,7 +341,7 @@ void App::helpTicket()
    cout << "ticket buy 'flight_id' 'passenger_id'\n  - Buy the passenger a ticket for the flight.\n";
    cout << "ticket buy 'flight_id' id_list\n  - Buy a ticket to various passengers.\n";
    cout << "ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
-   cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passegner.\n";
+   cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passenger.\n";
 }
 
 
@@ -368,6 +368,11 @@ void App::airport()
     {
         command.pop();
         editAirport();
+    }
+    else if (command.front() == "find")
+    {
+        command.pop();
+        findAirport();
     }
     else if (command.front() == "remove")
     {
@@ -532,6 +537,7 @@ void App::addAirport()
         return;
     }
     name = command.front();
+    transform(name.begin(),name.end(),name.begin(),::toupper);
     command.pop();
     if (airline.checkAirport(name))
     {
@@ -750,27 +756,25 @@ void App::addPlane()
 
 void App::displayAirport()
 {
-   vector<Airport> airports = airline.getAirports();
-   int page;
-   if (command.empty()) page = 0;
-   else if (!readNumber(page, command.front()))
-   {
-      cout << "Page must be a number. Please try again.\n";
-      return;
-   }
-   page *= ITEMS_PER_PAGE;
-   while (airports.size() <= page) page -= ITEMS_PER_PAGE;
-   if (0 <= page)
-   {
-      cout << "Name\n";
-      for (int i = page; i < airports.size() &&  i < page + ITEMS_PER_PAGE; i++)
-      {
-         cout << airports[i].getName() << '\n';
-      }
-      cout << "Page (" << page / 5 + 1 << "/" << airports.size() / 5 + 1 << ").\n";
-   }
-   else cout << "No airports to display.\n\n";
+    int page;
+    vector<Airport> airports = airline.getAirports();
+    if (airports.size() == 0)
+    {
+        cout << "No airports to display.\n";
+        return;
+    }
+    vector<vector<string> > table;
+    table.push_back({"Name", "Number of Transports"});
+    if (command.empty()) page = 0;
+    else if (!readNumber(page, command.front()))
+    {
+        cout << "Page must be a number. Please try again.\n";
+        return;
+    }
+    for (auto & a: airports) table.push_back({a.getName(), to_string(a.getTransports().size())});
+    displayTable(table, page);
 }
+
 
 void App::displayFlight()
 {
@@ -1056,7 +1060,25 @@ void App::removePlane()
 
 void App::findAirport()
 {
-
+   string name;
+   if (command.empty())
+   {
+      cout << "Usage:\n  - airport find 'nameAirport'";
+      return;
+   }
+   name = command.front();
+   transform(name.begin(),name.end(),name.begin(),::toupper);
+   if (airline.checkAirport(name))
+   {
+      Airport* a = airline.findAirport(name);
+      vector<Date> d1;
+      Date d2(20,30);
+      d1.push_back(d2);
+      a->addTransport({"Car",20,d1});
+      cout << "Name: " << a->getName() << " \nNumber of Transports: " << a->getTransports().size() << " \n";
+      cout << "Closest Transport: " << a->findClosest().type << " at " << a->findClosest().distance << " kilometers" << "\n";
+   }
+   else cout << "Airport not found.\n";
 }
 
 void App::findFlight()
