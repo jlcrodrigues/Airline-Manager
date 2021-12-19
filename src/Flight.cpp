@@ -79,21 +79,6 @@ bool Flight::buyTicket(const int& amount)
 
 }
 
-bool Flight::addCart(const Cart& cart)
-{
-   if (carts.empty() || carts.front().isFull())
-   {
-      carts.push(cart);
-      return true;
-   }
-   return false;
-}
-
-bool Flight::insertBaggage(const Baggage& bag)
-{
-   return carts.front().insert(bag);
-}
-
 bool Flight::operator<(const Flight &f) const
 {
    if (sorting_rule == "number")

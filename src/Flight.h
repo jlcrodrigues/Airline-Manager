@@ -86,23 +86,6 @@ class Flight
       bool buyTicket(const int& amount = 1);
 
       /**
-       * Adds a new baggage cart to the flight.
-
-       * @param cart - The cart you want to add.
-
-       * @return Returns true if the cart was added, false otherwise.
-       */
-      bool addCart(const Cart& cart);
-
-      /**
-       * Inserts a new bag to the cart.
-
-       * @param bag The bag to be inserted.
-       * @return Returns true if the bag was properly inserted.
-       */
-      bool insertBaggage(const Baggage& bag);
-
-      /**
        * Flight's < operator.
        * @param f1 - A flight object.
        * @return - Returns true if the flight's number is lower.
@@ -118,7 +101,6 @@ private:
       Date duration;
       Airport origin;
       Airport destination;
-      queue<Cart> carts;
 };
 
 #endif

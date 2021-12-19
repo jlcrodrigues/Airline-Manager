@@ -36,9 +36,10 @@ class Airline
        * @param airports - The name of the file containing airports.
        * @param flights - The name of the file containing flights.
        * @param passengers - The name of the file containing passengers.
-       * @param planes - The of the file containing planes.
+       * @param planes - The name of the file containing planes.
+       * @param carts - The name of the file containing carts.
        */
-      Airline(const string& airports, const string& flights, const string& passengers, const string& planes);
+      Airline(const string& airports, const string& flights, const string& passengers, const string& planes, const string& carts);
 
       /**
        * Getter for the airports vector.
@@ -64,6 +65,17 @@ class Airline
        */
       vector<Plane> getPlanes() const;
 
+      /**
+       * Getter fot the carts vector.
+       * @return - Returns a vector containing all the airline's carts.
+       */
+      vector<Cart> getCarts() const;
+
+      /**
+       * Get all the passengers who have a ticket to a flight.
+       * @param flight - The flight to be searched.
+       * @return - Returns a vector of PassengerTicket.
+       */
       vector<PassengerTicket> getTicketsToFlight(const Flight& flight) const;
 
       /**
@@ -95,6 +107,13 @@ class Airline
       bool checkPlane(const string& id) const;
 
       /**
+       * Looks for the existence of a cart.
+       * @param id - The id of the cart to be found.
+       * @return - Return true if the cart exists and false otherwise.
+       */
+      bool checkCart(const int& id) const;
+
+      /**
        * Looks for an airport by name.
        * @param name - The name you want to look for.
        * @return - Returns an existing airport's object.
@@ -121,6 +140,13 @@ class Airline
        * @return - Returns an existing plane's object.
        */
       Plane* findPlane(const string& id);
+
+      /**
+       * Looks for a cart by id.
+       * @param id - The id of the cart to be searched.
+       * @return - Returns a pointer to a Cart.
+       */
+      Cart* findCart(const int& id);
 
       /**
        * Fills the airports vector with airports from a file.
@@ -151,6 +177,13 @@ class Airline
       bool loadPlanes(const string& file_name);
 
       /**
+       * Fills the carts vector with carts from a file.
+       * @param file_name - The name of the file containing the carts.
+       * @return - Returns false if the file doesn't exist and true otherwise.
+       */
+      bool loadCarts(const string& file_name);
+
+      /**
        * Adds an airport to the list.
        * @param airport - The airport to be added.
        * @return - Returns false if the airport already exists, true otherwise.
@@ -177,6 +210,13 @@ class Airline
        * @return - Return false if the plane already exists, true otherwise.
        */
       bool addPlane(const Plane& plane);
+
+      /**
+       * Adds a cart to the list.
+       * @param cart - The cart to be added.
+       * @return - Return false if the cart already exists, false otherwise.
+       */
+      bool addCart(const Cart& cart);
 
       /**
        * Removes an existing airport.
@@ -355,10 +395,12 @@ private:
       vector<Flight> flights;
       vector<Passenger> passengers;
       vector<Plane> planes;
+      vector<Cart> carts;
       string airports_file;
       string flights_file;
       string passengers_file;
       string planes_file;
+      string carts_file;
 };
 
 #endif

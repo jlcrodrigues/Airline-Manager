@@ -5,9 +5,9 @@ App::App(): ITEMS_PER_PAGE(5)
    app_run = true;
 }
 
-App::App(const string &airports, const string &flights, const string &passengers, const string &planes): ITEMS_PER_PAGE(5)
+App::App(const string &airports, const string &flights, const string &passengers, const string &planes, const string& carts): ITEMS_PER_PAGE(5)
 {
-   airline = Airline(airports, flights, passengers, planes);
+   airline = Airline(airports, flights, passengers, planes, carts);
    app_run = true;
 }
 
@@ -324,6 +324,7 @@ void App::helpPassenger()
    cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
    cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
    cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
+   cout << "passenger checkin 'id' 'flight_id'\n  - Check in a passenger to a flight.\n";
 }
 
 void App::helpPlane()
@@ -460,6 +461,11 @@ void App::passenger()
    {
       command.pop();
       sortPassenger();
+   }
+   else if (command.front() == "checkin")
+   {
+      command.pop();
+      checkIn();
    }
    else cout << "Invalid command. Use help passenger to get more info.\n";
 }
@@ -1205,6 +1211,44 @@ void App::buyTicket()
    }
    else
       cout << "Couldn't buy tickets. Please try again.\n";
+}
+
+void App::checkIn()
+{
+   int id, flight_id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  passenger checkin 'flight_id'";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Not a valid Passenger id. Please try again.\n";
+      return;
+   }
+   command.pop();
+   if (!readNumber(flight_id, command.front()))
+   {
+      cout << "Not a valid Flight id. Please try again.\n";
+      return;
+   }
+   command.pop();
+   if (!airline.checkPassenger(id))
+   {
+      cout << "Passenger not found. Use passenger display to see available passengers.\n";
+      return;
+   }
+   if (!airline.checkFlight(flight_id))
+   {
+      cout << "Flight not found. Please check the flight Id.\n";
+      return;
+   }
+   Passenger* passenger = airline.findPassenger(id);
+   Flight* flight = airline.findFlight(flight_id);
+   if (passenger->ticketOwned(*flight))
+   {
+
+   }
 }
 
 void App::quit()

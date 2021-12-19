@@ -16,7 +16,7 @@ class App
 {
    public:
       App();
-      App(const string& airports, const string& flights, const string& passengers, const string& planes);
+      App(const string& airports, const string& flights, const string& passengers, const string& planes, const string& carts);
 
       void run();
    private:
@@ -228,6 +228,8 @@ class App
        * Changes the plane displaying order.
        */
       void sortPlane();
+
+      void checkIn();
 
 
       bool partialDisplay(string since, string until);

@@ -83,7 +83,7 @@ bool Passenger::checkIn(Flight& flight, const double& weight)
    if (tickets[i].getBaggage())
    {
       tickets.erase(tickets.begin() + i);
-      flight.insertBaggage(Baggage(weight));
+      //flight.insertBaggage(Baggage(weight));
       return true;
    }
    return false;

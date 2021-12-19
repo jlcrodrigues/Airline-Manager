@@ -6,25 +6,29 @@ Airline::Airline()
    flights_file = "../data/flights.csv";
    passengers_file = "../data/passengers.csv";
    planes_file = "../data/planes.csv";
+   carts_file = "../data/carts.csv";
    loadAirports(airports_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
+   loadCarts(carts_file);
    Flight::sorting_rule = "departure"; //number, departure, duration, capacity
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
 }
 
-Airline::Airline(const string& airports, const string &flights, const string &passengers, const string &planes)
+Airline::Airline(const string& airports, const string &flights, const string &passengers, const string &planes, const string& carts)
 {
    airports_file = airports;
    flights_file = flights;
    passengers_file = passengers;
    planes_file = planes;
+   carts_file = carts;
    loadAirports(airports_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
+   loadCarts(carts_file);
    Flight::sorting_rule = "departure"; //number, departure, duration, capacity
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
@@ -48,6 +52,11 @@ vector<Passenger> Airline::getPassengers() const
 vector<Plane> Airline::getPlanes() const
 {
    return planes;
+}
+
+vector<Cart> Airline::getCarts() const
+{
+   return carts;
 }
 
 vector<PassengerTicket> Airline::getTicketsToFlight(const Flight &flight) const
@@ -94,6 +103,11 @@ bool Airline::checkPlane(const string &id) const
       if (p.getId() == id) return true;
    }
    return false;
+}
+
+bool Airline::checkCart(const int& id) const
+{
+   return findElem(carts, Cart(id, 0, 0, 0)) != -1;
 }
 
 Airport* Airline::findAirport(const string &name)
@@ -150,6 +164,17 @@ Plane* Airline::findPlane(const string &id)
       }
    }
    return res;
+}
+
+Cart* Airline::findCart(const int &id)
+{
+   Cart* cart;
+   int i = findElem(carts, Cart(id, 0, 0, 0));
+   if (i != -1)
+   {
+      cart = &carts[i];
+   }
+   return cart;
 }
 
 bool Airline::loadAirports(const string &file_name)
@@ -247,6 +272,29 @@ bool Airline::loadPlanes(const string &file_name)
    return true;
 }
 
+bool Airline::loadCarts(const string &file_name)
+{
+   carts_file = file_name;
+   string line;
+   vector<string> line_contents;
+   ifstream file(carts_file);
+   if (!file.is_open()) return false;
+   while (getline(file, line))
+   {
+      line_contents = readLine(line);
+      Cart cart(stoi(line_contents[0]), stoi(line_contents[1]), stoi(line_contents[2]), stoi(line_contents[3]));
+      cart.setFlight(stoi(line_contents[4]));
+      for (int i = 5; i < line_contents.size(); i++)
+      {
+         cart.insert(Baggage(stoi(line_contents[i])));
+      }
+      carts.push_back(cart);
+   }
+   file.close();
+   sort(carts.begin(), carts.end());
+   return true;
+}
+
 bool Airline::addAirport(const Airport &airport)
 {
    if (findElem(airports, airport) != -1) return false;
@@ -280,6 +328,15 @@ bool Airline::addPlane(const Plane &plane)
    planes.push_back(plane);
    insertionSort(planes);
    saveFile(planes, planes_file);
+   return true;
+}
+
+bool Airline::addCart(const Cart& cart)
+{
+   if (findElem(carts, cart) != -1) return false;
+   carts.push_back(cart);
+   insertionSort(carts);
+   saveFile(carts, carts_file);
    return true;
 }
 
