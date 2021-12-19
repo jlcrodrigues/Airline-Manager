@@ -258,7 +258,6 @@ class App
       void checkIn();
 
       void assignCart();
-
       void flyFlight();
 };
 
