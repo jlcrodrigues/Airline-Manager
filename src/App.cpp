@@ -242,6 +242,10 @@ void App::processCommand()
    cout << "Invalid command. Verify that it is right or use help.\n";
 }
 
+
+//////////////////////////////////////////////// HELP FUNCTIONS ////////////////////////////////////////////////
+
+
 void App::help()
 {
    if (command.empty())
@@ -306,9 +310,9 @@ void App::helpFlight()
 {
    cout << "flight display [page]\n  - Displays the existing flights.\n";
    cout << "flight add 'id'\n  - Adds the flight by id.\n";
-   cout << "flight edit 'id'\n  -  Edit an existing flight by id.\n";
-   cout << "flight remove 'id'\n  -  Removes an existing flight by id.\n";
-   cout << "flight find 'id'\n  -  Try to locate a flight by id.\n";
+   cout << "flight edit 'id'\n  - Edit an existing flight by id.\n";
+   cout << "flight remove 'id'\n  - Removes an existing flight by id.\n";
+   cout << "flight find 'id'\n  - Try to locate a flight by id.\n";
    cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' or 'departure.'\n";
 }
 
@@ -324,7 +328,12 @@ void App::helpPassenger()
 
 void App::helpPlane()
 {
-   cout << ""; //TODO
+   cout << "plane display [plage]\n  - Displays the existing planes.\n";
+   cout << "plane add 'id'\n - Add the plane by id.\n";
+   cout << "plane edit 'id'\n  - Edit an existing plane by id.\n";
+   cout << "plane remove 'id'\n  - Removes an existing plane by id.\n";
+   cout << "plane find 'id'\n  - Try to locate a plane by id.\n";
+   cout << "plane sort 'order'\n  - Sorts the plane in the specified order.\n";
 }
 
 void App::helpTicket()
@@ -334,6 +343,10 @@ void App::helpTicket()
    cout << "ticket display flight 'flight_id'\n  - See who has a ticket to that flight.\n";
    cout << "ticket display passenger 'flight_id'\n  - See the tickets owned by a passegner.\n";
 }
+
+
+//////////////////////////////////////////////// CLASS FUNCTIONS ////////////////////////////////////////////////
+
 
 void App::airport()
 {
@@ -445,6 +458,70 @@ void App::passenger()
    }
    else cout << "Invalid command. Use help passenger to get more info.\n";
 }
+
+void App::plane()
+{
+    if (command.empty())
+    {
+        cout << "Invalid command. Use help passenger to see available commands.\n";
+    }
+    else if (command.front() == "add")
+    {
+        command.pop();
+        addPlane();
+        return;
+    }
+    else if (command.front() == "display")
+    {
+        command.pop();
+        displayPlane();
+        return;
+    }
+    else if (command.front() == "edit")
+    {
+        command.pop();
+        editPlane();
+    }
+    else if (command.front() == "remove")
+    {
+        command.pop();
+        removePlane();
+    }
+    else if (command.front() == "find")
+    {
+        command.pop();
+        findPlane();
+    }
+    else if (command.front() == "sort")
+    {
+        command.pop();
+        sortPlane();
+    }
+    else cout << "Invalid command. Use help plane to get more info.\n";
+}
+
+void App::ticket()
+{
+    if (command.empty())
+    {
+        cout << "Command not recognized. Use help ticket to see available commands.\n";
+    }
+    else if (command.front() == "buy")
+    {
+        command.pop();
+        buyTicket();
+    }
+    else if (command.front() == "display")
+    {
+        command.pop();
+        displayTicket();
+    }
+    else cout << "Invalid command. Use help passenger to get more info.\n";
+}
+
+
+//////////////////////////////////////////////// ADD FUNCTIONS ////////////////////////////////////////////////
+
 
 void App::addAirport()
 {
@@ -625,7 +702,7 @@ void App::addFlight() {
                 command.pop();
             }
         }
-        airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
+        cout <<  airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
     }
 }
 
@@ -663,6 +740,14 @@ void App::addPassenger()
 
 }
 
+void App::addPlane()
+{
+
+}
+
+//////////////////////////////////////////////// DISPLAY FUNCTIONS ////////////////////////////////////////////////
+
+
 void App::displayAirport()
 {
    vector<Airport> airports = airline.getAirports();
@@ -698,7 +783,7 @@ void App::displayFlight()
     }
     vector<vector<string>> table;
     table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity"});
-    if (command.empty()) page == 0;
+    if (command.empty()) page = 0;
     else if (!readNumber(page, command.front()))
     {
         cout << "Page must be an integer. Please try again.\n";
@@ -840,6 +925,14 @@ void App::displayTicketPassenger()
    displayTable(table, page);
 }
 
+void App::displayPlane()
+{
+
+}
+
+//////////////////////////////////////////////// EDIT FUNCTIONS ////////////////////////////////////////////////
+
+
 void App::editAirport()
 {
    //TODO
@@ -874,6 +967,14 @@ void App::editPassenger()
    cout << "Passenger " << name << " was updated.\n";
 }
 
+void App::editPlane()
+{
+
+}
+
+//////////////////////////////////////////////// REMOVE FUNCTIONS ////////////////////////////////////////////////
+
+
 void App::removeAirport()
 {
    string name;
@@ -886,12 +987,27 @@ void App::removeAirport()
    {
       cout << "Airport " << name << " was removed.\n";
    }
-   else cout << "That Airport doesn't exist.";
+   else cout << "That Airport doesn't exist.\n";
 }
 
 void App::removeFlight()
 {
-
+    int id;
+    if (command.empty())
+    {
+        cout << "Usage:\n  flight remove 'id'\n";
+        return;
+    }
+    if (!readNumber(id, command.front()))
+    {
+        cout << "Id must be an integer. Please try again.\n";
+        return;
+    }
+    if (airline.removeFlight(id))
+    {
+        cout << "Flight " << id << " was removed.\n";
+    }
+    else cout << "That flight doesn't exist.\n";
 }
 
 void App::removePassenger()
@@ -911,8 +1027,32 @@ void App::removePassenger()
    {
       cout << "Passenger " << id << " was removed.\n";
    }
-   else cout << "That passenger doesn't exist.";
+   else cout << "That passenger doesn't exist.\n";
 }
+
+void App::removePlane()
+{
+    int id;
+    if (command.empty())
+    {
+        cout << "Usage:\n  plane remove 'id'\n";
+        return;
+    }
+    if (!readNumber(id, command.front()))
+    {
+        cout << "Id must be an integer. Please try again.\n";
+        return;
+    }
+    if (airline.removePlane(to_string(id)))
+    {
+        cout << "Plane " << id << " was removed.\n";
+    }
+    else cout << "That plane doesn't exist.\n";
+}
+
+
+//////////////////////////////////////////////// FIND FUNCTIONS ////////////////////////////////////////////////
+
 
 void App::findAirport()
 {
@@ -929,7 +1069,7 @@ void App::findPassenger()
    int id;
    if (command.empty())
    {
-      cout << "Usage:\n  - passenger find 'id'";
+      cout << "Usage:\n  - passenger find 'id'\n";
       return;
    }
    if (!readNumber(id, command.front()))
@@ -944,6 +1084,14 @@ void App::findPassenger()
    }
    else cout << "Passenger not found.\n";
 }
+
+void App::findPlane()
+{
+
+}
+
+//////////////////////////////////////////////// SORT FUNCTIONS ////////////////////////////////////////////////
+
 
 void App::sortFlight()
 {
@@ -975,28 +1123,9 @@ void App::sortPassenger()
    }
 }
 
-void App::plane()
+void App::sortPlane()
 {
-   return; //TODO
-}
 
-void App::ticket()
-{
-   if (command.empty())
-   {
-      cout << "Command not recognized. Use help ticket to see available commands.\n";
-   }
-   else if (command.front() == "buy")
-   {
-      command.pop();
-      buyTicket();
-   }
-   else if (command.front() == "display")
-   {
-      command.pop();
-      displayTicket();
-   }
-   else cout << "Invalid command. Use help passenger to get more info.\n";
 }
 
 void App::buyTicket()

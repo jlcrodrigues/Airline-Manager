@@ -52,12 +52,12 @@ vector<Plane> Airline::getPlanes() const
 
 vector<PassengerTicket> Airline::getTicketsToFlight(const Flight &flight) const
 {
-   vector<PassengerTicket> res;
-   for (auto & p: passengers)
-   {
-      if (p.ticketOwned(flight)) res.push_back({p, p.getTicket(flight)});
-   }
-   return res;
+    vector<PassengerTicket> res;
+    for (auto & p: passengers)
+    {
+        if (p.ticketOwned(flight)) res.push_back({p, p.getTicket(flight)});
+    }
+    return res;
 }
 
 bool Airline::checkAirport(const string &name) const

@@ -90,11 +90,35 @@ class App
       /**Outputs a series of options for ticket operations.**/
       void helpTicket();
 
+      /**
+       * Handles the airport commands.
+       */
       void airport();
 
+      /**
+       * Handles the flight commands.
+       */
       void flight();
 
+      /**
+       * Handles the passenger commands.
+       */
       void passenger();
+      /**
+* Handles the plane commands.
+*/
+      void plane();
+
+    /**Handles the ticket commands.**/
+      void ticket();
+
+    /**Handles ticket buying.**/
+      void buyTicket();
+
+    /**
+     * Quits the program
+     */
+      void quit();
 
       /**
        * Adds a new airport to the airline.
@@ -110,6 +134,11 @@ class App
       void addPassenger();
 
       /**
+       * Adds a new plane to the airline.
+       */
+      void addPlane();
+
+      /**
        * Displays the airline's airports.
       **/
       void displayAirport();
@@ -121,6 +150,11 @@ class App
 
       /**Displays the airline's passengers.**/
       void displayPassenger();
+
+      /**
+       * Displays the airline's planes.
+       */
+      void displayPlane();
 
       void displayTicket();
 
@@ -142,6 +176,11 @@ class App
       void editPassenger();
 
       /**
+       * Edits the details for an existing plane.
+       */
+      void editPlane();
+
+      /**
       * Removes an existing airport.
       **/
       void removeAirport();
@@ -153,6 +192,11 @@ class App
 
       /**Removes an existing passenger.**/
       void removePassenger();
+
+      /**
+       * Removes an existing plane.
+       */
+      void removePlane();
 
       /**
        * Locates an airport.
@@ -168,6 +212,11 @@ class App
       void findPassenger();
 
       /**
+       * Locates a flight.
+       */
+      void findPlane();
+
+      /**
        * Changes the flight displaying order.
        */
       void sortFlight();
@@ -175,14 +224,11 @@ class App
       /**Changes the passenger displaying order.**/
       void sortPassenger();
 
-      void plane();
+      /**
+       * Changes the plane displaying order.
+       */
+      void sortPlane();
 
-      /**Handles the ticket commands.**/
-      void ticket();
-
-      /**Handles ticket buying.**/
-      void buyTicket();
-      void quit();
 
       bool partialDisplay(string since, string until);
       void partialDisplayAux(Flight f);
