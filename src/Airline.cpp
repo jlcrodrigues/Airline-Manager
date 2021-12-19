@@ -162,6 +162,14 @@ bool Airline::loadAirports(const string &file_name)
    while(getline(file, line))
    {
       line_contents = readLine(line);
+      string name = line_contents[0];
+      Transport t;
+      for(int i=1; i < line_contents.size(); i++){
+         t.type = line_contents[i];
+         t.distance = stoi(line_contents[i+1]);
+         //work in progress
+
+      }
       airports.push_back(Airport(line_contents[0], set<Transport>()));
    }
    file.close();
@@ -281,6 +289,7 @@ bool Airline::removeAirport(const string& name)
    {
       if (i->getName() == name) {
          i = airports.erase(i);
+         saveFile(airports, airports_file);
          return true;
       }
    }

@@ -886,11 +886,13 @@ void App::removeAirport()
       cout << "Usage:\n  airport remove 'nameAirport'\n";
       return;
    }
+   name = command.front();
+   transform(name.begin(),name.end(),name.begin(),::toupper);
    if (airline.removeAirport(name))
    {
       cout << "Airport " << name << " was removed.\n";
    }
-   else cout << "That Airport doesn't exist.";
+   else cout << "That Airport doesn't exist.\n";
 }
 
 void App::removeFlight()
