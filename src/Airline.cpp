@@ -364,6 +364,15 @@ bool Airline::removeAirport(const string& name)
    return false;
 }
 
+bool Airline::removeCart(const int &id)
+{
+   int i = findElem(carts, Cart(id, 0, 0, 0));
+   if (i == -1) return false;
+   carts.erase(carts.begin() + i);
+   saveFile(carts, carts_file);
+   return true;
+}
+
 bool Airline::removeFlight(const Flight &flight)
 {
    int i = findElem(flights, flight);

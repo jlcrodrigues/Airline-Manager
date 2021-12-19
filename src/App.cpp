@@ -209,6 +209,12 @@ void App::processCommand()
          airport();
          return;
       }
+      else if (command.front() == "cart" || command.front() == "c")
+      {
+         command.pop();
+         cart();
+         return;
+      }
       else if (command.front() == "flight" || command.front() == "f")
       {
          command.pop();
@@ -253,6 +259,7 @@ void App::help()
       cout << "To find out how to use Airline Manager please use the following commands:\n\n";
       cout << "help tutorial\n  - Find out how the program works.\n";
       cout << "help airport\n  - See the airport commands.\n";
+      cout << "help cart\n  - See the cart commands.\n";
       cout << "help flight\n  - See the flight commands.\n";
       cout << "help passenger\n  - See the passenger commands.\n";
       cout << "help plane\n  - See the plane commands.\n";
@@ -267,6 +274,11 @@ void App::help()
    else if (command.front() == "airport")
    {
       helpAirport();
+      return;
+   }
+   else if (command.front() == "cart")
+   {
+      helpCart();
       return;
    }
    else if (command.front() == "flight")
@@ -314,6 +326,14 @@ void App::helpFlight()
    cout << "flight remove 'id'\n  - Removes an existing flight by id.\n";
    cout << "flight find 'id'\n  - Try to locate a flight by id.\n";
    cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' or 'departure.'\n";
+}
+
+void App::helpCart()
+{
+   cout << "cart display [page]\n  - Displays the existing carts.\n";
+   cout << "cart add 'id'\n  - Add the cart by id.\n";
+   cout << "cart edit 'id'\n  - Edit the cart by id.\n";
+   cout << "cart remove 'id'\n  - Remove a cart by id.\n";
 }
 
 void App::helpPassenger()
@@ -381,6 +401,34 @@ void App::airport()
         removeAirport();
     }
     else cout << "Invalid command. Use help airport to get more info.\n";
+}
+
+void App::cart()
+{
+   if (command.empty())
+   {
+      cout << "Invalid option. Use help cart to see available commands.\n";
+   }
+   else if (command.front() == "display")
+   {
+      command.pop();
+      displayCart();
+   }
+   else if (command.front() == "add")
+   {
+      command.pop();
+      addCart();
+   }
+   else if (command.front() == "edit")
+   {
+      command.pop();
+      editCart();
+   }
+   else if (command.front() == "remove")
+   {
+      command.pop();
+      removeCart();
+   }
 }
 
 void App::flight()
@@ -554,6 +602,40 @@ void App::addAirport()
         airline.addAirport({name});
         cout << "\nAirport " << name << " added to the airline.\n";
     }
+}
+
+void App::addCart()
+{
+   int id, carriages, piles, pile_size;
+   string number;
+   vector<string> aux = {"Number of carriages: ", "Number of piles: ", "Number of piles: "};
+   vector<int> dimensions(3, 0);
+   if (command.empty())
+   {
+      cout << "Usage:\n  cart add 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   command.pop();
+   if (airline.checkCart(id))
+   {
+      cout << "Cart " << id << " already exists. Maybe you want to try:\n  cart edit 'id'\n";
+      return;
+   }
+   for (int i = 0; i < 3; i++)
+   {
+      do
+      {
+         cout << aux[i];
+         cin >> number;
+         clearStream();
+      } while(!readNumber(dimensions[i], number));
+   }
+   airline.addCart({id, dimensions[0], dimensions[1], dimensions[2]});
 }
 
 void App::addFlight() {
@@ -781,6 +863,34 @@ void App::displayAirport()
     displayTable(table, page);
 }
 
+void App::displayCart()
+{
+   int page;
+   vector<Cart> carts = airline.getCarts();
+   if (carts.size() == 0)
+   {
+      cout << "No carts to display.\n";
+      return;
+   }
+   vector<vector<string> > table;
+   table.push_back({"Id", "Carriages", "Piles", "Pile Size", "Flight"});
+   if (command.empty()) page = 0;
+   else if (!readNumber(page, command.front()))
+   {
+      cout << "Page must be a number. Please try again.\n";
+      return;
+   }
+   for (auto & c: carts)
+   {
+      string flight = to_string(c.getFlight());
+      if (flight == "0") flight = "None";
+      table.push_back({to_string(c.getId()), to_string(c.getCarriages()),
+                       to_string(c.getPiles()), to_string(c.getPileSize()),
+                       flight});
+   }
+   displayTable(table, page);
+
+}
 
 void App::displayFlight()
 {
@@ -948,6 +1058,39 @@ void App::editAirport()
    //TODO
 }
 
+void App::editCart()
+{
+   int id, carriages, piles, pile_size;
+   string number;
+   vector<string> aux = {"Number of carriages: ", "Number of piles: ", "Number of piles: "};
+   vector<int> dimensions(3, 0);
+   if (command.empty())
+   {
+      cout << "Usage:\n  cart edit 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   command.pop();
+   if (!airline.checkCart(id))
+   {
+      cout << "Cart " << id << " does not exist. Adding a new one.\n";
+   }
+   for (int i = 0; i < 3; i++)
+   {
+      do
+      {
+         cout << aux[i];
+         cin >> number;
+         clearStream();
+      } while(!readNumber(dimensions[i], number));
+   }
+   airline.addCart({id, dimensions[0], dimensions[1], dimensions[2]});
+}
+
 void App::editFlight()
 {
 
@@ -1020,6 +1163,26 @@ void App::removeFlight()
         cout << "Flight " << id << " was removed.\n";
     }
     else cout << "That flight doesn't exist.\n";
+}
+
+void App::removeCart()
+{
+   int id;
+   if (command.empty())
+   {
+      cout << "Usage:\n  cart remove 'id'\n";
+      return;
+   }
+   if (!readNumber(id, command.front()))
+   {
+      cout << "Invalid id. Please try again.\n";
+      return;
+   }
+   if (airline.removeCart(id))
+   {
+      cout << "Cart " << id << " was removed.\n";
+   }
+   else cout << "That cart doesn't exist.\n";
 }
 
 void App::removePassenger()

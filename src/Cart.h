@@ -32,6 +32,30 @@ public:
    int getId() const;
 
    /**
+    * Getter for the carriage number.
+    * @return - Integer with the amount of carriages.
+    */
+   int getCarriages() const;
+
+   /**
+    * Getter for the pile number.
+    * @return - Integer with the number of piles.
+    */
+   int getPiles() const;
+
+   /**
+    * Getter for the size of a pile.
+    * @return - Integer with the amount of bags per pile.
+    */
+   int getPileSize() const;
+
+   /**
+    * Getter for the flight id.
+    * @return - Integer with the id of the flight the carts assigned.
+    */
+   int getFlight() const;
+
+   /**
     * Get a string formatted to be written into memory.
     * @return - Returns a string with the cart data separated by commas.
     */

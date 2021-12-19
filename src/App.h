@@ -78,6 +78,9 @@ class App
       /**Outputs a series of options for airport operations.**/
       void helpAirport();
 
+      /**Outputs a series of options for cart operations.**/
+      void helpCart();
+
       /**Outputs a series of options for flight operations.**/
       void helpFlight();
 
@@ -94,6 +97,9 @@ class App
        * Handles the airport commands.
        */
       void airport();
+
+      /**Handles the cart commands.**/
+      void cart();
 
       /**
        * Handles the flight commands.
@@ -125,6 +131,9 @@ class App
       **/
       void addAirport();
 
+      /**Adds a cart to the airline.**/
+      void addCart();
+
      /**
       * Adds a new flight to the airline.
       */
@@ -147,6 +156,9 @@ class App
       * Displays the airline's flights.
       */
       void displayFlight();
+
+      /**Displays the airline's carts.**/
+      void displayCart();
 
       /**Displays the airline's passengers.**/
       void displayPassenger();
@@ -172,6 +184,9 @@ class App
        */
       void editFlight();
 
+      /**Edit an existing cart**/
+      void editCart();
+
       /**Edits the details for an existing passenger.**/
       void editPassenger();
 
@@ -189,6 +204,9 @@ class App
        * Removes an existing flight.
        */
       void removeFlight();
+
+      /**Removes an existing cart.**/
+      void removeCart();
 
       /**Removes an existing passenger.**/
       void removePassenger();

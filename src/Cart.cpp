@@ -15,6 +15,26 @@ int Cart::getId() const
    return id;
 }
 
+int Cart::getCarriages() const
+{
+   return n_carriages;
+}
+
+int Cart::getPiles() const
+{
+   return n_stacks;
+}
+
+int Cart::getPileSize() const
+{
+   return bags_per_stack;
+}
+
+int Cart::getFlight() const
+{
+   return flight_id;
+}
+
 string Cart::getCsv() const
 {
    string csv;
@@ -26,6 +46,7 @@ string Cart::getCsv() const
    {
       csv += ',' + to_string(bags.front().getWeight());
    }
+   return csv;
 }
 
 queue<Baggage> Cart::getBags() const

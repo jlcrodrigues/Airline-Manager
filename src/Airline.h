@@ -233,6 +233,13 @@ class Airline
       bool removeAirport(const string& name);
 
       /**
+       * Removes an existing car by id.
+       * @param id - The id of the cart to be removed.
+       * @return - Returns true if the opertation was successful and false if the cart is not found.
+       */
+      bool removeCart(const int& id);
+
+      /**
        * Removes an existing flight.
        * @param flight - The flight to be removed.
        * @return - Returns false if the flight doesn't exist and true otherwise.
