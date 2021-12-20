@@ -157,6 +157,12 @@ public:
      */
     bool checkTime(const Date& t) const;
 
+    /**
+     * Check if duration is valid.
+     * @param d - Date object to verify
+     * @return - Returns true if duration is valid, false otherwise.
+     */
+    bool checkDuration(const Date &d) const;
 private:
     int day;
     int month;

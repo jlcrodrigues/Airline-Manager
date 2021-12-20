@@ -166,3 +166,9 @@ bool Date::checkTime(const Date &t) const
     }
     return false;
 }
+
+bool Date::checkDuration(const Date &d) const
+{
+    if ((d.getMinute() >= 0) && (d.getMinute() <= 59)) return true;
+    return false;
+}

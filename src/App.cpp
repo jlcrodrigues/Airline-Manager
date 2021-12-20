@@ -61,6 +61,35 @@ bool App::readDate(Date &date, const string s) const
     }
 }
 
+bool App::readDuration(Date &date, const string s) const
+{
+    try
+    {
+        string s2;
+        int c = count(s.begin(), s.end(), ':');
+        if (c != 1) return false;
+        if (s[0] == ':') return false;
+        int l = s.length();
+        if (s[l-1] == ':') return false;
+        int i;
+        for (int j  = 0; j < s.length(); j++)
+        {
+            if (s[j] == ':')
+            {
+                i = j;
+            }
+        }
+        date.setHour(stoi(s.substr(0, i)));
+        date.setMinute(stoi(s.substr(i+1)));
+        if (!date.checkDuration(date)) return false;
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
 bool App::readTime(Date &date, const string s) const
 {
     try
@@ -144,7 +173,7 @@ void App::invalidDuration(Date &date, string &s) const
         cout << "Duration time (hh:mm): ";
         cin >> s;
         clearStream();
-        if (readTime(date, s)) break;
+        if (readDuration(date, s)) break;
     }
 }
 
@@ -741,12 +770,12 @@ void App::addFlight() {
             cout << "Duration (hh:mm): ";
             cin >> d;
             clearStream();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
         } else {
             d = command.front();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
             command.pop();
@@ -811,6 +840,11 @@ void App::addFlight() {
                 }
                 command.pop();
             }
+        }
+        if (aO == aD)
+        {
+            cout << "Error. Airport origin and airport destination must be different.\n";
+            return;
         }
         airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
     }
@@ -1375,7 +1409,7 @@ void App::editFlight()
             cout << "New duration (hh:mm): ";
             cin >> d;
             clearStream();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), duration, airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
@@ -1648,7 +1682,7 @@ void App::findAirport()
    string name;
    if (command.empty())
    {
-      cout << "Usage:\n  - airport find 'nameAirport'";
+      cout << "Usage:\n  - airport find 'nameAirport'\n";
       return;
    }
    name = command.front();
@@ -1948,8 +1982,8 @@ void App::assignCart()
    }
    if (!airline.checkFlight(flight_id))
    {
-      cout << "That flight doesn't exist. Use flight display to see available flights.\n";
-      return;
+       cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+       return;
    }
    Cart* cart = airline.findCart(id);
    if (cart->getFlight() != 0)
@@ -1978,8 +2012,8 @@ void App::flyFlight()
    }
    if (!airline.checkFlight(id))
    {
-      cout << "That flight doesn't exist. Use cart display to see available flights.\n";
-      return;
+       cout << "That flight doesn't exist. Use flight display to see available flights.\n";
+       return;
    }
    airline.flyFlight(id);
    cout << "The flight took of.\n";

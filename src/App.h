@@ -38,6 +38,8 @@ class App
 
       bool readDate(Date &date, const string s) const;
 
+      bool readDuration(Date &date, const string s) const;
+
       bool readTime(Date &date, const string s) const;
 
       bool invalidAirportOrigin(string &aO);
