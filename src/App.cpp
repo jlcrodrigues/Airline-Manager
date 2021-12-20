@@ -303,32 +303,32 @@ void App::help()
       helpTutorial();
       return;
    }
-   else if (command.front() == "airport")
+   else if (command.front() == "airport" || command.front() == "a")
    {
       helpAirport();
       return;
    }
-   else if (command.front() == "cart")
+   else if (command.front() == "cart" || command.front() == "c")
    {
       helpCart();
       return;
    }
-   else if (command.front() == "flight")
+   else if (command.front() == "flight" || command.front() == "f")
    {
       helpFlight();
       return;
    }
-   else if (command.front() == "passenger")
+   else if (command.front() == "passenger" || command.front() == "pa")
    {
       helpPassenger();
       return;
    }
-   else if (command.front() == "plane")
+   else if (command.front() == "plane" || command.front() == "pl")
    {
       helpPlane();
       return;
    }
-   else if (command.front() == "ticket")
+   else if (command.front() == "ticket" || command.front() == "t")
    {
       helpTicket();
       return;
@@ -1103,7 +1103,7 @@ void App::displayTicket()
       cout << "  ticket display flight 'flight_id'\n    - See who has a ticket to that flight.\n";
       cout << "  ticket display passenger 'passenger_id'\n    - See the tickets owned by a passenger.\n";
    }
-   else if (command.front() == "flight")
+   else if (command.front() == "flight" || command.front() == "f")
    {
       command.pop();
       displayTicketFlight();
@@ -1823,6 +1823,7 @@ void App::buyTicket()
       cout << "Usage:\n";
       cout << "  ticket buy 'flight_id' 'passenger_id'\n    - Buy the passenger a ticket for the flight.\n";
       cout << "  ticket buy 'flight_id' id_list\n    - Buy a ticket to various passengers.\n";
+      return;
    }
    if (!readNumber(flight_id, command.front()))
    {
@@ -1845,7 +1846,7 @@ void App::buyTicket()
       }
       if (!airline.checkPassenger(passenger_id))
       {
-         cout << "Passenger " << passenger_id << "not found. Use passenger help to add a passenger or passenger display to see the available passengers.\n";
+         cout << "Passenger " << passenger_id << " not found. Use passenger help to add a passenger or passenger display to see the available passengers.\n";
          return;
       }
       Passenger* pa = airline.findPassenger(passenger_id);
@@ -1977,7 +1978,7 @@ void App::flyFlight()
    }
    if (!airline.checkFlight(id))
    {
-      cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+      cout << "That flight doesn't exist. Use cart display to see available flights.\n";
       return;
    }
    airline.flyFlight(id);

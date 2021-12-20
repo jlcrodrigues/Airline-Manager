@@ -7,15 +7,15 @@ Airline::Airline()
    passengers_file = "../data/passengers.csv";
    planes_file = "../data/planes.csv";
    carts_file = "../data/carts.csv";
+   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
+   Passenger::sorting_rule = "name"; //id, name
+   Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
-   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
-   Passenger::sorting_rule = "name"; //id, name
-   Plane::sorting_rule = "id"; //id, model, capacity
 }
 
 Airline::Airline(const string& airports, const string &flights, const string &passengers, const string &planes, const string& carts)
@@ -25,15 +25,15 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    passengers_file = passengers;
    planes_file = planes;
    carts_file = carts;
+   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
+   Passenger::sorting_rule = "name"; //id, name
+   Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
    loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
-   Flight::sorting_rule = "departure"; //number, departure, duration, capacity
-   Passenger::sorting_rule = "name"; //id, name
-   Plane::sorting_rule = "id"; //id, model, capacity
 }
 
 vector<Airport> Airline::getAirports() const
@@ -591,10 +591,11 @@ bool Airline::checkIn(const int &flight_id, const int &passenger_id)
 
 bool Airline::checkIn(const int &flight_id, const int &passenger_id, const double& bag)
 {
+   bool check;
    checkIn(flight_id, passenger_id);
-   insertBaggage(flight_id, bag);
+   check = insertBaggage(flight_id, bag);
    saveFile(carts, carts_file);
-   return true;
+   return check;
 }
 
 void Airline::flyFlight(const int& flight_id)
@@ -614,7 +615,11 @@ void Airline::flyFlight(const int& flight_id)
    vector<Flight>::iterator it = flights.begin();
    for (; it != flights.end(); it++)
    {
-      if (it->getNumber() == flight_id) it = flights.erase(it);
+      if (it->getNumber() == flight_id)
+      {
+         flights.erase(it);
+         break;
+      }
    }
 }
 
