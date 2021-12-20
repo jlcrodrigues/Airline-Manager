@@ -79,6 +79,16 @@ bool App::readTime(Date &date, const string s) const
     }
 }
 
+//bool App::readDuration(Date &date, const string s) const
+//{
+//    try
+//    {
+//        int c = count(s.begin(), s.end(), ':');
+//        if (c != 1) return false;
+//        date.setHour(stoi(airline.getTimeString(s).substr(0,2)));
+//
+//    }
+//}
 bool App::invalidAirportOrigin(string &aO)
 {
     while (1) {
@@ -1648,7 +1658,7 @@ void App::findAirport()
    string name;
    if (command.empty())
    {
-      cout << "Usage:\n  - airport find 'nameAirport'";
+      cout << "Usage:\n  - airport find 'nameAirport'\n";
       return;
    }
    name = command.front();
@@ -1947,8 +1957,8 @@ void App::assignCart()
    }
    if (!airline.checkFlight(flight_id))
    {
-      cout << "That flight doesn't exist. Use flight display to see available flights.\n";
-      return;
+       cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+       return;
    }
    Cart* cart = airline.findCart(id);
    if (cart->getFlight() != 0)
@@ -1977,8 +1987,8 @@ void App::flyFlight()
    }
    if (!airline.checkFlight(id))
    {
-      cout << "That cart doesn't exist. Use cart display to see available carts.\n";
-      return;
+       cout << "That flight doesn't exist. Use flight display to see available flights.\n";
+       return;
    }
    airline.flyFlight(id);
    cout << "The flight took of.\n";
