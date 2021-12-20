@@ -1,6 +1,7 @@
 #ifndef PASSENGER_H
 #define PASSENGER_H
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <stdexcept>

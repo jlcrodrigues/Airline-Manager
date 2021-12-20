@@ -4,6 +4,13 @@ using namespace std;
 
 string Passenger::sorting_rule = "name"; //id, name
 
+bool cmpString(string s1, string s2)
+{
+   transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c){return tolower(c);});
+   transform(s2.begin(), s2.end(), s2.begin(), [](unsigned char c){return tolower(c);});
+   return s1 < s2;
+}
+
 Passenger::Passenger(const int& id, const string& name)
 {
    this->id = id;
@@ -118,13 +125,13 @@ Ticket Passenger::getTicket(const Flight& flight) const
 bool Passenger::operator < (const Passenger& p) const
 {
    if (sorting_rule == "id") {
-      if (id == p.getId()) return name < p.getName();
+      if (id == p.getId()) return cmpString(name, p.getName());
       return id < p.getId();
    }
    else if (sorting_rule == "name")
    {
       if (name == p.getName()) return id < p.getId();
-      return name < p.getName();
+      return cmpString(name, p.getName());
    }
    throw (invalid_argument("That rule does not exist."));
    return false;

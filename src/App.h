@@ -242,6 +242,9 @@ class App
       /**Locates a passenger.**/
       void findPassenger();
 
+      /**Find passengers by name.**/
+      void searchPassenger();
+
       /**
        * Locates a flight.
        */

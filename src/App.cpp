@@ -419,7 +419,8 @@ void App::helpPassenger()
    cout << "passenger edit 'id'\n  - Edit an existing passenger by id.\n";
    cout << "passenger remove 'id'\n  - Removes an existing passenger by id.\n";
    cout << "passenger find 'id'\n  - Try to locate a passenger by id.\n";
-   cout << "passenger sort 'order'\n  - Sorts the passengers in the specified order.\n";
+   cout << "passenger search 'name'\n  - Find passengers by name.\n";
+   cout << "passenger sort 'order' [page]\n  - Sorts the passengers in the specified order.\n";
    cout << "passenger checkin 'id' 'flight_id'\n  - Check in a passenger to a flight.\n";
 }
 
@@ -515,6 +516,7 @@ void App::cart()
       command.pop();
       assignCart();
    }
+   else cout << "Invalid option. Use help cart for more info.\n";
 }
 
 void App::flight()
@@ -599,6 +601,11 @@ void App::passenger()
    {
       command.pop();
       findPassenger();
+   }
+   else if (command.front() == "search")
+   {
+      command.pop();
+      searchPassenger();
    }
    else if (command.front() == "sort")
    {
@@ -881,12 +888,8 @@ void App::addPassenger()
    else
    {
       string name;
-      if (command.empty()) {
-         cout << "Name: ";
-         cin >> name;
-         clearStream();
-      }
-      else name = command.front();
+      cout << "Name: ";
+      getline(cin, name);
       airline.addPassenger({id, name});
       cout << "\nPassenger " << name << " added to the airline.\n";
    }
@@ -1787,6 +1790,34 @@ void App::findPassenger()
       cout << "Id: " << p->getId() << " \nName: " << p->getName() << "\n";
    }
    else cout << "Passenger not found.\n";
+}
+
+void App::searchPassenger()
+{
+   int page = 0;
+   string name;
+   vector<Passenger> passengers;
+   vector<vector<string> > table;
+   if (command.empty())
+   {
+      cout << "Usage:\n  - passenger search 'name' [page]\n";
+      return;
+   }
+   while (!readNumber(page, command.front()))
+   {
+      name += command.front();
+      command.pop();
+      if (command.empty()) break;
+   }
+   passengers = airline.searchNames(name);
+   if (passengers.empty())
+      cout << "No passengers match that name.\n";
+   else
+   {
+      table.push_back({"Id", "Name"});
+      for (auto & p: passengers) table.push_back({to_string(p.getId()), p.getName()});
+      displayTable(table, page);
+   }
 }
 
 void App::findPlane()

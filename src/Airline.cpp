@@ -61,6 +61,32 @@ vector<Cart> Airline::getCarts() const
    return carts;
 }
 
+vector<Passenger> Airline::searchNames(const string& name)
+{
+   string word;
+   vector<string> search;
+   vector<Passenger> res;
+   stringstream s1(name);
+   while (getline(s1, word, ' '))
+   {
+      transform(word.begin(), word.end(), word.begin(), [](unsigned char c){return tolower(c);});
+      search.push_back(word);
+   }
+   for (int i = 0; i < passengers.size(); i++)
+   {
+      stringstream s2(passengers[i].getName());
+      while (getline(s2, word, ' '))
+      {
+         transform(word.begin(), word.end(), word.begin(), [](unsigned char c){return tolower(c);});
+         for (auto & n: search)
+         {
+            if (n == word) res.push_back(passengers[i]);
+         }
+      }
+   }
+   return res;
+}
+
 vector<PassengerTicket> Airline::getTicketsToFlight(const Flight &flight) const
 {
     vector<PassengerTicket> res;
@@ -331,7 +357,7 @@ bool Airline::addFlight(const Flight& flight)
 
 bool Airline::addPassenger(const Passenger &passenger)
 {
-   if (findElem(passengers, passenger) != -1) return false;
+   //if (findElem(passengers, passenger) != -1) return false;
    passengers.push_back(passenger);
    insertionSort(passengers);
    saveFile(passengers, passengers_file);

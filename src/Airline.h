@@ -72,6 +72,13 @@ class Airline
       vector<Cart> getCarts() const;
 
       /**
+       * Get a list of passengers by name.
+       * @param name - The name to be searched.
+       * @return - A list of passengers that match the name.
+       */
+      vector<Passenger> searchNames(const string& name);
+
+      /**
        * Get all the passengers who have a ticket to a flight.
        * @param flight - The flight to be searched.
        * @return - Returns a vector of PassengerTicket.
