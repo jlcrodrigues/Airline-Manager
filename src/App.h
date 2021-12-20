@@ -43,6 +43,7 @@ class App
       bool readTime(Date &date, const string s) const;
 
       bool invalidAirportOrigin(string &aO);
+
       bool invalidAirportDestination(string &aD);
 
       void invalidDepartureDate(Date &date, string &s) const;
@@ -50,6 +51,8 @@ class App
       void invalidDepartureTime(Date &date, string &s) const;
 
       void invalidDuration(Date &date, string &s) const;
+
+      bool invalidPlane(string &id) const;
 
       /**
        * Finds the maximum for each field in a table.

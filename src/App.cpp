@@ -111,13 +111,12 @@ bool App::readTime(Date &date, const string s) const
 bool App::invalidAirportOrigin(string &aO)
 {
     while (1) {
-        cout << "Airport " << aO << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
+        cout << "Airport " << aO << " doesn't exist.\nYou can use menu to go back.\n";
         cout << "Origin airport id: ";
         cin >> aO;
         clearStream();
-        if (aO == "airportDisplay")
+        if (aO == "menu")
         {
-            displayAirport();
             return false;
         }
         else if (airline.checkAirport(aO)) return true;
@@ -127,13 +126,12 @@ bool App::invalidAirportOrigin(string &aO)
 bool App::invalidAirportDestination(string &aD)
 {
     while (1) {
-        cout << "Airport " << aD << " doesn't exist.\nTo take a quick look to the available airports you can try: airportDisplay\n";
+        cout << "Airport " << aD << " doesn't exist.\nYou can use menu to go back.\n";
         cout << "Destination airport id: ";
         cin >> aD;
         clearStream();
-        if (aD == "airportDisplay")
+        if (aD == "menu")
         {
-            displayAirport();
             return false;
         }
         if (airline.checkAirport(aD)) return true;
@@ -167,13 +165,25 @@ void App::invalidDepartureTime(Date &date, string &s) const
 
 void App::invalidDuration(Date &date, string &s) const
 {
-    while(1)
+    while (1)
     {
         cout << "Invalid time. Please try again.\n";
         cout << "Duration time (hh:mm): ";
         cin >> s;
         clearStream();
         if (readDuration(date, s)) break;
+    }
+}
+
+bool App::invalidPlane(string &id) const
+{
+    while (1)
+    {
+        cout << "Plane " << id << " doesn't exist. Try again.\nYou can use menu to go back.\nPlane id: ";
+        cin >> id;
+        clearStream();
+        if (id == "menu") return false;
+        if (airline.checkPlane(id)) return true;
     }
 }
 
@@ -736,8 +746,27 @@ void App::addFlight() {
     if (airline.checkFlight(id)) {
         cout << "That flight already exists. To check existing flights try:\n  flight display\n";
     } else {
-        string dD, dT, d, aO, aD, capacity; // departureDate, departureTime, duration, airportOrigin, airportDestination
+        string dD, dT, d, aO, aD, idP; // departureDate, departureTime, duration, airportOrigin, airportDestination, idPlane
         Date departureDate, departureTime, duration;
+        if (command.empty())
+        {
+            cout << "Plane id: ";
+            cin >> idP;
+            clearStream();
+            if (!airline.checkPlane(idP))
+            {
+                if(!invalidPlane(idP)) return;
+            }
+        }
+        else
+        {
+            idP = command.front();
+            if (!airline.checkPlane(idP))
+            {
+                if(!invalidPlane(idP)) return;
+            }
+            command.pop();
+        }
         if (command.empty()) {
             cout << "Departure date (dd/mm/yyyy): ";
             cin >> dD;
@@ -745,7 +774,8 @@ void App::addFlight() {
             if (!readDate(departureDate, dD)) {
                 invalidDepartureDate(departureDate, dD);
             }
-        } else {
+        }
+        else {
             dD = command.front();
             if (!readDate(departureDate, dD)) {
                 invalidDepartureDate(departureDate, dD);
@@ -759,7 +789,8 @@ void App::addFlight() {
             if (!readTime(departureTime, dT)) {
                 invalidDepartureTime(departureTime, dT);
             }
-        } else {
+        }
+        else {
             dT = command.front();
             if (!readTime(departureTime, dT)) {
                 invalidDepartureTime(departureTime, dT);
@@ -773,7 +804,8 @@ void App::addFlight() {
             if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
-        } else {
+        }
+        else {
             d = command.front();
             if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
@@ -807,7 +839,8 @@ void App::addFlight() {
             {
                 if (!invalidAirportDestination(aD)) return;
             }
-        } else {
+        }
+        else {
             aD = command.front();
             transform(aD.begin(), aD.end(), aD.begin(), ::toupper);
             if (!airline.checkAirport(aD))
@@ -816,37 +849,13 @@ void App::addFlight() {
             }
             command.pop();
         }
-        int capacityI; // capacity integer
-        if (command.empty()) {
-            cout << "Flight capacity: ";
-            cin >> capacity;
-            clearStream();
-            if (!readNumber(capacityI, capacity)) {
-                while (1) {
-                    cout << "Flight capacity must be an integer. Please try again.\nFlight capacity: ";
-                    cin >> capacity;
-                    clearStream();
-                    if (readNumber(capacityI, capacity)) break;
-                }
-            }
-        } else {
-            capacity = command.front();
-            if (!readNumber(capacityI, capacity)) {
-                while (1) {
-                    cout << "Flight capacity must be an integer. Please try again.\nFlight capacity: ";
-                    cin >> capacity;
-                    clearStream();
-                    if (readNumber(capacityI, capacity)) break;
-                }
-                command.pop();
-            }
-        }
         if (aO == aD)
         {
             cout << "Error. Airport origin and airport destination must be different.\n";
             return;
         }
-        airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
+        airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), airline.findPlane(idP)->getCapacity()});
+        cout << "Flight number " << id << " was added successfully.\n";
     }
 }
 
