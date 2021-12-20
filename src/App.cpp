@@ -61,6 +61,35 @@ bool App::readDate(Date &date, const string s) const
     }
 }
 
+bool App::readDuration(Date &date, const string s) const
+{
+    try
+    {
+        string s2;
+        int c = count(s.begin(), s.end(), ':');
+        if (c != 1) return false;
+        if (s[0] == ':') return false;
+        int l = s.length();
+        if (s[l-1] == ':') return false;
+        int i;
+        for (int j  = 0; j < s.length(); j++)
+        {
+            if (s[j] == ':')
+            {
+                i = j;
+            }
+        }
+        date.setHour(stoi(s.substr(0, i)));
+        date.setMinute(stoi(s.substr(i+1)));
+        if (!date.checkDuration(date)) return false;
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
 bool App::readTime(Date &date, const string s) const
 {
     try
@@ -79,16 +108,6 @@ bool App::readTime(Date &date, const string s) const
     }
 }
 
-//bool App::readDuration(Date &date, const string s) const
-//{
-//    try
-//    {
-//        int c = count(s.begin(), s.end(), ':');
-//        if (c != 1) return false;
-//        date.setHour(stoi(airline.getTimeString(s).substr(0,2)));
-//
-//    }
-//}
 bool App::invalidAirportOrigin(string &aO)
 {
     while (1) {
@@ -154,7 +173,7 @@ void App::invalidDuration(Date &date, string &s) const
         cout << "Duration time (hh:mm): ";
         cin >> s;
         clearStream();
-        if (readTime(date, s)) break;
+        if (readDuration(date, s)) break;
     }
 }
 
@@ -751,12 +770,12 @@ void App::addFlight() {
             cout << "Duration (hh:mm): ";
             cin >> d;
             clearStream();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
         } else {
             d = command.front();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
             command.pop();
@@ -821,6 +840,11 @@ void App::addFlight() {
                 }
                 command.pop();
             }
+        }
+        if (aO == aD)
+        {
+            cout << "Error. Airport origin and airport destination must be different.\n";
+            return;
         }
         airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), capacityI});
     }
@@ -1385,7 +1409,7 @@ void App::editFlight()
             cout << "New duration (hh:mm): ";
             cin >> d;
             clearStream();
-            if (!readTime(duration, d)) {
+            if (!readDuration(duration, d)) {
                 invalidDuration(duration, d);
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), duration, airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
