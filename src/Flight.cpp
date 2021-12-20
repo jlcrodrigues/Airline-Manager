@@ -26,7 +26,8 @@ string Flight::getCsv() const
    csv += duration.toStringTime(duration) + ',';
    csv += origin.getName() + ',';
    csv += destination.getName() + ',';
-   csv += to_string(capacity) + '\n';
+   csv += to_string(capacity) + ',';
+   csv += getPlane() + '\n';
    return csv;
 }
 
@@ -114,5 +115,15 @@ bool Flight::operator<(const Flight &f) const
    }
    throw (invalid_argument("That rule does not exist."));
    return false;
+}
+
+void Flight::setPlane(const string &idPlane)
+{
+    this->idPlane = idPlane;
+}
+
+string Flight::getPlane() const
+{
+    return idPlane;
 }
 

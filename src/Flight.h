@@ -105,11 +105,16 @@ class Flight
        */
       bool operator < (const Flight& f) const;
 
+      void setPlane(const string& idPlane);
+
+      string getPlane() const;
+
 private:
    int capacity;
       int occupation;
       int number;
       int check_in;
+      string idPlane;
       Date departureDate;
       Date departureTime;
       Date duration;

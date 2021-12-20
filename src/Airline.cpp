@@ -240,30 +240,6 @@ bool Airline::loadAirports(const string &file_name)
    return true;
 }
 
-
-bool Airline::loadFlights(const string &file_name)
-{
-   flights_file = file_name;
-   string line;
-   vector<string> line_contents;
-   ifstream file(flights_file);
-   if (!file.is_open()) return false;
-   while(getline(file, line))
-   {
-      line_contents = readLine(line);
-      flights.push_back(Flight(stoi(line_contents[0]),
-                               Date(stoi(getDateString(line_contents[1]).substr(0,2)), stoi(getDateString(line_contents[1]).substr(2,2)), stoi(getDateString(line_contents[1]).substr(4))),
-                               Date(stoi(getTimeString(line_contents[2]).substr(0,2)), stoi(getTimeString(line_contents[2]).substr(2))),
-                               Date(stoi(getTimeString(line_contents[3]).substr(0,2)), stoi(getTimeString(line_contents[3]).substr(2))),
-                               Airport(line_contents[4], set<Transport>()),
-                               Airport(line_contents[5], set<Transport>()),
-                               stoi(line_contents[6])));
-   }
-   file.close();
-   sort(flights.begin(), flights.end());
-   return true;
-}
-
 bool Airline::loadPassengers(const string &file_name)
 {
    passengers_file = file_name;
@@ -308,6 +284,31 @@ bool Airline::loadPlanes(const string &file_name)
    file.close();
    sort(planes.begin(), planes.end());
    return true;
+}
+
+bool Airline::loadFlights(const string &file_name)
+{
+    flights_file = file_name;
+    string line;
+    vector<string> line_contents;
+    ifstream file(flights_file);
+    if (!file.is_open()) return false;
+    while(getline(file, line))
+    {
+        line_contents = readLine(line);
+        flights.push_back(Flight(stoi(line_contents[0]),
+                                 Date(stoi(getDateString(line_contents[1]).substr(0,2)), stoi(getDateString(line_contents[1]).substr(2,2)), stoi(getDateString(line_contents[1]).substr(4))),
+                                 Date(stoi(getTimeString(line_contents[2]).substr(0,2)), stoi(getTimeString(line_contents[2]).substr(2))),
+                                 Date(stoi(getTimeString(line_contents[3]).substr(0,2)), stoi(getTimeString(line_contents[3]).substr(2))),
+                                 Airport(line_contents[4], set<Transport>()),
+                                 Airport(line_contents[5], set<Transport>()),
+                                 stoi(line_contents[6])));
+        flights.back().setPlane(line_contents[7]);
+        if (checkPlane(line_contents[7])) findPlane(line_contents[7])->addFlight(flights.back());
+    }
+    file.close();
+    sort(flights.begin(), flights.end());
+    return true;
 }
 
 bool Airline::loadCarts(const string &file_name)

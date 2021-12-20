@@ -862,6 +862,8 @@ void App::addFlight() {
             return;
         }
         airline.addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), airline.findPlane(idP)->getCapacity()});
+        airline.findFlight(id)->setPlane(idP);
+        airline.findPlane(idP)->addFlight({id, departureDate, departureTime, duration, *airline.findAirport(aO), *airline.findAirport(aD), airline.findPlane(idP)->getCapacity()});
         cout << "Flight number " << id << " was added successfully.\n";
     }
 }
@@ -901,6 +903,11 @@ void App::addPlane()
     if (command.empty())
     {
         cout << "Usage:\n  plane add 'id'\n";
+        return;
+    }
+    if (command.front() == "NONE")
+    {
+        cout << "NONE is an invalid plane id. Try again.\n";
         return;
     }
     string id = command.front();
@@ -1023,14 +1030,14 @@ void App::displayFlight()
         return;
     }
     vector<vector<string>> table;
-    table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity"});
+    table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity", "Plane"});
     if (command.empty()) page = 0;
     else if (!readNumber(page, command.front()))
     {
         cout << "Page must be an integer. Please try again.\n";
         return;
     }
-    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity())});
+    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity()), f.getPlane() });
     displayTable(table, page);
 }
 
@@ -1075,7 +1082,7 @@ void App::partialDisplayFlight()
    }
    vector<Flight> flights;
    vector<vector<string>> table;
-   table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity"});
+   table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity", "Plane"});
    bool b = false;
    airline.setFlightOrder("departure");
    int endIndex = airline.getFlights().size() - 1;
@@ -1095,7 +1102,7 @@ void App::partialDisplayFlight()
        cout << "There are no flights recorded in that date frame.\n";
        return;
    }
-    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity())});
+    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity()), f.getPlane()});
     displayTable(table, page);
 }
 
