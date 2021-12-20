@@ -982,7 +982,7 @@ void App::displayCart()
       return;
    }
    vector<vector<string> > table;
-   table.push_back({"Id", "Carriages", "Piles", "Pile Size", "Flight"});
+   table.push_back({"Id", "Carriages", "Piles", "Pile Size", "Occupation", "Flight"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
    {
@@ -995,7 +995,7 @@ void App::displayCart()
       if (flight == "0") flight = "None";
       table.push_back({to_string(c.getId()), to_string(c.getCarriages()),
                        to_string(c.getPiles()), to_string(c.getPileSize()),
-                       flight});
+                       to_string(c.getOccupation()) + "%", flight});
    }
    displayTable(table, page);
 
@@ -1177,7 +1177,7 @@ void App::displayTicketFlight()
       return;
    }
    vector<vector<string> > table;
-   table.push_back({"Id", "Name", "Baggage"});
+   table.push_back({"Id", "Name", "Baggage", "Checked in"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
    {
@@ -1187,10 +1187,12 @@ void App::displayTicketFlight()
    for (auto & t: tickets)
    {
       string bag = "No";
+      string check_in = "No";
+      if (t.ticket.hasCheckedIn()) check_in = "Yes";
       if (t.ticket.getBaggage()) bag = "Yes";
       table.push_back({to_string(t.passenger.getId()),
                        t.passenger.getName(),
-                       bag});
+                       bag, check_in});
    }
    displayTable(table, page);
 }
@@ -1222,7 +1224,7 @@ void App::displayTicketPassenger()
       return;
    }
    vector<vector<string> > table;
-   table.push_back({"Flight Id", "Origin", "Destination", "Baggage"});
+   table.push_back({"Flight Id", "Origin", "Destination", "Baggage", "Checked in"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
    {
@@ -1232,11 +1234,13 @@ void App::displayTicketPassenger()
    for (auto & t: tickets) {
       Flight flight = t.getFlight();
       string bag = "No";
+      string check_in = "No";
+      if (t.hasCheckedIn()) check_in = "Yes";
       if (t.getBaggage()) bag = "Yes";
       table.push_back({to_string(flight.getNumber()),
                        flight.getAirportOrigin().getName(),
                        flight.getAirportDestination().getName(),
-                       bag});
+                       bag, check_in});
    }
    displayTable(table, page);
 }
@@ -1982,7 +1986,7 @@ void App::assignCart()
    }
    if (!airline.checkFlight(flight_id))
    {
-       cout << "That cart doesn't exist. Use cart display to see available carts.\n";
+       cout << "That flight doesn't exist. Use flight display to see available flights.\n";
        return;
    }
    Cart* cart = airline.findCart(id);
@@ -1999,7 +2003,7 @@ void App::assignCart()
 
 void App::flyFlight()
 {
-   int id;
+   int id, n_tickets, n_passengers, n_seats;
    if (command.empty())
    {
       cout << "Usage:\n  flight fly 'id'\n";
@@ -2015,8 +2019,11 @@ void App::flyFlight()
        cout << "That flight doesn't exist. Use flight display to see available flights.\n";
        return;
    }
-   airline.flyFlight(id);
-   cout << "The flight took of.\n";
+   Flight* flight = airline.findFlight(id);
+   n_seats = flight->getCapacity();
+   n_passengers = airline.getCheckedIn(id);
+   n_tickets =  airline.flyFlight(id);
+   cout << "The flight took of with " << n_passengers << " passengers and " << n_tickets << "/" << n_seats << " tickets sold.\n";
 }
 
 void App::quit()

@@ -45,6 +45,7 @@ string Cart::getCsv() const
    while (!bags.empty())
    {
       csv += ',' + to_string(bags.front().getWeight());
+      bags.pop();
    }
    csv += '\n';
    return csv;
@@ -71,6 +72,16 @@ queue<Baggage> Cart::getBags() const
    return bags;
 }
 
+int Cart::getOccupation() const
+{
+   int count = 0;
+   for (auto & pile: contents)
+   {
+      count += pile.size();
+   }
+   return (count * 100) / (n_piles * bags_per_stack);
+}
+
 void Cart::setFlight(const int& id)
 {
    flight_id = id;
@@ -79,7 +90,7 @@ void Cart::setFlight(const int& id)
 bool Cart::insert(const Baggage& bag)
 {
    int i = 0;
-   for (i; i < contents.size(); i++)
+   for (; i < contents.size(); i++)
    {
       if (bags_per_stack <= contents[i].size()) continue;
       contents[i].push(bag);

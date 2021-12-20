@@ -68,6 +68,12 @@ public:
    queue<Baggage> getBags() const;
 
    /**
+    * Get the current occupation of the cart.
+    * @return - An integer with the percentage of the cart's occupation.
+    */
+   int getOccupation() const;
+
+   /**
     * Changes the flight Id.
     * @param id - The id a flight.
     */

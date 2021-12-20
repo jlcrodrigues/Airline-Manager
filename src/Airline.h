@@ -389,7 +389,14 @@ class Airline
 
       bool checkIn(const int& flight_id, const int& passenger_id, const double& bag);
 
-      void flyFlight(const int& flight_id);
+      int getCheckedIn(const int& flight_id);
+
+      /**
+       * When a flight takes off, takes care of carts and tickets.
+       * @param flight_id - The flight going to be flown.
+       * @return - Returns the amount of passenger that checked in.
+       */
+      int flyFlight(const int& flight_id);
 
 private:
    /**

@@ -254,9 +254,9 @@ bool Airline::loadPassengers(const string &file_name)
       {
          Flight* flight = findFlight(stoi(line_contents[i]));
          bool baggage = false;
-         if (line_contents[i++] == "1") baggage = true;
+         if (line_contents[++i] == "1") baggage = true;
          Ticket ticket(*flight, baggage);
-         if (line_contents[i++] == "1") ticket.checkIn();
+         if (line_contents[++i] == "1") ticket.checkIn();
          passengers[passengers.size() - 1].addTicket(ticket);
       }
    }
@@ -294,8 +294,12 @@ bool Airline::loadCarts(const string &file_name)
    while (getline(file, line))
    {
       line_contents = readLine(line);
-      Cart cart(stoi(line_contents[0]), stoi(line_contents[1]), stoi(line_contents[2]), stoi(line_contents[3]));
-      cart.setFlight(stoi(line_contents[4]));
+      int cart_id = stoi(line_contents[0]);
+      int flight_id = stoi(line_contents[4]);
+      Cart cart(cart_id, stoi(line_contents[1]), stoi(line_contents[2]), stoi(line_contents[3]));
+      cart.setFlight(flight_id);
+      Flight* flight = findFlight(flight_id);
+      flight->addCart(cart_id);
       for (int i = 5; i < line_contents.size(); i++)
       {
          cart.insert(Baggage(stoi(line_contents[i])));
@@ -560,20 +564,22 @@ void Airline::assignCartFlight(const int &id, const int &flight_id)
 {
    int i = findElem(carts, Cart(id, 0, 0, 0));
    carts[i].setFlight(flight_id);
+   Flight* flight = findFlight(flight_id);
+   flight->addCart(carts[i].getId());
    saveFile(carts, carts_file);
 }
 
 bool Airline::insertBaggage(const int& flight_id, const Baggage &bag)
 {
    Flight* flight = findFlight(flight_id);
-   set<int> carts = flight->getCarts();
-   set<int>::iterator it = carts.begin();
-   for (; it != carts.end(); it++)
+   set<int> flight_carts = flight->getCarts();
+   set<int>::iterator it = flight_carts.begin();
+   for (; it != flight_carts.end(); it++)
    {
       Cart* cart = findCart(*it);
-      if (!cart->isFull())
+      if (cart->insert(bag))
       {
-         cart->insert(bag);
+         saveFile(carts, carts_file);
          return true;
       }
    }
@@ -591,15 +597,26 @@ bool Airline::checkIn(const int &flight_id, const int &passenger_id)
 
 bool Airline::checkIn(const int &flight_id, const int &passenger_id, const double& bag)
 {
-   bool check;
+   if (!insertBaggage(flight_id, bag)) return false;
    checkIn(flight_id, passenger_id);
-   check = insertBaggage(flight_id, bag);
    saveFile(carts, carts_file);
-   return check;
+   return true;
 }
 
-void Airline::flyFlight(const int& flight_id)
+int Airline::getCheckedIn(const int& flight_id)
 {
+   int res = 0;
+   for (int i = 0; i < passengers.size(); i++)
+   {
+      Flight* flight = findFlight(flight_id);
+      if (passengers[i].getTicket(*flight).hasCheckedIn()) res++;
+   }
+   return res;
+}
+
+int Airline::flyFlight(const int& flight_id)
+{
+   int n_passengers = 0;
    for (int i = 0; i < carts.size(); i++)
    {
       if (carts[i].getFlight() == flight_id)
@@ -610,7 +627,7 @@ void Airline::flyFlight(const int& flight_id)
    }
    for (int i = 0; i < passengers.size(); i++)
    {
-      passengers[i].removeTicket(flight_id);
+      if (passengers[i].removeTicket(flight_id)) n_passengers++;
    }
    vector<Flight>::iterator it = flights.begin();
    for (; it != flights.end(); it++)
@@ -621,6 +638,10 @@ void Airline::flyFlight(const int& flight_id)
          break;
       }
    }
+   saveFile(passengers, passengers_file);
+   saveFile(flights, flights_file);
+   saveFile(carts, carts_file);
+   return n_passengers;
 }
 
 template<typename T>

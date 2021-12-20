@@ -41,7 +41,7 @@ class Passenger
        * Removes all the tickets to a flight.
        * @param flight_id - The flight to be searched.
        */
-      void removeTicket(const int& flight_id);
+      bool removeTicket(const int& flight_id);
 
       /**
       *Buys a ticket.

@@ -33,7 +33,7 @@ void Passenger::addTicket(const Ticket &ticket)
    tickets.push_back(ticket);
 }
 
-void Passenger::removeTicket(const int &flight_id)
+bool Passenger::removeTicket(const int &flight_id)
 {
    vector<Ticket>::iterator it = tickets.begin();
    for (; it != tickets.end(); it++)
@@ -41,9 +41,10 @@ void Passenger::removeTicket(const int &flight_id)
       if (it->getFlight().getNumber() == flight_id)
       {
          tickets.erase(it);
-         return;
+         return true;
       }
    }
+   return false;
 }
 
 bool Passenger::buyTicket(Flight* flight, const bool& baggage)
