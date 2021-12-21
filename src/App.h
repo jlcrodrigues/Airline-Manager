@@ -23,7 +23,7 @@ class App
       Airline airline;
       queue<string> command;
       bool app_run;
-      const int ITEMS_PER_PAGE;
+      int ITEMS_PER_PAGE;
 
       /**Clears the cin buffer.**/
       void clearStream() const;
@@ -83,6 +83,9 @@ class App
       /**Outputs a small presentation of the program.**/
       void helpTutorial();
 
+      /**Outputs some command options to manage the tool.**/
+      void helpGeneral();
+
       /**Outputs a series of options for airport operations.**/
       void helpAirport();
 
@@ -100,6 +103,12 @@ class App
 
       /**Outputs a series of options for ticket operations.**/
       void helpTicket();
+
+      /**See the list of alias.**/
+      void alias();
+
+      /**Resize the display windows.**/
+      void resize();
 
       /**
        * Handles the airport commands.

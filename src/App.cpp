@@ -1,11 +1,11 @@
 #include "App.h"
 
-App::App(): ITEMS_PER_PAGE(5)
+App::App(): ITEMS_PER_PAGE(7)
 {
    app_run = true;
 }
 
-App::App(const string &airports, const string &flights, const string &passengers, const string &planes, const string& carts): ITEMS_PER_PAGE(5)
+App::App(const string &airports, const string &flights, const string &passengers, const string &planes, const string& carts): ITEMS_PER_PAGE(7)
 {
    airline = Airline(airports, flights, passengers, planes, carts);
    app_run = true;
@@ -274,6 +274,18 @@ void App::processCommand()
          help();
          return;
       }
+      if (command.front() == "alias")
+      {
+         command.pop();
+         alias();
+         return;
+      }
+      if (command.front() == "resize")
+      {
+         command.pop();
+         resize();
+         return;
+      }
       else if (command.front() == "airport" || command.front() == "a")
       {
          command.pop();
@@ -329,6 +341,7 @@ void App::help()
    {
       cout << "To find out how to use Airline Manager please use the following commands:\n\n";
       cout << "help tutorial\n  - Find out how the program works.\n";
+      cout << "help general\n  - See general use commands.\n";
       cout << "help airport\n  - See the airport commands.\n";
       cout << "help cart\n  - See the cart commands.\n";
       cout << "help flight\n  - See the flight commands.\n";
@@ -340,6 +353,11 @@ void App::help()
    else if (command.front() == "tutorial")
    {
       helpTutorial();
+      return;
+   }
+   else if (command.front() == "general")
+   {
+      helpGeneral();
       return;
    }
    else if (command.front() == "airport" || command.front() == "a")
@@ -378,6 +396,13 @@ void App::help()
 void App::helpTutorial()
 {
    cout << "tutorial"; //TODO tutorial
+}
+
+void App::helpGeneral()
+{
+   cout << "alias\n  - Learn about known aliases.\n";
+   cout << "resize 'size'\n  - Change the items per page on display.\n";
+   cout << "quit\n  - Exit the program.\n";
 }
 
 void App::helpAirport()
@@ -451,6 +476,30 @@ void App::helpTicket()
 
 //////////////////////////////////////////////// CLASS FUNCTIONS ////////////////////////////////////////////////
 
+void App::alias()
+{
+   cout << "Save yourself a few key presses by using these shortcuts:\n\n";
+   cout << "  airport: a\n  cart: c\n  flight: f\n  passenger: pa\n  plane:  pl\n  ticket: t\n\n";
+}
+
+void App::resize()
+{
+   int size;
+   if (command.empty())
+   {
+      cout << "Usage:\n  resize 'size'";
+      return;
+   }
+   if (!readNumber(size, command.front()))
+   {
+      cout << "Size must be a number. Please try again.\n";
+      return;
+   }
+   size = max(1, size);
+   size = min(30, size);
+   ITEMS_PER_PAGE = size;
+   cout << "Displays resized to " << size << " units.\n";
+}
 
 void App::airport()
 {
