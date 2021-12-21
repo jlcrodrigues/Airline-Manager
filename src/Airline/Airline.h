@@ -362,10 +362,10 @@ class Airline
       bool readDate(const string &dateString, Date &date);
 
       /**
-       *
-       * @param flight
-       * @param group
-       * @return
+       * Buys a ticket for each member of the group.
+       * @param flight - The flight you want a ticket from.
+       * @param group - A Group of GroupMember.
+       * @return - Returns true if the tickets were bought.
        */
       bool buyTicket(Flight* flight, vector<GroupMember> group);
 
