@@ -11,9 +11,9 @@ Airline::Airline()
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
+    loadPlanes(planes_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
-   loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
 }
@@ -29,9 +29,9 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
+    loadPlanes(planes_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
-   loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
 }
@@ -141,16 +141,13 @@ bool Airline::checkCart(const int& id) const
 
 Airport* Airline::findAirport(const string &name)
 {
-   Airport* res;
-   for (auto & a: airports)
-   {
-      if (a.getName() == name)
-      {
-         res = &a;
-         break;
-      }
-   }
-   return res;
+    Airport* res;
+    int i = findElem(airports, Airport(name));
+    if (i != -1)
+    {
+        res = &airports[i];
+    }
+    return res;
 }
 
 Flight* Airline::findFlight(const int &id)
