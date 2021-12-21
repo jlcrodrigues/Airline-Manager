@@ -118,25 +118,35 @@ bool Date::isDate()
 
 bool Date::operator<(const Date &d) const
 {
-    if (year == d.getYear())
+    if(d.is_date)
     {
-        if(month == d.getMonth())
+        if (year == d.getYear())
         {
-            if (day == d.getDay())
+            if(month == d.getMonth())
             {
-                if (hour == d.getHour()) return minute < d.getMinute();
-                return hour < d.getHour();
+                return day < d.getDay();
             }
-            return day < d.getDay();
+            return month < d.getMonth();
         }
-        return month < d.getMonth();
+        return year < d.getYear();
     }
-    return year < d.getYear();
+    else
+    {
+        if (hour == d.getHour()) return minute < d.getMinute();
+        return hour < d.getHour();
+    }
 }
 
 bool Date::operator==(const Date &d) const
 {
-    if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
+    if(d.is_date)
+    {
+        if((year == d.getYear()) && (month == d.getMonth()) && (day == d.getDay())) return true;
+    }
+    else
+    {
+        if((hour == d.getHour()) && (minute == d.getMinute())) return true;
+    }
     return false;
 }
 

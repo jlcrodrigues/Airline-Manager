@@ -359,7 +359,7 @@ class Airline
        * @param date - Receives the new date.
        * @return - Returns true if the string is a possible date and false otherwise.
       **/
-      bool readData(const string &dateString, Date &date);
+      bool readDate(const string &dateString, Date &date);
 
       /**
        *

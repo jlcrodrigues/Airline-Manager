@@ -225,7 +225,7 @@ bool Airline::loadAirports(const string &file_name)
          t.type = line_contents[i];
          t.distance = stoi(line_contents[i+1]);
          i+=2;
-         while (i<line_contents.size() &&  readData(line_contents[i], d))
+         while (i<line_contents.size() &&  readDate(line_contents[i], d))
          {
             v.push_back(d);
             i++;
@@ -560,7 +560,7 @@ string Airline::getTimeString(string date) const{
     return s;
 }
 
-bool Airline::readData(const string &dateString, Date &date)
+bool Airline::readDate(const string &dateString, Date &date)
 {
    if(dateString.find(':')==dateString.npos)
    {

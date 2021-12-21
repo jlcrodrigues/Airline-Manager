@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "Airport.h"
 Airport::Airport(const string& name){
     this->name = name;
@@ -49,14 +48,14 @@ bool Airport::addTransport(Transport& t1) {
       if(i.distance == t1.distance && i.type == t1.type){
          transports.erase(i);
          i.time.insert(i.time.end(),t1.time.begin(),t1.time.end());
-         vector<Date>::iterator it;
-         it = unique(i.time.begin(),i.time.end());
-         i.time.resize(distance(i.time.begin(), it));
          sort(i.time.begin(),i.time.end());
+         i.time.erase(unique(i.time.begin(),i.time.end()),i.time.end());
          transports.insert(i);
          return false;
       }
    }
+   sort(t1.time.begin(),t1.time.end());
+   t1.time.erase(unique(t1.time.begin(),t1.time.end()),t1.time.end());
    transports.insert(t1);
    return true;
 }

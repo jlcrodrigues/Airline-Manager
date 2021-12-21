@@ -1494,19 +1494,29 @@ void App::editAirport()
          }
          Airport a = *airline.findAirport(aname);
          Transport t;
-         string distance;
+         string distance, times;
          int i;
          cout << "Type: "; cin >> t.type; clearStream();
-         cout << "Distance: "; cin >> distance; clearStream();
-         readNumber(t.distance, distance);
-         cout << "Number of times: "; cin >> i ; clearStream();
+         do
+         {
+            cout << "Distance: "; cin >> distance; clearStream();
+         } while (!readNumber(t.distance, distance)) ;
+         do
+         {
+            cout << "Number of times: "; cin >> times ; clearStream();
+         } while (!readNumber(i, times)) ;
          int n = i;
          vector<Date> v;
          while (i>0)
          {
             string date;
             cout << "Time " << n-i+1 << ": "; cin >> date; clearStream();
-            Date d(stoi(airline.getTimeString(date).substr(0,2)),stoi(airline.getTimeString(date).substr(2)));
+            Date d;
+            if(!readTime(d,date))
+            {
+               cout << "Invalid Format. Try HH:MM\n";
+               continue;
+            }
             v.push_back(d);
             i--;
          }
@@ -1515,6 +1525,10 @@ void App::editAirport()
          a.addTransport(t);
          airline.addAirport(a);
          cout << "Airport " << aname << " was updated.\n";
+      }
+      else
+      {
+         cout << "Usage:\n  airport edit transport add 'nameAirport'\n";
       }
    }
    else
