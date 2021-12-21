@@ -64,25 +64,26 @@ vector<Cart> Airline::getCarts() const
 vector<Passenger> Airline::searchNames(const string& name)
 {
    string word;
-   vector<string> search;
+   set<string> search;
    vector<Passenger> res;
    stringstream s1(name);
    while (getline(s1, word, ' '))
    {
       transform(word.begin(), word.end(), word.begin(), [](unsigned char c){return tolower(c);});
-      search.push_back(word);
+      search.insert(word);
    }
    for (int i = 0; i < passengers.size(); i++)
    {
+      vector<string> count;
       stringstream s2(passengers[i].getName());
+      set<string> passenger_names;
       while (getline(s2, word, ' '))
       {
          transform(word.begin(), word.end(), word.begin(), [](unsigned char c){return tolower(c);});
-         for (auto & n: search)
-         {
-            if (n == word) res.push_back(passengers[i]);
-         }
+         passenger_names.insert(word);
       }
+      set_intersection(search.begin(), search.end(), passenger_names.begin(), passenger_names.end(), back_inserter(count));
+      if (count.size() == search.size()) res.push_back(passengers[i]);
    }
    return res;
 }

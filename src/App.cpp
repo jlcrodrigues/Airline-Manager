@@ -2002,7 +2002,7 @@ void App::searchPassenger()
    }
    while (!readNumber(page, command.front()))
    {
-      name += command.front();
+      name += command.front() + ' ';
       command.pop();
       if (command.empty()) break;
    }
