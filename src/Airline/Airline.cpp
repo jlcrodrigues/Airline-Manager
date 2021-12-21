@@ -141,16 +141,13 @@ bool Airline::checkCart(const int& id) const
 
 Airport* Airline::findAirport(const string &name)
 {
-   Airport* res;
-   for (auto & a: airports)
-   {
-      if (a.getName() == name)
-      {
-         res = &a;
-         break;
-      }
-   }
-   return res;
+    Airport* res;
+    int i = findElem(airports, Airport(name));
+    if (i != -1)
+    {
+        res = &airports[i];
+    }
+    return res;
 }
 
 Flight* Airline::findFlight(const int &id)
