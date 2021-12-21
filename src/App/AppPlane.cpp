@@ -444,14 +444,14 @@ void App::serviceAdd() {
          cout << "Invalid date.\n";
          return;
       }
-//        if (!airline.findPlane(idP)->getServices().empty())
-//        {
-//            if (airline.findPlane(idP)->getServices().back().getServiceDate() < d)
-//            {
-//                cout << "You can't add a service with this date because there's services scheduled after this date.\nYou can use plane next 'id' to clear the queue.\n";
-//                return;
-//            }
-//        }
+        if (!airline.findPlane(idP)->getServices().empty())
+        {
+            if (d < airline.findPlane(idP)->getServices().back().getServiceDate())
+            {
+                cout << "You can't add a service with this date because there's services scheduled after this date.\nYou can use plane next 'id' to clear the queue.\n";
+                return;
+            }
+        }
       cout << "Employee id: ";
       cin >> idS;
       clearStream();
