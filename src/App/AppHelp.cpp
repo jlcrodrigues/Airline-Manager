@@ -60,13 +60,19 @@ void App::help()
 
 void App::helpTutorial()
 {
-   cout << "tutorial"; //TODO tutorial
+   cout << "Welcome to Airline Manager! This tool will allow your airline to manage flights, passengers and planes.\n";
+   cout << "To get a grip of the available commands navigate trough the help sections.\n\n";
+   cout << "You can keep a list of known passengers and get them tickets to flight as well as checking them in to those flights.\n";
+   cout << "When someone checks in with a baggage it will be stored in a cart so be sure your flight has some cart assigned.\n";
+   cout << "When a flight is ready to go, you can make it take off and we will take care of all the organizing for you.\n";
+   cout << "You can also keep a list of airports, which also store information about local transfers.\n\n";
 }
 
 void App::helpGeneral()
 {
    cout << "alias\n  - Learn about known aliases.\n";
    cout << "resize 'size'\n  - Change the items per page on display.\n";
+   cout << "about\n  - Learn about this program.\n";
    cout << "quit\n  - Exit the program.\n";
 }
 

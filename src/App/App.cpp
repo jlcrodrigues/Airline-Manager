@@ -286,6 +286,12 @@ void App::processCommand()
          resize();
          return;
       }
+      if (command.front() == "about")
+      {
+         command.pop();
+         about();
+         return;
+      }
       else if (command.front() == "airport" || command.front() == "a")
       {
          command.pop();
@@ -354,6 +360,14 @@ void App::resize()
    size = min(30, size);
    ITEMS_PER_PAGE = size;
    cout << "Displays resized to " << size << " units.\n";
+}
+
+void App::about()
+{
+   cout << "This project was made in December of 2021 as part of the Algorithms and Data Structures ";
+   cout << "course at FEUP. It was made using C++ and OOP as well as algorithms (binary search, sorting, etc) and ";
+   cout << "data structures (stack, queue, bst, etc) approached in class.\n\n";
+   cout << "Made by:\n  - Andre Barbosa\n  - Guilherme Almeida\n  - Jose Luis Rodrigues\n\n";
 }
 
 void App::quit()

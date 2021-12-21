@@ -175,6 +175,9 @@ class App
       /**Resize the display windows.**/
       void resize();
 
+      /**Show information about the program.**/
+      void about();
+
       /**Quits the program**/
       void quit();
 
