@@ -15,8 +15,7 @@ struct Employee emp4;
 TEST(service, addService){
 //    Airport airport1;
 //    Airport airport2;
-    Date date(9,12);
-    cout << date.toString(date);
+
 
 //    Flight f(3, "9/12/2021", "3h24", airport1, airport2, 100);
 //    Flight f2(4, "9/12/2021", "3h24", airport2, airport1, 100);

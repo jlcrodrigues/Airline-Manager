@@ -267,6 +267,8 @@ class App
 
       void assignCart();
       void flyFlight();
+      void flightPlane();
+      void historyPlane();
 };
 
 

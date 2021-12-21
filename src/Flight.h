@@ -105,6 +105,8 @@ class Flight
        */
       bool operator < (const Flight& f) const;
 
+      bool operator == (const Flight &f) const;
+
       void setPlane(const string& idPlane);
 
       string getPlane() const;

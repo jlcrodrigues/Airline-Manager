@@ -400,6 +400,7 @@ void App::helpFlight()
    cout << "flight find 'id'\n  - Try to locate a flight by id.\n";
    cout << "flight sort 'order\n  - Sorts the flights in the specified order - 'number', 'duration', 'capacity' or 'departure.'\n";
    cout << "flight fly 'id'\n  - Take off flight number id.\n";
+   cout << "flight plane 'idFlight' 'idPlane'\n  -  Add plane to flight.\n";
 }
 
 void App::helpCart()
@@ -432,6 +433,7 @@ void App::helpPlane()
    cout << "plane remove 'id'\n  - Removes an existing plane by id.\n";
    cout << "plane find 'id'\n  - Try to locate a plane by id.\n";
    cout << "plane sort 'order'\n  - Sorts the plane in the specified order.\n";
+   cout << "plane hist 'id' [page]\n  -  Displays plane's flights history.\n";
 }
 
 void App::helpTicket()
@@ -565,6 +567,11 @@ void App::flight()
       command.pop();
       flyFlight();
    }
+   else if (command.front() == "plane")
+   {
+       command.pop();
+       flightPlane();
+   }
    else cout << "Invalid command. Use help flight to get more info.\n";
    return;
 }
@@ -657,6 +664,11 @@ void App::plane()
     {
         command.pop();
         sortPlane();
+    }
+    else if (command.front() == "hist")
+    {
+        command.pop();
+        historyPlane();
     }
     else cout << "Invalid command. Use help plane to get more info.\n";
 }
@@ -905,12 +917,14 @@ void App::addPlane()
         cout << "Usage:\n  plane add 'id'\n";
         return;
     }
+    transform(command.front().begin(), command.front().end(), command.front().begin(), ::toupper);
     if (command.front() == "NONE")
     {
         cout << "NONE is an invalid plane id. Try again.\n";
         return;
     }
     string id = command.front();
+    transform(id.begin(), id.end(), id.begin(), ::toupper);
     command.pop();
     if (airline.checkPlane(id))
     {
@@ -1115,7 +1129,7 @@ void App::displayPassenger()
       cout << "No passengers to display.\n";
       return;
    }
-   vector<vector<string> > table;
+   vector<vector<string>> table;
    table.push_back({"Id", "Name"});
    if (command.empty()) page = 0;
    else if (!readNumber(page, command.front()))
@@ -1127,6 +1141,44 @@ void App::displayPassenger()
    displayTable(table, page);
 }
 
+
+void App::historyPlane()
+{
+    if (command.empty())
+    {
+        cout << "Usage:\n  plane history 'id'\n";
+        return;
+    }
+    transform(command.front().begin(), command.front().end(), command.front().begin(), ::toupper);
+    if (!airline.checkPlane(command.front()))
+    {
+        cout << "Plane " << command.front() << " doesn't exist. Try plane display to see existing planes\n";
+        return;
+    }
+    string idPlane = command.front();
+    command.pop();
+    int page;
+    vector<Flight> flights;
+    for (auto &f: airline.findPlane(idPlane)->getFlights())
+    {
+        flights.push_back(f);
+    }
+    vector<vector<string>> table;
+    table.push_back({"Number", "Departure Date", "Departure Time", "Duration", "Origin Airport", "Destination Airport", "Capacity"});
+    if (flights.size() == 0)
+    {
+        cout << "Plane " << idPlane << " has no flights history. You can try - flight plane 'idFlight' 'idPlane' -  to add flights to a plane.\n";
+        return;
+    }
+    if (command.empty()) page = 0;
+    else if (!readNumber(page, command.front()))
+    {
+        cout << "Page must be an integer. Please try again.\n";
+        return;
+    }
+    for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity())});
+    displayTable(table, page);
+}
 
 void App::displayPlane()
 {
@@ -1393,7 +1445,7 @@ void App::editFlight()
     Date departureDate, departureTime, duration;
     if (command.empty())
     {
-        cout << "Which attribute do you want to edit?\nOptions: departureDate, departureTime, duration, origin, destination, capacity.\nAttribute: ";
+        cout << "Which attribute do you want to edit?\nOptions: departureDate, departureTime, duration, origin, destination, capacity, plane.\nAttribute: ";
         cin >> attribute;
         clearStream();
         if (attribute == "departureDate")
@@ -1406,6 +1458,9 @@ void App::editFlight()
                 invalidDepartureDate(departureDate, dD);
             }
             Flight f(id, departureDate, airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+            f.setPlane(airline.findFlight(id)->getPlane());
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new departure date.\n";
@@ -1421,6 +1476,9 @@ void App::editFlight()
                 invalidDepartureTime(departureTime, dT);
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), departureTime, airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+            f.setPlane(airline.findFlight(id)->getPlane());
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new departure time.\n";
@@ -1436,6 +1494,9 @@ void App::editFlight()
                 invalidDuration(duration, d);
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), duration, airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+            f.setPlane(airline.findFlight(id)->getPlane());
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new duration.\n";
@@ -1453,6 +1514,9 @@ void App::editFlight()
                 if (!invalidAirportOrigin(aO)) return;
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), *airline.findAirport(aO), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+            f.setPlane(airline.findFlight(id)->getPlane());
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new origin airport.\n";
@@ -1470,6 +1534,9 @@ void App::editFlight()
                 if (!invalidAirportDestination(aD)) return;
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), *airline.findAirport(aD), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+            f.setPlane(airline.findFlight(id)->getPlane());
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new destination airport.\n";
@@ -1481,6 +1548,7 @@ void App::editFlight()
             int capacityI;
             cout << "New flight capacity: ";
             cin >> capacity;
+            clearStream();
             if (!readNumber(capacityI, capacity))
             {
                 while (1) {
@@ -1491,12 +1559,48 @@ void App::editFlight()
                 }
             }
             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), capacityI);
+            f.setPlane(airline.findFlight(id)->getPlane());
+            if (airline.findFlight(id)->getPlane() != "NONE")
+            {
+                airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+                airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
+            }
             airline.removeFlight(id);
             airline.addFlight(f);
             cout << "Flight " << id << " was updated with a new capacity.\n";
             return;
         }
-        cout << "Invalid option.";
+         if (attribute == "plane")
+         {
+             string idP;
+             cout << "New plane: ";
+             cin >> idP;
+             clearStream();
+             if (!airline.checkPlane(idP))
+             {
+                 cout << "Plane " << idP << " doesn't exist. Try plane display to check existing planes.\n";
+                 return;
+             }
+             if (airline.findFlight(id)->getPlane() == "NONE")
+             {
+                 Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+                 f.setPlane(idP);
+                 airline.findPlane(idP)->addFlight(f);
+                 airline.removeFlight(id);
+                 airline.addFlight(f);
+                 cout << "Flight " << id << " was updated with a new plane.\n";
+                 return;
+             }
+             Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
+             f.setPlane(idP);
+             airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));  // removes flight from old plane's flights list
+             airline.findPlane(idP)->addFlight(f);  // adds flight to new plane's flights list
+             airline.removeFlight(id);
+             airline.addFlight(f);
+             cout << "Flight " << id << " was updated with a new plane.\n";
+             return;
+         }
+        cout << "Invalid option.\n";
         return;
     }
     else
@@ -1677,20 +1781,22 @@ void App::removePassenger()
 
 void App::removePlane()
 {
-    int id;
     if (command.empty())
     {
         cout << "Usage:\n  plane remove 'id'\n";
         return;
     }
-    if (!readNumber(id, command.front()))
+    string idP = command.front();
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    command.pop();
+    if (!command.empty())
     {
-        cout << "Id must be an integer. Please try again.\n";
+        cout << "Invalid command. Try again.\n";
         return;
     }
-    if (airline.removePlane(to_string(id)))
+    if (airline.removePlane(idP))
     {
-        cout << "Plane " << id << " was removed.\n";
+        cout << "Plane " << idP << " was removed.\n";
     }
     else cout << "That plane doesn't exist.\n";
 }
@@ -2071,6 +2177,38 @@ void App::flyFlight()
    n_passengers = airline.getCheckedIn(id);
    n_tickets =  airline.flyFlight(id);
    cout << "The flight took of with " << n_passengers << " passengers and " << n_tickets << "/" << n_seats << " tickets sold.\n";
+}
+
+void App::flightPlane()
+{
+    if (command.empty())
+    {
+        cout << "Usage:\n  flight plane 'idFlight' 'idPlane'\n";
+        return;
+    }
+    int idF;
+    string idP;
+    if (!readNumber(idF, command.front()))
+    {
+        cout << "Flight id must me an integer.\n";
+        return;
+    }
+    if (!airline.checkFlight(idF))
+    {
+        cout << "Flight number " << idF << " doesn't exist. Use flight display to check existing flights.\n";
+        return;
+    }
+    command.pop();
+    idP = command.front();
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    if (!airline.checkPlane(idP))
+    {
+        cout << "Plane number " << idP << " doesn't exist. Use plane display to check existing planes.\n ";
+        return;
+    }
+    airline.findFlight(idF)->setPlane(idP);
+    airline.findPlane(idP)->addFlight(*airline.findFlight(idF));
+    cout << "Flight number " << idF << " was successfully attributed to plane " << idP << ".\n";
 }
 
 void App::quit()

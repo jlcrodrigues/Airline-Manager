@@ -81,6 +81,7 @@ class Plane
           * @param flight - Flight to add
           */
        void addFlight(const Flight& flight);
+       void removeFlight (const Flight& flight);
 
        /**
         * Getter for list of flights

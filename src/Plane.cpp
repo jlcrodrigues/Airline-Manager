@@ -42,6 +42,18 @@ void Plane::addFlight(const Flight &flight) {
     flights.push_back(flight);
 }
 
+void Plane::removeFlight(const Flight &flight)
+{
+    list<Flight>::iterator it;
+    for (it = flights.begin(); it != flights.end(); it++)
+    {
+        if (*it == flight)
+        {
+            flights.erase(it);
+        }
+    }
+}
+
 list<Flight> Plane::getFlights() {
     return flights;
 }
@@ -83,3 +95,4 @@ bool Plane::operator < (const Plane &p) const
    throw (invalid_argument("That rule does not exist."));
    return false;
 }
+

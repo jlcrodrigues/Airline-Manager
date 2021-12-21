@@ -117,6 +117,11 @@ bool Flight::operator<(const Flight &f) const
    return false;
 }
 
+bool Flight::operator==(const Flight &f) const {
+    if (number == f.getNumber()) return true;
+    return false;
+}
+
 void Flight::setPlane(const string &idPlane)
 {
     this->idPlane = idPlane;
@@ -126,4 +131,5 @@ string Flight::getPlane() const
 {
     return idPlane;
 }
+
 
