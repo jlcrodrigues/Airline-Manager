@@ -305,7 +305,7 @@ void App::editFlight()
          }
          Flight f(id, departureDate, airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(airline.findFlight(id)->getPlane());
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
          airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -323,7 +323,7 @@ void App::editFlight()
          }
          Flight f(id, airline.findFlight(id)->getDepartureDate(), departureTime, airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(airline.findFlight(id)->getPlane());
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
          airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -341,7 +341,7 @@ void App::editFlight()
          }
          Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), duration, airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(airline.findFlight(id)->getPlane());
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
          airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -361,7 +361,7 @@ void App::editFlight()
          }
          Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), *airline.findAirport(aO), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(airline.findFlight(id)->getPlane());
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
          airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -381,7 +381,7 @@ void App::editFlight()
          }
          Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), *airline.findAirport(aD), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(airline.findFlight(id)->getPlane());
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
          airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -408,7 +408,7 @@ void App::editFlight()
          f.setPlane(airline.findFlight(id)->getPlane());
          if (airline.findFlight(id)->getPlane() != "NONE")
          {
-            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));
+            airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());
             airline.findPlane(airline.findFlight(id)->getPlane())->addFlight(f);
          }
          airline.removeFlight(id);
@@ -439,7 +439,7 @@ void App::editFlight()
          }
          Flight f(id, airline.findFlight(id)->getDepartureDate(), airline.findFlight(id)->getDepartureTime(), airline.findFlight(id)->getDuration(), airline.findFlight(id)->getAirportOrigin(), airline.findFlight(id)->getAirportDestination(), airline.findFlight(id)->getCapacity());
          f.setPlane(idP);
-         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(*airline.findFlight(id));  // removes flight from old plane's flights list
+         airline.findPlane(airline.findFlight(id)->getPlane())->removeFlight(airline.findFlight(id)->getNumber());  // removes flight from old plane's flights list
          airline.findPlane(idP)->addFlight(f);  // adds flight to new plane's flights list
          airline.removeFlight(id);
          airline.addFlight(f);
@@ -492,7 +492,7 @@ void App::findFlight()
    if (airline.checkFlight(id))
    {
       Flight* f = airline.findFlight(id);
-      cout << "Id: " << f->getNumber() << "\nDeparture date: " << f->getDepartureDate().displayDate() << "\nDeparture time: " << f->getDepartureTime().displayDate() << "\nDuration: " << f->getDuration().displayTime() << "\nOrigin airport: " << f->getAirportOrigin().getName() << "\nDestination airport: " << f->getAirportDestination().getName() << "\nCapacity: " << f->getCapacity() << endl;
+      cout << "Id: " << f->getNumber() << "\nPlane: " << f->getPlane() <<  "\nDeparture date: " << f->getDepartureDate().displayDate() << "\nDeparture time: " << f->getDepartureTime().displayDate() << "\nDuration: " << f->getDuration().displayTime() << "\nOrigin airport: " << f->getAirportOrigin().getName() << "\nDestination airport: " << f->getAirportDestination().getName() << "\nCapacity: " << f->getCapacity() << endl;
    }
    else cout << "Flight not found. To check existing flights you can try: \n  flight display\n";
 }

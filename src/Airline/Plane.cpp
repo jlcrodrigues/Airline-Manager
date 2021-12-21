@@ -42,14 +42,14 @@ void Plane::addFlight(const Flight &flight) {
     flights.push_back(flight);
 }
 
-void Plane::removeFlight(const Flight &flight)
+void Plane::removeFlight(int id)
 {
     list<Flight>::iterator it;
     for (it = flights.begin(); it != flights.end(); it++)
     {
-        if (*it == flight)
+        if (it->getNumber() == id)
         {
-            flights.erase(it);
+            it = flights.erase(it);
         }
     }
 }

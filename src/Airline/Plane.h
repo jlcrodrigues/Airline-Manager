@@ -81,7 +81,12 @@ class Plane
           * @param flight - Flight to add
           */
        void addFlight(const Flight& flight);
-       void removeFlight (const Flight& flight);
+
+       /**
+        * Removes flight from plane's flight history.
+        * @param id - id of flight to be removed.
+        */
+       void removeFlight (int id);
 
        /**
         * Getter for list of flights
