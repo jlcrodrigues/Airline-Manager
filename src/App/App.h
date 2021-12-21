@@ -49,23 +49,70 @@ class App
        */
       bool readNumber(int& n, const string& s) const;
 
-      //TODO
+      /**
+       * Checks if user input is a valid date.
+       * @param date - date to store date value of string
+       * @param s - string to convert to date
+       * @return - Returns true if it's possible to convert string to date. False otherwise.
+       */
       bool readDate(Date &date, const string s) const;
 
+    /**
+     * Checks if user input is a valid duration.
+     * @param date - date to store duration value of string
+     * @param s - string to convert to duration
+     * @return - Returns true if it's possible to convert string to duration. False otherwise.
+     */
       bool readDuration(Date &date, const string s) const;
 
+    /**
+     * Checks if user input is a valid time.
+     * @param date - date to store time value of string
+     * @param s - string to convert to time
+     * @return - Returns true if it's possible to convert string to time. False otherwise.
+     */
       bool readTime(Date &date, const string s) const;
 
+      /**
+       * Function to call when user input is an invalid origin airport. Infinite loop that breaks when input is valid or user wants to go to menu.
+       * @param aO - string of origin airport id
+       * @return - Returns true if origin airport is valid. False when user inputs 'menu'
+       */
       bool invalidAirportOrigin(string &aO);
 
+    /**
+     * Function to call when user input is an invalid destination airport. Infinite loop that breaks when input is valid or user wants to go to menu.
+     * @param aO - string of destination airport id
+     * @return - Returns true if destination airport is valid. False when user inputs 'menu'
+     */
       bool invalidAirportDestination(string &aD);
 
+      /**
+       * Function to call when user input is an invalid departure date. Infinite loop that breaks when input is valid.
+       * @param date - date to attribute the values of user input
+       * @param s - string to store user input
+       */
       void invalidDepartureDate(Date &date, string &s) const;
 
+    /**
+     * Function to call when user input is an invalid departure time. Infinite loop that breaks when input is valid.
+     * @param date - date to attribute the values of user input
+     * @param s - string to store user input
+     */
       void invalidDepartureTime(Date &date, string &s) const;
 
+    /**
+     * Function to call when user input is an invalid duration. Infinite loop that breaks when input is valid.
+     * @param date - date to attribute the values of user input
+     * @param s - string to store user input
+     */
       void invalidDuration(Date &date, string &s) const;
 
+      /**
+       * Function to call when input is an invalid plane. Infinite loop that breaks when input is valid or user wants to go back to menu.
+       * @param id - string to store user input
+       * @return - Returns true if id plane input is valid. False when user input is 'menu'
+       */
       bool invalidPlane(string &id) const;
 
       /**
@@ -267,9 +314,19 @@ class App
       /**Function to display plane's flight history.**/
       void historyPlane();
 
-      //TODO
+      /**
+       * Handles the plane services commands.*
+       */
       void servicePlane();
+
+      /**
+       * Adds a new service to a plane.*
+       */
       void serviceAdd();
+
+      /**
+       * Marks next service in queue as completed, removes it and adds to old services vector.*
+       */
       void serviceNext();
 
       ///////////////////////// Ticket /////////////////////////
