@@ -6,29 +6,36 @@ set(CMAKE_CXX_STANDARD 11)
 set(CREATE_EXE TRUE)
 
 set(SOURCE_FILES
-		src/Airline.cpp
-		src/Airport.cpp
-		src/App.cpp
-		src/Baggage.cpp
-		src/Cart.cpp
-		src/Exception.h
-		src/Flight.cpp
-		src/Passenger.cpp
-		src/Plane.cpp
-		src/Service.cpp
-		src/Ticket.cpp
-		src/Airline.h
-		src/Airport.h
-		src/App.h
-		src/Baggage.h
-		src/Cart.h
-		src/Flight.h
-		src/Passenger.h
-		src/Plane.h
-		src/Service.h
-		src/Ticket.h
-		src/Date.cpp
-		src/Date.h
+		src/Airline/Airline.cpp
+		src/Airline/Airport.cpp		
+		src/Airline/Baggage.cpp
+		src/Airline/Cart.cpp
+		src/Airline/Date.cpp
+		src/Airline/Flight.cpp
+		src/Airline/Passenger.cpp
+		src/Airline/Plane.cpp
+		src/Airline/Service.cpp
+		src/Airline/Ticket.cpp
+		src/Airline/Airline.h
+		src/Airline/Airport.h
+		src/Airline/Baggage.h
+		src/Airline/Cart.h
+		src/Airline/Date.h
+		src/Airline/Flight.h
+		src/Airline/Passenger.h
+		src/Airline/Plane.h
+		src/Airline/Service.h
+		src/Airline/Ticket.h
+
+		src/App/App.cpp
+		src/App/AppAirport.cpp
+		src/App/AppCart.cpp
+		src/App/AppFlight.cpp
+		src/App/AppHelp.cpp
+		src/App/AppPassenger.cpp
+		src/App/AppPlane.cpp
+		src/App/AppTicket.cpp
+		src/App/App.h
 		)
 
 set(TEST_FILES

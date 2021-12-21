@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "Plane.h"
-#include "Date.h"
+#include "../src/Airline/Airline.h"
 
 using testing::Eq;
 

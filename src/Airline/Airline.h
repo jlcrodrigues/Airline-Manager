@@ -394,8 +394,20 @@ class Airline
        */
       bool checkIn(const int& flight_id, const int& passenger_id);
 
+      /**
+       * Checks in a passenger to a flight with baggage.
+       * @param flight_id - The flight id.
+       * @param passenger_id - The passenger id.
+       * @param bag - A baggage object.
+       * @return - Returns true if the passenger was checked in, false otherwise.
+       */
       bool checkIn(const int& flight_id, const int& passenger_id, const double& bag);
 
+      /**
+       * Get the amount of checked in passengers to a flight.
+       * @param flight_id - The flight id.
+       * @return - Returns a integer with the number of passengers that have checkec in.
+       */
       int getCheckedIn(const int& flight_id);
 
       /**
@@ -406,11 +418,11 @@ class Airline
       int flyFlight(const int& flight_id);
 
 private:
-   /**
-    * Sorts a vector using the Insertion Sort algorithm.
-    * @tparam T - Any object with a < operator implemented.
-    * @param v - The vector to be sorted.
-    */
+      /**
+       * Sorts a vector using the Insertion Sort algorithm.
+       * @tparam T - Any object with a < operator implemented.
+       * @param v - The vector to be sorted.
+       */
       template<typename T>
       void insertionSort(vector<T>& v);
 

@@ -432,6 +432,7 @@ bool Airline::removeFlight(const int& id)
    {
       if (i->getNumber() == id) {
          i = flights.erase(i);
+         saveFile(flights, flights_file);
          return true;
       }
    }
@@ -454,6 +455,7 @@ bool Airline::removePassenger(const int& id)
    {
       if (i->getId() == id) {
          i = passengers.erase(i);
+         saveFile(passengers, passengers_file);
          return true;
       }
    }
@@ -476,6 +478,7 @@ bool Airline::removePlane(const string& id)
    {
       if (i->getId() == id) {
          i = planes.erase(i);
+         saveFile(planes, planes_file);
          return true;
       }
    }
