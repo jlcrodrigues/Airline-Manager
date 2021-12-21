@@ -11,9 +11,9 @@ Airline::Airline()
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
+    loadPlanes(planes_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
-   loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
 }
@@ -29,9 +29,9 @@ Airline::Airline(const string& airports, const string &flights, const string &pa
    Passenger::sorting_rule = "name"; //id, name
    Plane::sorting_rule = "id"; //id, model, capacity
    loadAirports(airports_file);
+    loadPlanes(planes_file);
    loadFlights(flights_file);
    loadPassengers(passengers_file);
-   loadPlanes(planes_file);
    loadCarts(carts_file);
    assignAllCarts();
 }

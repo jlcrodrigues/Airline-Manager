@@ -493,5 +493,5 @@ void App::serviceNext()
       return;
    }
    airline.findPlane(idP)->getNextService();
-   cout << "Service was merked as completed.\n";
+   cout << "Service was marked as completed. And was removed from the queue.\n";
 }
