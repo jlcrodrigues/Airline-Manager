@@ -174,7 +174,11 @@ void App::buyTicket()
       group.push_back({pa, getOption()});
       command.pop();
    }
-   if (airline.buyTicket(flight, group))
+   if (group.size() == 0)
+   {
+      cout << "Please specify a passenger id. You can see available passengers using passenger display.\n";
+   }
+   else if (airline.buyTicket(flight, group))
    {
       cout << "\nThe tickets to " << flight->getAirportDestination().getName() << " were bought.\n";
    }
