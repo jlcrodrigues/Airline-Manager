@@ -80,11 +80,10 @@ public:
        *@return transport - The closest transport.
     **/
     Transport findClosest();
-
     /**
      * Airport's < operator.
      * @param a1 - An airport object.
-     * @return - //TODO
+     * @return - Returns true if airport name is minor (alphabetic order). False otherwise.
      */
     bool operator < (const Airport& a1) const;
 
