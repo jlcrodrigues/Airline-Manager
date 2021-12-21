@@ -170,6 +170,8 @@ class App
       /**Displays the airline's carts.**/
       void displayCart();
 
+      void serviceDisplay();
+      void serviceDisplayO();
       /**Displays the airline's passengers.**/
       void displayPassenger();
 
@@ -267,8 +269,19 @@ class App
 
       void assignCart();
       void flyFlight();
+
+      /**
+       * Function to attribute a plane to a flight.
+       */
       void flightPlane();
+
+      /**
+       * Function to display plane's flight history.
+       */
       void historyPlane();
+      void servicePlane();
+      void serviceAdd();
+      void serviceNext();
 };
 
 

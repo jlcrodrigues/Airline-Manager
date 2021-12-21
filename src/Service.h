@@ -38,6 +38,12 @@ public:
      */
     Employee getServiceEmployee();
 
+    /**
+     * Getter for date of service.
+     * @return - Returns date of service.
+     */
+    Date getServiceDate();
+
 private:
     string type;
     Date date;

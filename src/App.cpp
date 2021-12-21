@@ -434,6 +434,10 @@ void App::helpPlane()
    cout << "plane find 'id'\n  - Try to locate a plane by id.\n";
    cout << "plane sort 'order'\n  - Sorts the plane in the specified order.\n";
    cout << "plane hist 'id' [page]\n  -  Displays plane's flights history.\n";
+   cout << "plane service add 'id'\n  -  Adds a new future service to plane.\n";
+   cout << "plane service display 'id'\n  -  Displays plane's future services.\n";
+   cout << "plane service display--o 'id'  -  Displays plane's completed services.\n";
+   cout << "plane service next 'id'\n  -  Marks next service in queue as completed.\n";
 }
 
 void App::helpTicket()
@@ -669,6 +673,11 @@ void App::plane()
     {
         command.pop();
         historyPlane();
+    }
+    else if (command.front() == "service")
+    {
+        command.pop();
+        servicePlane();
     }
     else cout << "Invalid command. Use help plane to get more info.\n";
 }
@@ -1117,6 +1126,81 @@ void App::partialDisplayFlight()
        return;
    }
     for (auto & f: flights) table.push_back({to_string(f.getNumber()), f.getDepartureDate().displayDate(), f.getDepartureTime().displayTime(), f.getDuration().displayTime(), f.getAirportOrigin().getName(), f.getAirportDestination().getName(), to_string(f.getCapacity()), f.getPlane()});
+    displayTable(table, page);
+}
+
+void App::serviceDisplay()
+{
+    if (command.empty())
+    {
+        cout << "Invalid command. Use help to check available commands.\n";
+        return;
+    }
+    string idP = command.front();
+    command.pop();
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    if (!airline.checkPlane(idP))
+    {
+        cout << "Plane " << idP << " doesn't exist. Try plane display to check existing planes.\n";
+        return;
+    }
+    int page, size;
+    if (airline.findPlane(idP)->getServices().empty())
+    {
+        cout << "Plane " << idP << " has no services to be completed. Try plane service add 'id' to add a new one.\n";
+        return;
+    }
+    queue<Service> copy = airline.findPlane(idP)->getServices();
+    vector<Service> services;
+    size = airline.findPlane(idP)->getServices().size();
+    for (int i = 0; i < size; i++)
+    {
+        services.push_back(copy.front());
+        copy.pop();
+    }
+    vector<vector<string>> table;
+    table.push_back({"Type", "Date", "Employee id", "Employee name"});
+    if (command.empty()) page = 0;
+    else if (!readNumber(page, command.front()))
+    {
+        cout << "Page must be an integer. Please try again.\n";
+        return;
+    }
+    for (auto & s: services) table.push_back({s.getServiceType(), s.getServiceDate().displayDate() ,s.getServiceEmployee().name, to_string(s.getServiceEmployee().id)});
+    displayTable(table, page);
+}
+
+void App::serviceDisplayO()
+{
+    if (command.empty())
+    {
+        cout << "Invalid command. Use help to check available commands.\n";
+        return;
+    }
+    string idP = command.front();
+    command.pop();
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    if (!airline.checkPlane(idP))
+    {
+        cout << "Plane " << idP << " doesn't exist. Try plane display to check existing planes.\n";
+        return;
+    }
+    int page, size;
+    if (airline.findPlane(idP)->getOldServices().size() == 0)
+    {
+        cout << "Plane " << idP << " has no service history. Try plane service add 'id' to add a new one.\n";
+        return;
+    }
+    vector<Service> services = airline.findPlane(idP)->getOldServices();
+    vector<vector<string>> table;
+    table.push_back({"Type", "Date", "Employee id", "Employee name"});
+    if (command.empty()) page = 0;
+    else if (!readNumber(page, command.front()))
+    {
+        cout << "Page must be a number. Please try again.\n";
+        return;
+    }
+    for (auto & s: services) table.push_back({s.getServiceType(), s.getServiceDate().displayDate() ,s.getServiceEmployee().name, to_string(s.getServiceEmployee().id)});
     displayTable(table, page);
 }
 
@@ -2211,7 +2295,125 @@ void App::flightPlane()
     cout << "Flight number " << idF << " was successfully attributed to plane " << idP << ".\n";
 }
 
+void App::servicePlane()
+{
+    if (command.empty())
+    {
+        cout << "Usage:\n  plane service add 'id'\n  plane service display 'id \n  plane service display--o 'id'\n  plane service next 'id'\n";
+        return;
+    }
+    string idP, option;
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    option = command.front();
+    command.pop();
+    if (option == "add")
+    {
+      serviceAdd();
+      return;
+    }
+    else if (option == "display")
+    {
+       serviceDisplay();
+       return;
+    }
+    else if (option == "display--o")
+    {
+       serviceDisplayO();
+       return;
+    }
+    else if (option == "next")
+    {
+        serviceNext();
+        return;
+    }
+    cout << "Invalid command. Try help to see available commands.\n";
+}
+
+void App::serviceAdd() {
+    if (command.empty()) {
+        cout << "Invalid command. Use help if you need to.\n";
+        return;
+    }
+    string idP = command.front();
+    command.pop();
+    if (!command.empty())
+    {
+        cout << "Invalid command.\n";
+        return;
+    }
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    if (!airline.checkPlane(idP)) {
+        cout << "Plane " << idP << " doesn't exist. Try plane display to check existing planes.\n";
+        return;
+    }
+    string type, date, name, idS;
+    int id;
+    Date d;
+    Employee e;
+    cout << "Service type (cleaning, maintenance): ";
+    cin >> type;
+    clearStream();
+    if (type == "cleaning" || type == "maintenance") {
+        cout << "Service date (dd/mm/yyyy): ";
+        cin >> date;
+        clearStream();
+        if (!readDate(d, date)) {
+            cout << "Invalid date.\n";
+            return;
+        }
+//        if (!airline.findPlane(idP)->getServices().empty())
+//        {
+//            if (airline.findPlane(idP)->getServices().back().getServiceDate() < d)
+//            {
+//                cout << "You can't add a service with this date because there's services scheduled after this date.\nYou can use plane next 'id' to clear the queue.\n";
+//                return;
+//            }
+//        }
+        cout << "Employee id: ";
+        cin >> idS;
+        clearStream();
+        if (!readNumber(id, idS)) {
+            cout << "Employee id must be an integer.\n";
+            return;
+        }
+        cout << "Employee name: ";
+        cin >> name;
+        clearStream();
+        e.id = id;
+        e.name = name;
+        Service s(type, d, e);
+        airline.findPlane(idP)->addService(s);
+        cout << "Service was added to plane " << idP << "\n";
+        return;
+    }
+    cout << "Invalid service type.\n";
+    return;
+}
+
+void App::serviceNext()
+{
+    if (command.empty())
+    {
+        cout << "Invalid command. Try help to check available commands.\n";
+        return;
+    }
+    string idP = command.front();
+    command.pop();
+    if (!command.empty())
+    {
+        cout << "Invalid command.\n";
+        return;
+    }
+    transform(idP.begin(), idP.end(), idP.begin(), ::toupper);
+    if (!airline.checkPlane(idP)) {
+        cout << "Plane " << idP << " doesn't exist. Try plane display to check existing planes.\n";
+        return;
+    }
+    airline.findPlane(idP)->getNextService();
+    cout << "Service was merked as completed.\n";
+}
+
 void App::quit()
 {
-   app_run = false;
+    app_run = false;
 }

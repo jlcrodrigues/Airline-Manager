@@ -7,11 +7,18 @@ Service::Service(const string &type, const Date &date, const Employee &employee)
     this->emp = employee;
 }
 
-string Service::getServiceType() {
+string Service::getServiceType()
+{
     return type;
 }
 
-Employee Service::getServiceEmployee() {
+Employee Service::getServiceEmployee()
+{
     return emp;
+}
+
+Date Service::getServiceDate()
+{
+    return date;
 }
 
