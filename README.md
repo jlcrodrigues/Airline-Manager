@@ -15,6 +15,8 @@ Our solution to this problem was a **CLI** (Command Line Interface) that allows 
 
 ![App Diagram](https://github.com/jlcrodrigues/feup-aed/blob/main/assets/app_diagram.png)
 
+To learn more about the project check out the [presentation](https://github.com/jlcrodrigues/feup-aed/blob/main/Airline%20Manager.pdf).
+
 ## About the project
 ### **Made by:**
  - [André Barbosa](https://github.com/andrebarbosa02)
